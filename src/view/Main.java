@@ -2,6 +2,7 @@ package view;
 import dao.Bd;
 import model.conta.Conta;
 import model.conta.ContaPoupanca;
+import model.conta.ContaTipo;
 import util.Layout;
 
 import java.util.Objects;
@@ -224,7 +225,8 @@ public class Main {
         // Conta corrente
         if(ct.equals("1")){
 
-            while(!n.equals("1") && !n.equals("2") && !n.equals("3") && !n.equals("4") && !n.equals("5") && !n.equals("6")) {
+            while(!n.equals("1") && !n.equals("2") && !n.equals("3") && !n.equals("4") && !n.equals("5") &&
+                    !n.equals("6")) {
 
                 layout.TopLine(3);
                 layout.br(1);
@@ -240,7 +242,7 @@ public class Main {
                 // Informações da conta
                 System.out.print("  ");
                 System.out.print("AG: " + Bd.clienteBuscaContaCorrente.getAgencia());
-                System.out.print(" || Conta: " + Bd.clienteBuscaContaCorrente.getConta());
+                System.out.print(" || CT: " + Bd.clienteBuscaContaCorrente.getConta());
                 System.out.print(" || Tipo: " + Bd.clienteBuscaContaCorrente.getContaTipo());
                 // Informações do saldo
                 System.out.print(" || Saldo: ");
@@ -267,20 +269,65 @@ public class Main {
                 layout.LimparTela();
 
                 // Direcionamento de opções
+
+                // Depósito
                 if(n.equals("1")) {
+                    Bd.clienteBuscaContaCorrente.Deposito(menuDeposito());
+                    layout.BottomLine(2);
+                    layout.br(1);
+                    layout.Loading();
+                    layout.LimparTela();
+                    n = "";
+                }
+
+                // Saque
+                else if (n.equals("2")) {
+                    Bd.clienteBuscaContaCorrente.Saque(menuSaque());
+                    layout.BottomLine(2);
+                    layout.br(1);
+                    layout.Loading();
+                    layout.LimparTela();
+                    n = "";
+                }
+
+                // Transferência
+                else if (n.equals("3")) {
                     System.out.println("");
-                } else if (n.equals("2")) {
+                }
+
+                // Menu Pix
+                else if (n.equals("4")) {
                     System.out.println("");
-                } else if (n.equals("3")) {
+                }
+
+                // Menu Cartões
+                else if (n.equals("5")) {
                     System.out.println("");
-                } else if (n.equals("4")) {
-                    System.out.println("");
-                } else if (n.equals("5")) {
-                    System.out.println("");
-                } else if (n.equals("6")) {
+                }
+
+                // Voltar
+                else if (n.equals("6")) {
                     menuContas();
-                } else {
+                }
+
+                // Entrada inválida
+                else {
                     System.out.println("Entrada incorreta!");
+                }
+
+                // Atualizando tipo de conta
+
+                // CONTA COMUM
+                if(Bd.clienteBuscaContaCorrente.getSaldo() < 5000){
+                    Bd.clienteBuscaContaCorrente.setContaTipo(ContaTipo.COMUM);
+                }
+                // CONTA PREMIUM
+                else if(Bd.clienteBuscaContaCorrente.getSaldo() > 5000 && Bd.clienteBuscaContaCorrente.getSaldo() < 10000){
+                    Bd.clienteBuscaContaCorrente.setContaTipo(ContaTipo.PREMIUM);
+                }
+                // CONTA SUPER
+                else{
+                    Bd.clienteBuscaContaCorrente.setContaTipo(ContaTipo.SUPER);
                 }
 
             }
@@ -290,7 +337,8 @@ public class Main {
         // Conta poupança
         else if(ct.equals("2")){
 
-            while(!n.equals("1") && !n.equals("2") && !n.equals("3") && !n.equals("4") && !n.equals("5") && !n.equals("6")) {
+            while(!n.equals("1") && !n.equals("2") && !n.equals("3") && !n.equals("4") && !n.equals("5") &&
+                    !n.equals("6")) {
 
                 layout.TopLine(3);
                 layout.br(1);
@@ -333,20 +381,66 @@ public class Main {
                 layout.LimparTela();
 
                 // Direcionamento de opções
+
+                // Depósito
                 if (n.equals("1")) {
+                    Bd.clienteBuscaContaPoupanca.Deposito(menuDeposito());
+                    layout.BottomLine(2);
+                    layout.br(1);
+                    layout.Loading();
+                    layout.LimparTela();
+                    n = "";
+                }
+
+                // Saque
+                else if (n.equals("2")) {
+                    Bd.clienteBuscaContaPoupanca.Saque(menuSaque());
+                    layout.BottomLine(2);
+                    layout.br(1);
+                    layout.Loading();
+                    layout.LimparTela();
+                    n = "";
+                }
+
+                // Transferir
+                else if (n.equals("3")) {
                     System.out.println("");
-                } else if (n.equals("2")) {
+                }
+
+                // Menu Pix
+                else if (n.equals("4")) {
                     System.out.println("");
-                } else if (n.equals("3")) {
+                }
+
+                // Menu Cartões
+                else if (n.equals("5")) {
                     System.out.println("");
-                } else if (n.equals("4")) {
-                    System.out.println("");
-                } else if (n.equals("5")) {
-                    System.out.println("");
-                } else if (n.equals("6")) {
+                }
+
+                // Voltar
+                else if (n.equals("6")) {
                     menuContas();
-                } else {
+                }
+
+                // Entrada incorreta
+                else {
                     System.out.println("Entrada incorreta!");
+                }
+
+                // Atualizando tipo de conta
+
+                // CONTA COMUM
+                if(Bd.clienteBuscaContaPoupanca.getSaldo() < 5000){
+                    Bd.clienteBuscaContaPoupanca.setContaTipo(ContaTipo.COMUM);
+                }
+                // CONTA PREMIUM
+                else if(Bd.clienteBuscaContaPoupanca.getSaldo() > 5000 &&
+                        Bd.clienteBuscaContaPoupanca.getSaldo() < 10000){
+                    Bd.clienteBuscaContaPoupanca.setContaTipo(ContaTipo.PREMIUM);
+                }
+                // CONTA SUPER
+                else{
+                    Bd.clienteBuscaContaPoupanca.setContaTipo(ContaTipo.SUPER);
                 }
 
             }
@@ -354,6 +448,40 @@ public class Main {
         }
 
     }
+
+    public static Float menuDeposito(){
+
+        layout.TopLine(2);
+        layout.br(1);
+
+        System.out.println("      =-=-=-=-=-=Depósito=-=-=-=-=-=");
+
+        layout.BottomLine(2);
+        layout.br(1);
+        layout.TopLine(2);
+        layout.br(1);
+        System.out.println("  [Digite 0 para sair]");
+        return(Float.valueOf(entry("  Digite o valor do depósito: R$ ")));
+
+    }
+
+    public static Float menuSaque(){
+
+        layout.TopLine(2);
+        layout.br(1);
+
+        System.out.println("         =-=-=-=-=-=Saque=-=-=-=-=-=");
+
+        layout.BottomLine(2);
+        layout.br(1);
+        layout.TopLine(2);
+        layout.br(1);
+        System.out.println("  [Digite 0 para sair]");
+        return(Float.valueOf(entry("  Digite o valor do saque: R$ ")));
+
+    }
+
+
 
     public static String entry(String texto) {
         System.out.print(texto);

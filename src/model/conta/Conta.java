@@ -60,13 +60,18 @@ public abstract class Conta {
     }
 
     // Saque
-    public void Saque(){
-
+    public String Saque(Float valor){
+        if(valor > getSaldo()){
+            return("Saque não autorizado. Seu saldo é: R$" + getSaldo());
+        }else{
+            setSaldo(getSaldo() - valor);
+            return("Saque efetuado. Seu saldo atual é: R$ " + getSaldo());
+        }
     }
 
     // Deposito()
-    public void Deposito(){
-
+    public void Deposito(Float valor){
+        setSaldo(getSaldo() + valor);
     }
 
 }

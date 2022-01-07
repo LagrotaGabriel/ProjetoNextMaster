@@ -17,8 +17,12 @@ public class Bd {
     public static void addCliente(Cliente cliente){
         clientes.add(cliente);
     }
+
     public static void addContaCorrente(ContaCorrente conta){
         contaCorrentes.add(conta);
+    }
+    public static void addContaPoupanca(ContaPoupanca conta){
+        contaPoupancas.add(conta);
     }
 
     public static void buscarContaCorrentePorCpf(String cpf){
@@ -27,10 +31,6 @@ public class Bd {
                 clienteBuscaContaCorrente = i;
             }
         }
-    }
-
-    public static void addContaPoupanca(ContaPoupanca conta){
-        contaPoupancas.add(conta);
     }
     public static void buscarContaPoupancaPorCpf(String cpf){
         for(ContaPoupanca i: contaPoupancas){

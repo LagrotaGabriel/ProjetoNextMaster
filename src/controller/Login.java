@@ -40,7 +40,7 @@ public class Login {
                     setAtivo(true);
                     setClienteAcesso(i);
                     Bd.buscarContaCorrentePorCpf(i.getCpf());
-                    Bd.buscarContaCorrentePorCpf(i.getCpf());
+                    Bd.buscarContaPoupancaPorCpf(i.getCpf());
                     break;
 
                 }

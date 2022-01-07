@@ -24,8 +24,9 @@ public class Cadastro {
         }else if(tipoDeConta.equals("2")){
             ContaPoupanca cp = new ContaPoupanca(cliente, 1, random, 0.0f);
             dao.Bd.addContaPoupanca(cp);
-        }else{
+        }else if(tipoDeConta.equals("3")){
             ContaCorrente cc = new ContaCorrente(cliente, 1, random, 0.0f, 30.0f);
+            random = new Random().nextInt(111111,999999);
             ContaPoupanca cp = new ContaPoupanca(cliente, 1, random, 0.0f);
             dao.Bd.addContaCorrente(cc);
             dao.Bd.addContaPoupanca(cp);

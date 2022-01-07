@@ -1,33 +1,26 @@
 package view;
 import dao.Bd;
-import model.conta.Conta;
-import model.conta.ContaPoupanca;
 import model.conta.ContaTipo;
 import util.Layout;
-
-import java.util.Objects;
 import java.util.Scanner;
-import model.cliente.Cliente;
 import controller.*;
-import model.cliente.Endereco;
 
 public class Main {
 
     // Instâncias
     public static Layout layout = new Layout(5, 10);
     public static Scanner input = new Scanner(System.in);
-    public static Cadastro cadastro = new Cadastro();
-    public static Bd bd = new Bd();
+
 
     public static void main(String[] args) {
 
-        //menuAcesso();
+        menuAcesso();
 
-        Cadastro.cadastrarUsuario("Gabriel", "47153427821", "558468263",
+        /*Cadastro.cadastrarUsuario("Gabriel", "47153427821", "558468263",
                 "1234", "São Paulo", "SP", "Lauzane", "583",
-                "Avenida Coronel Manuel Py", "02442090", "3");
+                "Avenida Coronel Manuel Py", "02442090", "3");*/
 
-        menuLogin();
+        //menuLogin();
 
         // menuCadastro();
 
@@ -114,11 +107,12 @@ public class Main {
         layout.br(1);
         layout.TopLine(3);
         layout.br(1);
-        System.out.println("  Digite o tipo de conta desejado: ");
-        System.out.println("  [1] Corrente     [2] Poupança");
+        System.out.println("              Digite o tipo de conta desejado: ");
+        System.out.println("         [1] Corrente     [2] Poupança     [3] Ambas");
         layout.BottomLine(3);
         layout.br(1);
         layout.TopLine(3);
+        layout.br(1);
         String tipoDeConta = entry("  Escolha: ");
         layout.BottomLine(3);
         layout.br(1);
@@ -253,8 +247,8 @@ public class Main {
                 layout.br(1);
 
                 // Opções do menu
-                System.out.println("    [1] Depositar         [2] Sacar          [3] Transferir");
-                System.out.println("    [4] Menu Pix          [5] Menu Cartões   [6] Voltar");
+                System.out.println("      [1] Depositar      [2] Sacar          [3] Transferir");
+                System.out.println("      [4] Menu Pix       [5] Consulta       [6] Voltar");
                 layout.BottomLine(3);
                 layout.br(1);
 
@@ -282,7 +276,7 @@ public class Main {
 
                 // Saque
                 else if (n.equals("2")) {
-                    Bd.clienteBuscaContaCorrente.Saque(menuSaque());
+                    System.out.println(Bd.clienteBuscaContaCorrente.Saque(menuSaque()));
                     layout.BottomLine(2);
                     layout.br(1);
                     layout.Loading();
@@ -315,6 +309,9 @@ public class Main {
                     System.out.println("Entrada incorreta!");
                 }
 
+                // Desconto da taxa de manutenção
+                System.out.println("- " + Bd.clienteBuscaContaCorrente.descontarTaxa());
+
                 // Atualizando tipo de conta
 
                 // CONTA COMUM
@@ -322,7 +319,7 @@ public class Main {
                     Bd.clienteBuscaContaCorrente.setContaTipo(ContaTipo.COMUM);
                 }
                 // CONTA PREMIUM
-                else if(Bd.clienteBuscaContaCorrente.getSaldo() > 5000 && Bd.clienteBuscaContaCorrente.getSaldo() < 10000){
+                else if(Bd.clienteBuscaContaCorrente.getSaldo() >= 5000 && Bd.clienteBuscaContaCorrente.getSaldo() < 10000){
                     Bd.clienteBuscaContaCorrente.setContaTipo(ContaTipo.PREMIUM);
                 }
                 // CONTA SUPER
@@ -365,8 +362,8 @@ public class Main {
                 layout.br(1);
 
                 // Opções do menu
-                System.out.println("    [1] Depositar         [2] Sacar          [3] Transferir");
-                System.out.println("    [4] Menu Pix          [5] Menu Cartões   [6] Voltar");
+                System.out.println("      [1] Depositar      [2] Sacar          [3] Transferir");
+                System.out.println("      [4] Menu Pix       [5] Consulta       [6] Voltar");
                 layout.BottomLine(3);
                 layout.br(1);
 
@@ -394,7 +391,7 @@ public class Main {
 
                 // Saque
                 else if (n.equals("2")) {
-                    Bd.clienteBuscaContaPoupanca.Saque(menuSaque());
+                    System.out.println(Bd.clienteBuscaContaPoupanca.Saque(menuSaque()));
                     layout.BottomLine(2);
                     layout.br(1);
                     layout.Loading();
@@ -426,6 +423,9 @@ public class Main {
                 else {
                     System.out.println("Entrada incorreta!");
                 }
+
+                // Desconto da taxa de manutenção
+                System.out.println("- " + Bd.clienteBuscaContaPoupanca.acrescentarRendimento());
 
                 // Atualizando tipo de conta
 

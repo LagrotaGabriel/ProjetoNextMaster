@@ -66,4 +66,15 @@ public class ContaCorrente extends Conta{
         this.limiteCredito = limiteCredito;
     }
 
+    // Descontar taxa
+    public String descontarTaxa(){
+
+        if(getSaldo() > 0) {
+            Float descontoTaxa = (getSaldo() / 100) * 0.45f;
+            setSaldo(getSaldo() - descontoTaxa);
+            return ("Foi descontada a taxa de 0.45% (R$ " + descontoTaxa + ")");
+        }else{
+            return("Não foi cobrada taxa de manutenção da sua conta");
+        }
+    }
 }

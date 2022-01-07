@@ -33,7 +33,11 @@ public class ContaPoupanca extends Conta{
         this.limiteDiario = limiteDiario;
     }
 
-    public void acrescenteRendimento(){
+    public String acrescentarRendimento(){
+
+        Float rendimento = (getSaldo()/100)*0.03f;
+        setSaldo(getSaldo() + rendimento);
+        return ("Foi adicionado o rendimento de 0.03% (R$ " + rendimento + ")");
 
     }
 }

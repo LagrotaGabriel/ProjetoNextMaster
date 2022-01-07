@@ -75,18 +75,25 @@ public class Layout {
     // Quebra de linhas
     public void br(Integer n){
         for(int i = 0; i < n; i++) {
-            System.out.println("");
+            System.out.println();
         }
     }
 
     // Barrinha de carregamento
-    public void Loading(){
+    public void Loading(Integer sz){
+        if(sz == 1){
+            size = 22;
+        }else if(sz == 2){
+            size = 42;
+        }else{
+            size = 62;
+        }
         Sleep(timer2);
-        for(int i = 0; i < 62; i++){
+        for(int i = 0; i < size; i++){
             System.out.print("|");
             Sleep(timer2);
         }
-        for(int i = 0; i < 62; i++){
+        for(int i = 0; i < size; i++){
             System.out.print("\b");
             Sleep(timer2);
         }

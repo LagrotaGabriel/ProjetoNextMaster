@@ -8,7 +8,7 @@ import controller.*;
 public class Main {
 
     // Instâncias
-    public static Layout layout = new Layout(5, 10);
+    public static Layout layout = new Layout(10, 10);
     public static Scanner input = new Scanner(System.in);
 
 
@@ -41,7 +41,7 @@ public class Main {
             layout.br(1);
             System.out.print("           Escolha: ");
             choice = input.nextInt();
-            layout.Loading();
+            layout.Loading(3);
             layout.LimparTela();
             if(choice == 1){
                 menuLogin();
@@ -70,7 +70,7 @@ public class Main {
         System.out.println(login.Acessar());
         layout.BottomLine(3);
         layout.br(1);
-        layout.Loading();
+        layout.Loading(3);
         layout.LimparTela();
         if(!login.isAtivo()){
             menuLogin();
@@ -117,10 +117,18 @@ public class Main {
         layout.BottomLine(3);
         layout.br(1);
         Cadastro.cadastrarUsuario(nome, cpf, rg, senha, cidade, estado, bairro, numeroRua, rua, cep, tipoDeConta);
-        layout.Loading();
+        layout.Loading(3);
         layout.LimparTela();
-        menuAcesso();
-
+        System.out.println("Você foi cadastrado com sucesso!");
+        if(Bd.contaCorrentes.size() > 0 && Bd.contaPoupancas.size() > 0){
+            System.out.println("O número gerado para sua conta corrente é: " + Bd.contaCorrentes.get((Bd.contaCorrentes.size()-1)).getConta());
+            System.out.println("O número gerado para sua conta poupança é: " + Bd.contaPoupancas.get((Bd.contaPoupancas.size()-1)).getConta());
+        }else if(Bd.contaCorrentes.size() > 0){
+            System.out.println("O número gerado para sua conta corrente é: " + Bd.contaCorrentes.get((Bd.contaCorrentes.size()-1)).getConta());
+        }else if(Bd.contaPoupancas.size() > 0){
+            System.out.println("O número gerado para sua conta corrente é: " + Bd.contaPoupancas.get((Bd.contaPoupancas.size()-1)).getConta());
+        }
+        menuLogin();
     }
 
     // Menu Contas
@@ -151,7 +159,7 @@ public class Main {
                 n = entry("    Escolha: ");
                 layout.BottomLine(2);
                 layout.br(1);
-                layout.Loading();
+                layout.Loading(2);
                 layout.LimparTela();
                 if(n.equals("1")){
                     menuPrincipal("1");
@@ -175,7 +183,7 @@ public class Main {
                 n = entry("    Escolha: ");
                 layout.BottomLine(2);
                 layout.br(1);
-                layout.Loading();
+                layout.Loading(2);
                 layout.LimparTela();
                 if(n.equals("1")){
                     menuPrincipal("2");
@@ -198,7 +206,7 @@ public class Main {
                 n = entry("    Escolha: ");
                 layout.BottomLine(2);
                 layout.br(1);
-                layout.Loading();
+                layout.Loading(2);
                 layout.LimparTela();
                 if(n.equals("1")){
                     menuPrincipal("1");
@@ -259,7 +267,7 @@ public class Main {
                 layout.BottomLine(3);
                 layout.br(1);
 
-                layout.Loading();
+                layout.Loading(3);
                 layout.LimparTela();
 
                 // Direcionamento de opções
@@ -269,7 +277,7 @@ public class Main {
                     Bd.clienteBuscaContaCorrente.Deposito(menuDeposito());
                     layout.BottomLine(2);
                     layout.br(1);
-                    layout.Loading();
+                    layout.Loading(2);
                     layout.LimparTela();
                     n = "";
                 }
@@ -279,7 +287,7 @@ public class Main {
                     System.out.println(Bd.clienteBuscaContaCorrente.Saque(menuSaque()));
                     layout.BottomLine(2);
                     layout.br(1);
-                    layout.Loading();
+                    layout.Loading(2);
                     layout.LimparTela();
                     n = "";
                 }
@@ -374,7 +382,7 @@ public class Main {
                 layout.BottomLine(3);
                 layout.br(1);
 
-                layout.Loading();
+                layout.Loading(3);
                 layout.LimparTela();
 
                 // Direcionamento de opções
@@ -384,7 +392,7 @@ public class Main {
                     Bd.clienteBuscaContaPoupanca.Deposito(menuDeposito());
                     layout.BottomLine(2);
                     layout.br(1);
-                    layout.Loading();
+                    layout.Loading(2);
                     layout.LimparTela();
                     n = "";
                 }
@@ -394,7 +402,7 @@ public class Main {
                     System.out.println(Bd.clienteBuscaContaPoupanca.Saque(menuSaque()));
                     layout.BottomLine(2);
                     layout.br(1);
-                    layout.Loading();
+                    layout.Loading(2);
                     layout.LimparTela();
                     n = "";
                 }

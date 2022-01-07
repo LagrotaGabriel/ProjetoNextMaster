@@ -1,6 +1,7 @@
 package model.conta;
 
 import model.cartao.Cartao;
+import model.cliente.Cliente;
 
 public class ContaCorrente extends Conta{
 
@@ -9,19 +10,49 @@ public class ContaCorrente extends Conta{
     private Float limiteCredito;
 
     // Construtor
-    public ContaCorrente(Integer agencia, Integer conta, Cartao cartao, Float saldo, Float taxaManutencao, Float limiteCredito) {
+    public ContaCorrente(Cliente cliente, Integer agencia, Integer conta, Float saldo, Float taxaManutencao) {
 
+        super(cliente);
         this.agencia = agencia;
         this.conta = conta;
-        this.cartao = cartao;
         this.saldo = saldo;
         this.taxaManutencao = taxaManutencao;
-        this.limiteCredito = limiteCredito;
         this.contaTipo = ContaTipo.COMUM;
 
     }
 
     // Getters e Setters
+    @Override
+    public Integer getAgencia() {
+        return agencia;
+    }
+    public void setAgencia(Integer agencia) {
+        this.agencia = agencia;
+    }
+    public Integer getConta() {
+        return this.conta;
+    }
+    public void setConta(Integer conta) {
+        this.conta = conta;
+    }
+    public Cartao getCartao() {
+        return cartao;
+    }
+    public void setCartao(Cartao cartao) {
+        this.cartao = cartao;
+    }
+    public Float getSaldo() {
+        return saldo;
+    }
+    public void setSaldo(Float saldo) {
+        this.saldo = saldo;
+    }
+    public ContaTipo getContaTipo() {
+        return contaTipo;
+    }
+    public void setContaTipo(ContaTipo contaTipo) {
+        this.contaTipo = contaTipo;
+    }
     public Float getTaxaManutencao() {
         return taxaManutencao;
     }

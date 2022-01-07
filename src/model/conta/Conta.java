@@ -1,5 +1,6 @@
 package model.conta;
 import model.cartao.Cartao;
+import model.cliente.Cliente;
 
 public abstract class Conta {
 
@@ -9,6 +10,11 @@ public abstract class Conta {
     protected Cartao cartao;
     protected Float saldo;
     protected ContaTipo contaTipo;
+    protected Cliente cliente;
+
+    public Conta(Cliente cliente) {
+        this.cliente = cliente;
+    }
 
     // Getters e Setters
     public Integer getAgencia() {
@@ -40,6 +46,12 @@ public abstract class Conta {
     }
     public void setContaTipo(ContaTipo contaTipo) {
         this.contaTipo = contaTipo;
+    }
+    public Cliente getCliente() {
+        return cliente;
+    }
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
     }
 
     // Saldo

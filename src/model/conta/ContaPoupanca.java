@@ -1,5 +1,6 @@
 package model.conta;
 import model.cartao.Cartao;
+import model.cliente.Cliente;
 
 public class ContaPoupanca extends Conta{
 
@@ -8,15 +9,12 @@ public class ContaPoupanca extends Conta{
     private Float limiteDiario;
 
     // Construtor
-    public ContaPoupanca(Integer agencia, Integer conta, Cartao cartao,
-                         Float saldo, Float rendimentoMensal, float limiteDiario){
+    public ContaPoupanca(Cliente cliente, Integer agencia, Integer conta, Float saldo){
 
+        super(cliente);
         this.agencia = agencia;
         this.conta = conta;
-        this.cartao = cartao;
         this.saldo = saldo;
-        this.rendimentoMensal = rendimentoMensal;
-        this.limiteDiario = limiteDiario;
         this.contaTipo = ContaTipo.COMUM;
 
     }

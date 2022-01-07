@@ -34,4 +34,8 @@ public class ContaPoupanca extends Conta{
     public void setLimiteDiario(Float limiteDiario) {
         this.limiteDiario = limiteDiario;
     }
+
+    public void acrescenteRendimento(){
+
+    }
 }

@@ -10,14 +10,15 @@ public class Cliente {
     private String rg;
     private Endereco endereco;
     private Conta conta;
+    private String senha;
 
     // Construtor
-    public Cliente(String nome, String cpf, String rg, Endereco endereco, Conta conta){
+    public Cliente(String nome, String cpf, String rg, Endereco endereco, String senha){
         this.nome = nome;
         this.cpf = cpf;
         this.rg = rg;
         this.endereco = endereco;
-        this.conta = conta;
+        this.senha = senha;
     }
 
     // Getters e Setters
@@ -44,6 +45,12 @@ public class Cliente {
     }
     public void setEndereco(Endereco endereco) {
         this.endereco = endereco;
+    }
+    public String getSenha() {
+        return senha;
+    }
+    public void setSenha(String senha) {
+        this.senha = senha;
     }
 
     // Cadastrar Cliente

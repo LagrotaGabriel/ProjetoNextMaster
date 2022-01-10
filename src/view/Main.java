@@ -1,12 +1,7 @@
 package view;
 import dao.Bd;
-import model.cliente.Cliente;
 import model.conta.ContaTipo;
 import util.Layout;
-
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Map;
 import java.util.Scanner;
 import controller.*;
 
@@ -23,22 +18,23 @@ public class Main {
 
         Cadastro.cadastrarUsuario("Gabriel", "47153427821", "558468263",
                 "1234", "São Paulo", "SP", "Lauzane", "583",
-                "Avenida Coronel Manuel Py", "02442090", "3");
+                "Avenida Coronel Manuel Py", "02442090", "gabriellagrota23@gmail.com", "97981-5415", "3");
 
         Cadastro.cadastrarUsuario("Henrique", "123456789012", "558468263",
                 "1", "São Paulo", "SP", "Lauzane", "583",
-                "Avenida Coronel Manuel Py", "02442090", "2");
+                "Avenida Coronel Manuel Py", "02442090", "email@gmail.com", "961329075", "2");
 
         Cadastro.cadastrarUsuario("Afonso", "210987654321", "558468263",
                 "2", "São Paulo", "SP", "Lauzane", "583",
-                "Avenida Coronel Manuel Py", "02442090", "1");
+                "Avenida Coronel Manuel Py", "02442090", "blablabla@foursys.com", "992844948", "1");
 
         menuLogin();
+
+        //menuPix(1);
 
         // menuCadastro();
 
         //menuContas();
-
 
     }
 
@@ -111,6 +107,8 @@ public class Main {
 
         String cpf = entry("  Digite seu CPF: ");
         String rg = entry("  Digite seu RG: ");
+        String email = entry("  Digite seu Email: ");
+        String telefone = entry("  Digite seu Telefone: ");
         String senha = entry("  Digite a sua senha: ");
         String estado = entry("  Digite o seu estado: ");
         String cidade = entry("  Digite a sua cidade: ");
@@ -131,7 +129,8 @@ public class Main {
         String tipoDeConta = entry("  Escolha: ");
         layout.BottomLine(3);
         layout.br(1);
-        Cadastro.cadastrarUsuario(nome, cpf, rg, senha, cidade, estado, bairro, numeroRua, rua, cep, tipoDeConta);
+        Cadastro.cadastrarUsuario(nome, cpf, rg, senha, cidade, estado, bairro, numeroRua, rua, cep, email, telefone,
+                tipoDeConta);
         layout.Loading(3);
         layout.LimparTela();
         System.out.println("Você foi cadastrado com sucesso!");
@@ -237,13 +236,12 @@ public class Main {
     // Parametro String 1 - CONTA CORRENTE , String 2 - CONTA POUPANÇA
     public static void menuPrincipal(String ct){
 
-        String n = "";
+        String n = "-1";
 
         // Conta corrente
-        if(ct.equals("1")){
+        if(Integer.parseInt(ct) == 1){
 
-            while(!n.equals("1") && !n.equals("2") && !n.equals("3") && !n.equals("4") && !n.equals("5") &&
-                    !n.equals("6")) {
+            while(Integer.parseInt(n) < 1 || Integer.parseInt(n) > 6) {
 
                 layout.TopLine(3);
                 layout.br(1);
@@ -288,7 +286,7 @@ public class Main {
                 // Direcionamento de opções
 
                 // Depósito
-                if(n.equals("1")) {
+                if(Integer.parseInt(n) == 1) {
                     Bd.clienteBuscaContaCorrente.Deposito(menuDeposito());
                     layout.BottomLine(2);
                     layout.br(1);
@@ -298,7 +296,7 @@ public class Main {
                 }
 
                 // Saque
-                else if (n.equals("2")) {
+                else if (Integer.parseInt(n) == 2) {
                     System.out.println(Bd.clienteBuscaContaCorrente.Saque(menuSaque()));
                     layout.BottomLine(2);
                     layout.br(1);
@@ -308,22 +306,22 @@ public class Main {
                 }
 
                 // Transferência
-                else if (n.equals("3")) {
+                else if (Integer.parseInt(n) == 3) {
                     System.out.println("");
                 }
 
                 // Menu Pix
-                else if (n.equals("4")) {
-                    System.out.println("");
+                else if (Integer.parseInt(n) == 4) {
+                    menuPix(1);
                 }
 
                 // Menu Cartões
-                else if (n.equals("5")) {
+                else if (Integer.parseInt(n) == 5) {
                     System.out.println("");
                 }
 
                 // Voltar
-                else if (n.equals("6")) {
+                else if (Integer.parseInt(n) == 6) {
                     menuContas();
                 }
 
@@ -355,10 +353,9 @@ public class Main {
         }
 
         // Conta poupança
-        else if(ct.equals("2")){
+        else if(Integer.parseInt(ct) == 2){
 
-            while(!n.equals("1") && !n.equals("2") && !n.equals("3") && !n.equals("4") && !n.equals("5") &&
-                    !n.equals("6")) {
+            while(Integer.parseInt(n) < 1 || Integer.parseInt(n) > 6) {
 
                 layout.TopLine(3);
                 layout.br(1);
@@ -403,7 +400,7 @@ public class Main {
                 // Direcionamento de opções
 
                 // Depósito
-                if (n.equals("1")) {
+                if (Integer.parseInt(n) == 1) {
                     Bd.clienteBuscaContaPoupanca.Deposito(menuDeposito());
                     layout.BottomLine(2);
                     layout.br(1);
@@ -413,7 +410,7 @@ public class Main {
                 }
 
                 // Saque
-                else if (n.equals("2")) {
+                else if (Integer.parseInt(n) == 2) {
                     System.out.println(Bd.clienteBuscaContaPoupanca.Saque(menuSaque()));
                     layout.BottomLine(2);
                     layout.br(1);
@@ -423,22 +420,22 @@ public class Main {
                 }
 
                 // Transferir
-                else if (n.equals("3")) {
+                else if (Integer.parseInt(n) == 3) {
                     System.out.println("");
                 }
 
                 // Menu Pix
-                else if (n.equals("4")) {
+                else if (Integer.parseInt(n) == 4) {
                     System.out.println("");
                 }
 
                 // Menu Cartões
-                else if (n.equals("5")) {
+                else if (Integer.parseInt(n) == 5) {
                     System.out.println("");
                 }
 
                 // Voltar
-                else if (n.equals("6")) {
+                else if (Integer.parseInt(n) == 6) {
                     menuContas();
                 }
 
@@ -503,6 +500,154 @@ public class Main {
         return(Float.valueOf(entry("  Digite o valor do saque: R$ ")));
 
     }
+
+    public static void menuPix(Integer contaTipo){
+
+        String n = "-1";
+
+        // Layout
+        layout.TopLine(3);
+        layout.br(1);
+        System.out.println("                   =-=-= Menu PIX=-=-=");
+        layout.BottomLine(3);
+        layout.br(1);
+
+        // Opções
+        layout.TopLine(3);
+        layout.br(1);
+        System.out.println("    [1] Cadastrar      [2] Apagar chave      [3] Transferir");
+        System.out.println("    [4] Histórico      [5] Voltar");
+        layout.BottomLine(3);
+        layout.br(1);
+
+        // Repetição
+        while(Integer.parseInt(n) < 0 || Integer.parseInt(n) > 5) {
+
+            // Layout
+            layout.TopLine(3);
+            layout.br(1);
+            n = entry("    Escolha: ");
+            layout.BottomLine(3);
+            layout.br(1);
+
+            // Cadastrar PIX
+            if(Integer.parseInt(n) == 1){
+                menuCadastroPix(contaTipo);
+                menuPix(contaTipo);
+            }
+            // Apagar PIX
+            else if(Integer.parseInt(n) == 2){
+                menuApagaPix();
+            }
+            // Transferir PIX
+            else if(Integer.parseInt(n) == 3){
+                menuTransferePix();
+            }
+            // Histórico PIX
+            else if(Integer.parseInt(n) == 4){
+                menuHistoricoPix();
+            }else{
+                menuPix(contaTipo);
+            }
+
+        }
+    }
+
+    // Menu de cadastro de Pix
+    public static void menuCadastroPix(Integer contaTipo){
+
+        String n = "-1";
+
+        // Interface
+        layout.TopLine(3);
+        layout.br(1);
+        System.out.println("              =-=-= Menu cadastro PIX=-=-=");
+        layout.BottomLine(3);
+        layout.br(1);
+
+        // Opções
+        layout.TopLine(3);
+        layout.br(1);
+        System.out.println("        [1] CPF      [2] Email      [3] Telefone");
+        System.out.println("        [4] Voltar");
+        layout.BottomLine(3);
+        layout.br(1);
+
+        // Repetição
+        while(Integer.parseInt(n) < 0 || Integer.parseInt(n) > 4) {
+
+            String chave;
+
+            // Layout
+            layout.TopLine(3);
+            layout.br(1);
+            n = entry("    Escolha: ");
+            layout.BottomLine(3);
+            layout.br(1);
+            layout.Loading(3);
+            layout.LimparTela();
+
+            // CPF
+            if(Integer.parseInt(n) == 1){
+
+                // CONTA CORRENTE
+                if(contaTipo == 1) {
+                    Bd.insereChavePixCpf(Bd.clienteBuscaContaCorrente.getCliente().getCpf());
+                }
+                // CONTA POUPANÇA
+                else if(contaTipo == 2){
+                    Bd.insereChavePixCpf(Bd.clienteBuscaContaPoupanca.getCliente().getCpf());
+                }
+
+            }
+
+            // EMAIL
+            else if(Integer.parseInt(n) == 2){
+
+                // CONTA CORRENTE
+                if(contaTipo == 1) {
+                    Bd.insereChavePixEmail(Bd.clienteBuscaContaCorrente.getCliente().getEmail());
+                }
+                // CONTA POUPANÇA
+                else if(contaTipo == 2){
+                    Bd.insereChavePixEmail(Bd.clienteBuscaContaPoupanca.getCliente().getEmail());
+                }
+
+            }
+
+            // TELEFONE
+            else if(Integer.parseInt(n) == 3){
+
+                // CONTA CORRENTE
+                if(contaTipo == 1) {
+                    Bd.insereChavePixTelefone(Bd.clienteBuscaContaCorrente.getCliente().getTelefone());
+                }
+                // CONTA POUPANÇA
+                else if(contaTipo == 2){
+                    Bd.insereChavePixTelefone(Bd.clienteBuscaContaPoupanca.getCliente().getTelefone());
+                }
+
+            }
+
+            // VOLTAR
+            else{
+                menuPix(contaTipo);
+            }
+        }
+    }
+
+    public static void menuApagaPix(){
+
+    }
+
+    public static void menuTransferePix(){
+
+    }
+
+    public static void menuHistoricoPix(){
+
+    }
+
 
 
 

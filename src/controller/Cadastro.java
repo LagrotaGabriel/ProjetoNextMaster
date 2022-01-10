@@ -10,13 +10,13 @@ public class Cadastro {
 
     public static void cadastrarUsuario(String nome, String cpf, String rg, String senha, String cidade,
                                           String estado, String bairro, String numeroRua, String rua, String cep,
-                                        String tipoDeConta){
+                                        String email, String telefone, String tipoDeConta){
 
 
 
         Integer random = new Random().nextInt(111111,999999);
         Endereco endereco = new Endereco(cidade, estado, bairro, Integer.parseInt(numeroRua), rua, cep);
-        Cliente cliente = new Cliente(nome, cpf, rg, endereco, senha);
+        Cliente cliente = new Cliente(nome, cpf, rg, endereco, senha, email, telefone);
 
         switch (tipoDeConta) {
             case "1" -> {

@@ -43,7 +43,7 @@ public class Cadastro {
     // Incremento de ID CLIENTE
     public static void idClienteIncrement(Cliente cliente){
         Integer valMax = -999999999;
-        if(dao.Bd.clientesMap.size() == 0){
+        if(dao.Bd.clientesMap.isEmpty()){
             dao.Bd.clientesMap.put(1, cliente);
         }else {
             for (Integer key : dao.Bd.clientesMap.keySet()) {
@@ -59,7 +59,7 @@ public class Cadastro {
     // Incremento de ID CONTA CORRENTE
     public static void idContaCorrenteIncrement(ContaCorrente contaCorrente){
         Integer valMax = -999999999;
-        if(Bd.contaCorrentesMap.size() == 0){
+        if(Bd.contaCorrentesMap.isEmpty()){
             Bd.contaCorrentesMap.put(1, contaCorrente);
         }else {
             for (Integer key : Bd.contaCorrentesMap.keySet()) {
@@ -74,7 +74,7 @@ public class Cadastro {
     // Incremento de ID CONTA POUPANCA
     public static void idContaPoupancaIncrement(ContaPoupanca contaPoupanca){
         Integer valMax = -999999999;
-        if(Bd.contaPoupancasMap.size() == 0){
+        if(Bd.contaPoupancasMap.isEmpty()){
             Bd.contaPoupancasMap.put(1, contaPoupanca);
         }else {
             for (Integer key : Bd.contaPoupancasMap.keySet()) {

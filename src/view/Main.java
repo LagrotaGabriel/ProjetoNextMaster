@@ -27,11 +27,11 @@ public class Main {
 
         Cadastro.cadastrarUsuario("Henrique", "123456789012", "558468263",
                 "1", "São Paulo", "SP", "Lauzane", "583",
-                "Avenida Coronel Manuel Py", "02442090", "3");
+                "Avenida Coronel Manuel Py", "02442090", "2");
 
         Cadastro.cadastrarUsuario("Afonso", "210987654321", "558468263",
                 "2", "São Paulo", "SP", "Lauzane", "583",
-                "Avenida Coronel Manuel Py", "02442090", "3");
+                "Avenida Coronel Manuel Py", "02442090", "1");
 
         menuLogin();
 
@@ -161,7 +161,7 @@ public class Main {
         layout.br(1);
 
         // DUAS CONTAS
-        if(Bd.contaPoupancasMap.size() != 0 && Bd.contaCorrentesMap.size() != 0){
+        if(!Bd.contaPoupancasMap.isEmpty() && !Bd.contaCorrentesMap.isEmpty()){
 
             while(!n.equals("1") && !n.equals("2") && !n.equals("3")) {
                 System.out.println("    [1] Conta corrente n° " + Bd.clienteBuscaContaCorrente.getConta());
@@ -187,7 +187,7 @@ public class Main {
         }
 
         // CONTA POUPANÇA
-        else if(Bd.contaPoupancasMap.size() != 0){
+        else if(!Bd.contaPoupancasMap.isEmpty()){
             while(!n.equals("1") && !n.equals("2")) {
                 System.out.println("    [1] Conta poupança n° " + Bd.clienteBuscaContaPoupanca.getConta());
                 System.out.println("    [2] Logout");
@@ -210,7 +210,7 @@ public class Main {
         }
 
         // CONTA CORRENTE
-        else if(Bd.contaCorrentesMap.size() != 0){
+        else if(!Bd.contaCorrentesMap.isEmpty()){
             while(!n.equals("1") && !n.equals("2")) {
                 System.out.println("    [1] Conta corrente n° " + Bd.clienteBuscaContaCorrente.getConta());
                 System.out.println("    [2] Logout");

@@ -2,44 +2,33 @@ package dao;
 import model.cliente.Cliente;
 import model.conta.ContaCorrente;
 import model.conta.ContaPoupanca;
-
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Bd {
 
     public static ContaCorrente clienteBuscaContaCorrente;
     public static ContaPoupanca clienteBuscaContaPoupanca;
 
-    public static ArrayList<Cliente> clientes = new ArrayList<>();
-    public static ArrayList<ContaCorrente> contaCorrentes = new ArrayList<>();
-    public static ArrayList<ContaPoupanca> contaPoupancas = new ArrayList<>();
-
-    public static void addCliente(Cliente cliente){
-        clientes.add(cliente);
-    }
-
-    public static void addContaCorrente(ContaCorrente conta){
-        contaCorrentes.add(conta);
-    }
-    public static void addContaPoupanca(ContaPoupanca conta){
-        contaPoupancas.add(conta);
-    }
+    public static Map<Integer, Cliente> clientesMap = new HashMap<>();
+    public static Map<Integer, ContaCorrente> contaCorrentesMap = new HashMap<>();
+    public static Map<Integer, ContaPoupanca> contaPoupancasMap = new HashMap<>();
 
     public static void buscarContaCorrentePorCpf(String cpf){
-        for(ContaCorrente i: contaCorrentes){
-            if(i.getCliente().getCpf().equals(cpf)){
-                clienteBuscaContaCorrente = i;
+        for(ContaCorrente key: contaCorrentesMap.values()){
+            if(key.getCliente().getCpf().equals(cpf)){
+                clienteBuscaContaCorrente = key;
             }
         }
     }
+
     public static void buscarContaPoupancaPorCpf(String cpf){
-        for(ContaPoupanca i: contaPoupancas){
-            if(i.getCliente().getCpf().equals(cpf)){
-                clienteBuscaContaPoupanca = i;
+        for(ContaPoupanca key: contaPoupancasMap.values()){
+            if(key.getCliente().getCpf().equals(cpf)){
+                clienteBuscaContaPoupanca = key;
             }
         }
     }
-
-
 
 }

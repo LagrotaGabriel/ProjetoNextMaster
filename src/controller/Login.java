@@ -34,7 +34,7 @@ public class Login {
     // Acessar
     public String Acessar(){
 
-        for(Cliente i: Bd.clientes) {
+        for(Cliente i: Bd.clientesMap.values()) {
             if(i.getCpf().equals(getCpf())){
                 if(i.getSenha().equals(getSenha())){
                     setAtivo(true);

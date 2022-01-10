@@ -1,30 +1,45 @@
 package view;
 import dao.Bd;
+import model.cliente.Cliente;
 import model.conta.ContaTipo;
 import util.Layout;
+
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Scanner;
 import controller.*;
 
 public class Main {
 
     // Instâncias
-    public static Layout layout = new Layout(10, 10);
+    public static Layout layout = new Layout(5, 5);
     public static Scanner input = new Scanner(System.in);
 
 
     public static void main(String[] args) {
 
-        menuAcesso();
+       //menuAcesso();
 
-        /*Cadastro.cadastrarUsuario("Gabriel", "47153427821", "558468263",
+        Cadastro.cadastrarUsuario("Gabriel", "47153427821", "558468263",
                 "1234", "São Paulo", "SP", "Lauzane", "583",
-                "Avenida Coronel Manuel Py", "02442090", "3");*/
+                "Avenida Coronel Manuel Py", "02442090", "3");
 
-        //menuLogin();
+        Cadastro.cadastrarUsuario("Henrique", "123456789012", "558468263",
+                "1", "São Paulo", "SP", "Lauzane", "583",
+                "Avenida Coronel Manuel Py", "02442090", "3");
+
+        Cadastro.cadastrarUsuario("Afonso", "210987654321", "558468263",
+                "2", "São Paulo", "SP", "Lauzane", "583",
+                "Avenida Coronel Manuel Py", "02442090", "3");
+
+        menuLogin();
 
         // menuCadastro();
 
         //menuContas();
+
+
     }
 
     // Menu de acesso
@@ -120,13 +135,13 @@ public class Main {
         layout.Loading(3);
         layout.LimparTela();
         System.out.println("Você foi cadastrado com sucesso!");
-        if(Bd.contaCorrentes.size() > 0 && Bd.contaPoupancas.size() > 0){
-            System.out.println("O número gerado para sua conta corrente é: " + Bd.contaCorrentes.get((Bd.contaCorrentes.size()-1)).getConta());
-            System.out.println("O número gerado para sua conta poupança é: " + Bd.contaPoupancas.get((Bd.contaPoupancas.size()-1)).getConta());
-        }else if(Bd.contaCorrentes.size() > 0){
-            System.out.println("O número gerado para sua conta corrente é: " + Bd.contaCorrentes.get((Bd.contaCorrentes.size()-1)).getConta());
-        }else if(Bd.contaPoupancas.size() > 0){
-            System.out.println("O número gerado para sua conta corrente é: " + Bd.contaPoupancas.get((Bd.contaPoupancas.size()-1)).getConta());
+        if(Bd.contaCorrentesMap.size() > 0 && Bd.contaPoupancasMap.size() > 0){
+            System.out.println("O número gerado para sua conta corrente é: " + Bd.contaCorrentesMap.get((Bd.contaCorrentesMap.size()-1)).getConta());
+            System.out.println("O número gerado para sua conta poupança é: " + Bd.contaPoupancasMap.get((Bd.contaPoupancasMap.size()-1)).getConta());
+        }else if(Bd.contaCorrentesMap.size() > 0){
+            System.out.println("O número gerado para sua conta corrente é: " + Bd.contaCorrentesMap.get((Bd.contaCorrentesMap.size()-1)).getConta());
+        }else if(Bd.contaPoupancasMap.size() > 0){
+            System.out.println("O número gerado para sua conta corrente é: " + Bd.contaPoupancasMap.get((Bd.contaPoupancasMap.size()-1)).getConta());
         }
         menuLogin();
     }
@@ -146,7 +161,7 @@ public class Main {
         layout.br(1);
 
         // DUAS CONTAS
-        if(Bd.contaPoupancas.size() != 0 && Bd.contaCorrentes.size() != 0){
+        if(Bd.contaPoupancasMap.size() != 0 && Bd.contaCorrentesMap.size() != 0){
 
             while(!n.equals("1") && !n.equals("2") && !n.equals("3")) {
                 System.out.println("    [1] Conta corrente n° " + Bd.clienteBuscaContaCorrente.getConta());
@@ -172,7 +187,7 @@ public class Main {
         }
 
         // CONTA POUPANÇA
-        else if(Bd.contaPoupancas.size() != 0){
+        else if(Bd.contaPoupancasMap.size() != 0){
             while(!n.equals("1") && !n.equals("2")) {
                 System.out.println("    [1] Conta poupança n° " + Bd.clienteBuscaContaPoupanca.getConta());
                 System.out.println("    [2] Logout");
@@ -195,7 +210,7 @@ public class Main {
         }
 
         // CONTA CORRENTE
-        else if(Bd.contaCorrentes.size() != 0){
+        else if(Bd.contaCorrentesMap.size() != 0){
             while(!n.equals("1") && !n.equals("2")) {
                 System.out.println("    [1] Conta corrente n° " + Bd.clienteBuscaContaCorrente.getConta());
                 System.out.println("    [2] Logout");

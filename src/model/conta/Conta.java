@@ -56,6 +56,12 @@ public abstract class Conta {
     public void setCliente(Cliente cliente) {
         this.cliente = cliente;
     }
+    public ArrayList<Pix> getChavesPix() {
+        return chavesPix;
+    }
+    public void setChavesPix(ArrayList<Pix> chavesPix) {
+        this.chavesPix = chavesPix;
+    }
 
     // Saldo
     public void Saldo(){

@@ -180,7 +180,6 @@ public class Main {
                 }else if(n.equals("2")){
                     menuPrincipal("2");
                 }else{
-                    System.out.println("AAAAAAAAAAAAAAAA");
                     Bd.zerarInstancias();
                     login = null;
                     menuAcesso();
@@ -205,7 +204,6 @@ public class Main {
                 if(n.equals("1")){
                     menuPrincipal("2");
                 }else{
-                    System.out.println("BBBBBBBBBBBBBBBBB");
                     login.setAtivo(false);
                     Bd.zerarInstancias();
                     login = null;
@@ -437,7 +435,7 @@ public class Main {
 
                 // Menu Pix
                 else if (Integer.parseInt(n) == 4) {
-                    System.out.println("");
+                    menuPix(2);
                 }
 
                 // Menu Cartões
@@ -480,6 +478,7 @@ public class Main {
 
     }
 
+    // Menu Deposito
     public static Float menuDeposito(){
 
         layout.TopLine(2);
@@ -496,6 +495,7 @@ public class Main {
 
     }
 
+    // Menu Saque
     public static Float menuSaque(){
 
         layout.TopLine(2);
@@ -512,6 +512,7 @@ public class Main {
 
     }
 
+    // Menu Pix
     public static void menuPix(Integer contaTipo){
 
         String n = "-1";
@@ -527,7 +528,7 @@ public class Main {
         layout.TopLine(3);
         layout.br(1);
         System.out.println("    [1] Cadastrar      [2] Apagar chave      [3] Transferir");
-        System.out.println("    [4] Histórico      [5] Voltar");
+        System.out.println("    [4] Consultar      [5] Voltar");
         layout.BottomLine(3);
         layout.br(1);
 
@@ -548,16 +549,18 @@ public class Main {
             }
             // Apagar PIX
             else if(Integer.parseInt(n) == 2){
-                menuApagaPix();
+                menuApagaPix(contaTipo);
             }
             // Transferir PIX
             else if(Integer.parseInt(n) == 3){
                 menuTransferePix();
             }
-            // Histórico PIX
+            // Consultar PIX
             else if(Integer.parseInt(n) == 4){
-                menuHistoricoPix();
-            }else if(Integer.parseInt(n) == 5){
+                menuConsultaPix(contaTipo);
+            }
+            // Voltar PIX
+            else if(Integer.parseInt(n) == 5){
                 menuPrincipal(contaTipo.toString());
             }
 
@@ -645,30 +648,34 @@ public class Main {
                 menuPix(contaTipo);
             }
         }
-    }
-
-    public static void menuApagaPix(){
 
     }
 
+    // Menu Apaga PIX
+    public static void menuApagaPix(Integer contaTipo){
+
+        Bd.buscarChavesPixCliente(contaTipo, true);
+        menuPix(contaTipo);
+
+    }
+
+    // Menu Transfere PIX
     public static void menuTransferePix(){
 
     }
 
-    public static void menuHistoricoPix(){
+    // Menu Historico PIX
+    public static void menuConsultaPix(Integer contaTipo){
+
+        Bd.buscarChavesPixCliente(contaTipo, false);
+        menuPix(contaTipo);
 
     }
 
+    // Entry
     public static String entry(String texto) {
         System.out.print(texto);
         return input.next();
     }
-
-
-
-
-
-
-
 
 }

@@ -1,6 +1,8 @@
 package model.conta;
 import model.cartao.Cartao;
 import model.cliente.Cliente;
+import model.pix.Pix;
+import java.util.ArrayList;
 
 public abstract class Conta {
 
@@ -11,6 +13,7 @@ public abstract class Conta {
     protected Float saldo;
     protected ContaTipo contaTipo;
     protected Cliente cliente;
+    public ArrayList<Pix> chavesPix = new ArrayList<>();
 
     public Conta(Cliente cliente) {
         this.cliente = cliente;

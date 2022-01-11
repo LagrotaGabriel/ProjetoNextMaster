@@ -9,7 +9,13 @@ public class Pix {
     Cliente cliente;
     String conteudoChave;
     Boolean ativo;
-    TipoChavePix TipoChavePix;
+    TipoChavePix tipoChavePix;
+
+    public Pix(Cliente cliente, String conteudoChave, TipoChavePix tipoChavePix){
+        this.cliente = cliente;
+        this.conteudoChave = conteudoChave;
+        this.tipoChavePix = tipoChavePix;
+    }
 
     // Setters and Getters
     public String getId() {
@@ -31,10 +37,10 @@ public class Pix {
         this.ativo = ativo;
     }
     public model.pix.TipoChavePix getTipoChavePix() {
-        return TipoChavePix;
+        return tipoChavePix;
     }
     public void setTipoChavePix(model.pix.TipoChavePix tipoChavePix) {
-        TipoChavePix = tipoChavePix;
+        tipoChavePix = tipoChavePix;
     }
     public Cliente getCliente() {
         return cliente;
@@ -45,6 +51,8 @@ public class Pix {
 
     // Cadastra pix
     public void cadastraPix(){
+
+
 
     }
 

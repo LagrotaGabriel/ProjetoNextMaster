@@ -10,7 +10,7 @@ public class Main {
     // Instâncias
     public static Layout layout = new Layout(5, 5);
     public static Scanner input = new Scanner(System.in);
-
+    public static Login login = new Login("", "");
 
     public static void main(String[] args) {
 
@@ -77,7 +77,7 @@ public class Main {
         layout.br(1);
         String loginCpf = entry("  Digite seu CPF: ");
         String loginSenha = entry("  Digite sua senha: ");
-        Login login = new Login(loginCpf, loginSenha);
+        login = new Login(loginCpf, loginSenha);
         System.out.println(login.Acessar());
         layout.BottomLine(3);
         layout.br(1);
@@ -148,7 +148,7 @@ public class Main {
     // Menu Contas
     public static void menuContas(){
 
-        String n = "";
+        String n = "0";
 
         layout.TopLine(2);
         layout.br(1);
@@ -160,9 +160,9 @@ public class Main {
         layout.br(1);
 
         // DUAS CONTAS
-        if(!Bd.contaPoupancasMap.isEmpty() && !Bd.contaCorrentesMap.isEmpty()){
+        if(Bd.clienteBuscaContaCorrente != null && Bd.clienteBuscaContaPoupanca != null){
 
-            while(!n.equals("1") && !n.equals("2") && !n.equals("3")) {
+            while(Integer.parseInt(n) < 1 || Integer.parseInt(n) > 3) {
                 System.out.println("    [1] Conta corrente n° " + Bd.clienteBuscaContaCorrente.getConta());
                 System.out.println("    [2] Conta poupança n° " + Bd.clienteBuscaContaPoupanca.getConta());
                 System.out.println("    [3] Logout");
@@ -180,14 +180,17 @@ public class Main {
                 }else if(n.equals("2")){
                     menuPrincipal("2");
                 }else{
+                    System.out.println("AAAAAAAAAAAAAAAA");
+                    Bd.zerarInstancias();
+                    login = null;
                     menuAcesso();
                 }
             }
         }
 
         // CONTA POUPANÇA
-        else if(!Bd.contaPoupancasMap.isEmpty()){
-            while(!n.equals("1") && !n.equals("2")) {
+        else if(Bd.clienteBuscaContaCorrente == null){
+            while(Integer.parseInt(n) < 1 || Integer.parseInt(n) > 2) {
                 System.out.println("    [1] Conta poupança n° " + Bd.clienteBuscaContaPoupanca.getConta());
                 System.out.println("    [2] Logout");
                 layout.BottomLine(2);
@@ -202,6 +205,10 @@ public class Main {
                 if(n.equals("1")){
                     menuPrincipal("2");
                 }else{
+                    System.out.println("BBBBBBBBBBBBBBBBB");
+                    login.setAtivo(false);
+                    Bd.zerarInstancias();
+                    login = null;
                     menuAcesso();
                 }
             }
@@ -209,8 +216,8 @@ public class Main {
         }
 
         // CONTA CORRENTE
-        else if(!Bd.contaCorrentesMap.isEmpty()){
-            while(!n.equals("1") && !n.equals("2")) {
+        else {
+            while(Integer.parseInt(n) < 1 || Integer.parseInt(n) > 2) {
                 System.out.println("    [1] Conta corrente n° " + Bd.clienteBuscaContaCorrente.getConta());
                 System.out.println("    [2] Logout");
                 layout.BottomLine(2);
@@ -225,6 +232,10 @@ public class Main {
                 if(n.equals("1")){
                     menuPrincipal("1");
                 }else{
+                    System.out.println("CCCCCCCCCCCCCCCCCC");
+                    login.setAtivo(false);
+                    Bd.zerarInstancias();
+                    login = null;
                     menuAcesso();
                 }
             }
@@ -546,8 +557,8 @@ public class Main {
             // Histórico PIX
             else if(Integer.parseInt(n) == 4){
                 menuHistoricoPix();
-            }else{
-                menuPix(contaTipo);
+            }else if(Integer.parseInt(n) == 5){
+                menuPrincipal(contaTipo.toString());
             }
 
         }
@@ -592,11 +603,11 @@ public class Main {
 
                 // CONTA CORRENTE
                 if(contaTipo == 1) {
-                    Bd.insereChavePixCpf(Bd.clienteBuscaContaCorrente.getCliente().getCpf());
+                    Bd.insereChavePixCpf(Bd.clienteBuscaContaCorrente.getCliente().getCpf(), 1);
                 }
                 // CONTA POUPANÇA
                 else if(contaTipo == 2){
-                    Bd.insereChavePixCpf(Bd.clienteBuscaContaPoupanca.getCliente().getCpf());
+                    Bd.insereChavePixCpf(Bd.clienteBuscaContaPoupanca.getCliente().getCpf(), 2);
                 }
 
             }
@@ -606,11 +617,11 @@ public class Main {
 
                 // CONTA CORRENTE
                 if(contaTipo == 1) {
-                    Bd.insereChavePixEmail(Bd.clienteBuscaContaCorrente.getCliente().getEmail());
+                    Bd.insereChavePixEmail(Bd.clienteBuscaContaCorrente.getCliente().getEmail(), 1);
                 }
                 // CONTA POUPANÇA
                 else if(contaTipo == 2){
-                    Bd.insereChavePixEmail(Bd.clienteBuscaContaPoupanca.getCliente().getEmail());
+                    Bd.insereChavePixEmail(Bd.clienteBuscaContaPoupanca.getCliente().getEmail(), 2);
                 }
 
             }
@@ -620,11 +631,11 @@ public class Main {
 
                 // CONTA CORRENTE
                 if(contaTipo == 1) {
-                    Bd.insereChavePixTelefone(Bd.clienteBuscaContaCorrente.getCliente().getTelefone());
+                    Bd.insereChavePixTelefone(Bd.clienteBuscaContaCorrente.getCliente().getTelefone(), 1);
                 }
                 // CONTA POUPANÇA
                 else if(contaTipo == 2){
-                    Bd.insereChavePixTelefone(Bd.clienteBuscaContaPoupanca.getCliente().getTelefone());
+                    Bd.insereChavePixTelefone(Bd.clienteBuscaContaPoupanca.getCliente().getTelefone(), 2);
                 }
 
             }
@@ -647,9 +658,6 @@ public class Main {
     public static void menuHistoricoPix(){
 
     }
-
-
-
 
     public static String entry(String texto) {
         System.out.print(texto);

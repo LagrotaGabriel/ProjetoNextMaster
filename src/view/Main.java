@@ -547,11 +547,16 @@ public class Main {
             // Cadastrar PIX
             if(Integer.parseInt(n) == 1){
                 menuCadastroPix(contaTipo);
+                layout.Loading(3);
+                layout.LimparTela();
                 menuPix(contaTipo);
             }
             // Apagar PIX
             else if(Integer.parseInt(n) == 2){
                 menuApagaPix(contaTipo);
+                layout.Loading(3);
+                layout.LimparTela();
+                menuPix(contaTipo);
             }
             // Transferir PIX
             else if(Integer.parseInt(n) == 3){
@@ -560,9 +565,14 @@ public class Main {
             // Consultar PIX
             else if(Integer.parseInt(n) == 4){
                 menuConsultaPix(contaTipo);
+                layout.Loading(3);
+                layout.LimparTela();
+                menuPix(contaTipo);
             }
             // Voltar PIX
             else if(Integer.parseInt(n) == 5){
+                layout.Loading(3);
+                layout.LimparTela();
                 menuPrincipal(contaTipo.toString());
             }
 
@@ -656,17 +666,19 @@ public class Main {
     // Menu Apaga PIX
     public static void menuApagaPix(Integer contaTipo){
 
-        if(Bd.buscarChavesPixCliente(contaTipo) != null) {
+        if(Bd.buscarChavesPixCliente(contaTipo, true) != null) {
             layout.TopLine(3);
             layout.br(1);
             String n = entry("    Escolha: ");
+            layout.BottomLine(3);
+            layout.br(1);
             if (contaTipo == 1) {
-                Bd.pixDelete(1, Integer.parseInt(n));
+                System.out.println(Bd.pixDelete(1, Integer.parseInt(n)));
             } else {
-                Bd.pixDelete(2, Integer.parseInt(n));
+                System.out.println(Bd.pixDelete(2, Integer.parseInt(n)));
             }
         }
-        menuPix(contaTipo);
+
 
     }
 
@@ -680,8 +692,7 @@ public class Main {
 
         layout.TopLine(3);
         layout.br(1);
-        Bd.buscarChavesPixCliente(contaTipo);
-        menuPix(contaTipo);
+        Bd.buscarChavesPixCliente(contaTipo, true);
         layout.BottomLine(3);
         layout.br(1);
 

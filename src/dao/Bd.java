@@ -137,15 +137,6 @@ public class Bd {
                 System.out.println("Chave PIX cadastrada com sucesso!");
                 clienteBuscaContaCorrente.chavesPix.add(pix);
             }
-            // Imprime tudo só de zoas
-            System.out.println("TODOS HASHMAP:");
-            for (Map.Entry<Integer, String> entry : pixsMap.entrySet()) {
-                System.out.println(entry.getKey() + " " + entry.getValue());
-            }
-            System.out.println("LISTAS DO CLIENTE:");
-            for (Pix i : clienteBuscaContaCorrente.chavesPix) {
-                System.out.println(i);
-            }
         }
 
         // Se a conta for conta poupança
@@ -172,20 +163,10 @@ public class Bd {
                 System.out.println("Chave PIX cadastrada com sucesso!");
                 clienteBuscaContaPoupanca.chavesPix.add(pix);
             }
-            // Imprime tudo só de zoas
-            System.out.println("TODOS HASHMAP:");
-            for (Map.Entry<Integer, String> entry : pixsMap.entrySet()) {
-                System.out.println(entry.getKey() + " " + entry.getValue());
-            }
-            System.out.println("LISTAS DO CLIENTE:");
-            for (Pix i : clienteBuscaContaPoupanca.chavesPix) {
-                System.out.println(i);
-            }
         }
 
 
     }
-
 
     // Validar e inserir chave pix de telefone
     public static void insereChavePixTelefone(String telefone, Integer tipoConta){
@@ -214,15 +195,6 @@ public class Bd {
                 System.out.println("Chave PIX cadastrada com sucesso!");
                 clienteBuscaContaCorrente.chavesPix.add(pix);
             }
-            // Imprime tudo só de zoas
-            System.out.println("TODOS HASHMAP:");
-            for (Map.Entry<Integer, String> entry : pixsMap.entrySet()) {
-                System.out.println(entry.getKey() + " " + entry.getValue());
-            }
-            System.out.println("LISTAS DO CLIENTE:");
-            for (Pix i : clienteBuscaContaCorrente.chavesPix) {
-                System.out.println(i);
-            }
         }
 
         // Se a conta for conta poupança
@@ -249,20 +221,11 @@ public class Bd {
                 System.out.println("Chave PIX cadastrada com sucesso!");
                 clienteBuscaContaPoupanca.chavesPix.add(pix);
             }
-            // Imprime tudo só de zoas
-            System.out.println("TODOS HASHMAP:");
-            for (Map.Entry<Integer, String> entry : pixsMap.entrySet()) {
-                System.out.println(entry.getKey() + " " + entry.getValue());
-            }
-            System.out.println("LISTAS DO CLIENTE:");
-            for (Pix i : clienteBuscaContaPoupanca.chavesPix) {
-                System.out.println(i);
-            }
         }
     }
 
     // Buscar chaves pix do cliente
-    public static Map<Integer, String> buscarChavesPixCliente(Integer tipoConta){
+    public static Map<Integer, String> buscarChavesPixCliente(Integer tipoConta, Boolean printa){
 
         int cont = 1;
         Boolean temChave = true;
@@ -279,14 +242,18 @@ public class Bd {
                 if (!clienteBuscaContaCorrente.getChavesPix().isEmpty()) {
                     // PASSANDO NO HASHMAP DE CHAVES PIX CONTAS CORRENTES
                     for (Pix i : clienteBuscaContaCorrente.getChavesPix()) {
-                        System.out.println("    [" + cont + "] " +  "    Chave " + i.getTipoChavePix() + ": " + i.getConteudoChave());
+                        if(printa) {
+                            System.out.println("    [" + cont + "] " + "    Chave " + i.getTipoChavePix() + ": " + i.getConteudoChave());
+                        }
                         chavesOpc.put(cont, i.getConteudoChave());
                         cont++;
                     }
                 }
                 // SE AS CHAVES PIX DA CONTA CORRENTE NÃO RETORNAREM NADA
                 else {
-                    System.out.println("    Não há chaves PIX cadastradas nesta conta");
+                    if(printa) {
+                        System.out.println("    Não há chaves PIX cadastradas nesta conta");
+                    }
                 }
 
             }
@@ -298,7 +265,9 @@ public class Bd {
                     // PASSANDO NO HASHMAP DE CHAVES PIX CONTAS CORRENTES
                     try {
                         for (Pix i : clienteBuscaContaCorrente.getChavesPix()) {
-                            System.out.println("    [" + cont + "] " + "    Chave " + i.getTipoChavePix() + ": " + i.getConteudoChave());
+                            if(printa) {
+                                System.out.println("    [" + cont + "] " + "    Chave " + i.getTipoChavePix() + ": " + i.getConteudoChave());
+                            }
                             chavesOpc.put(cont, i.getConteudoChave());
                             cont++;
                         }
@@ -306,7 +275,9 @@ public class Bd {
 
                     try {
                         for (Pix i : clienteBuscaContaPoupanca.getChavesPix()) {
-                            System.out.println("    [" + cont + "] " + "Chave " + i.getTipoChavePix() + ": " + i.getConteudoChave());
+                            if(printa) {
+                                System.out.println("    [" + cont + "] " + "Chave " + i.getTipoChavePix() + ": " + i.getConteudoChave());
+                            }
                             chavesOpc.put(cont, i.getConteudoChave());
                             cont++;
                         }
@@ -316,7 +287,9 @@ public class Bd {
                 // SE AS CHAVES PIX DA CONTA CORRENTE E POUPANÇA NÃO RETORNAREM NADA
                 else {
                     temChave = false;
-                    System.out.println("    Não há chaves PIX cadastradas nesta conta");
+                    if(printa) {
+                        System.out.println("    Não há chaves PIX cadastradas nesta conta");
+                    }
                 }
             }
 
@@ -333,14 +306,18 @@ public class Bd {
                 if (!clienteBuscaContaPoupanca.getChavesPix().isEmpty()) {
                     // PASSANDO NO HASHMAP DE CHAVES PIX CONTAS POUPANCAS
                     for (Pix i : clienteBuscaContaPoupanca.getChavesPix()) {
-                        System.out.println("    [" + cont + "] " + "Chave " + i.getTipoChavePix() + ": " + i.getConteudoChave());
+                        if(printa) {
+                            System.out.println("    [" + cont + "] " + "Chave " + i.getTipoChavePix() + ": " + i.getConteudoChave());
+                        }
                         chavesOpc.put(cont, i.getConteudoChave());
                         cont++;
                     }
                 }
                 // SE AS CHAVES PIX DA CONTA POUPANÇA NÃO RETORNAREM NADA
                 else {
-                    System.out.println("    Não há chaves PIX cadastradas nesta conta");
+                    if(printa) {
+                        System.out.println("    Não há chaves PIX cadastradas nesta conta");
+                    }
                 }
 
             }
@@ -354,7 +331,9 @@ public class Bd {
                     // PASSANDO NO HASHMAP DE CHAVES PIX CONTAS CORRENTES
                     try {
                         for (Pix i : clienteBuscaContaCorrente.getChavesPix()) {
-                            System.out.println("    [" + cont + "] " + "Chave " + i.getTipoChavePix() + ": " + i.getConteudoChave());
+                            if(printa) {
+                                System.out.println("    [" + cont + "] " + "Chave " + i.getTipoChavePix() + ": " + i.getConteudoChave());
+                            }
                             chavesOpc.put(cont, i.getConteudoChave());
                             cont++;
                         }
@@ -363,7 +342,9 @@ public class Bd {
                     // PASSANDO NO HASHMAP DE CHAVES PIX CONTAS POUPANÇAS
                     try {
                         for (Pix i : clienteBuscaContaPoupanca.getChavesPix()) {
-                            System.out.println("    [" + cont + "] " + "Chave " + i.getTipoChavePix() + ": " + i.getConteudoChave());
+                            if(printa) {
+                                System.out.println("    [" + cont + "] " + "Chave " + i.getTipoChavePix() + ": " + i.getConteudoChave());
+                            }
                             chavesOpc.put(cont, i.getConteudoChave());
                             cont++;
                         }
@@ -373,7 +354,9 @@ public class Bd {
                 // SE AS CHAVES PIX DA CONTA CORRENTE E POUPANÇA NÃO RETORNAREM NADA
                 else {
                     temChave = false;
-                    System.out.println("    Não há chaves PIX cadastradas nesta conta");
+                    if(printa) {
+                        System.out.println("    Não há chaves PIX cadastradas nesta conta");
+                    }
                 }
 
             }
@@ -381,18 +364,19 @@ public class Bd {
 
         if(!temChave){
             return(chavesOpc = null);
-        }else{
+        }
+        else{
             return(chavesOpc);
         }
 
     }
 
     // Apagar chaves pix do cliente
-    public static void pixDelete(Integer tipoConta, Integer entrada){
+    public static String pixDelete(Integer tipoConta, Integer entrada){
 
         String valor = "";
 
-        Map<Integer, String> chavesOpc = buscarChavesPixCliente(tipoConta);
+        Map<Integer, String> chavesOpc = buscarChavesPixCliente(tipoConta, false);
 
         if(chavesOpc != null) {
             try {
@@ -421,6 +405,9 @@ public class Bd {
                 }
             }catch(Exception ignored){}
             pixsMap.remove(entrada);
+            return("    Chave removida com sucesso");
+        }else{
+            return("");
         }
 
 

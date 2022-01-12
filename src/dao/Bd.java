@@ -262,9 +262,13 @@ public class Bd {
     }
 
     // Buscar chaves pix do cliente
-    public static void buscarChavesPixCliente(Integer tipoConta, Boolean apaga){
+    public static Map<Integer, String> buscarChavesPixCliente(Integer tipoConta){
 
         int cont = 1;
+        Boolean temChave = true;
+        Map<Integer, String> chavesOpc = new HashMap<>();
+
+        //String[] chavesOpc = new String[3];
 
         // SE A CONTA FOR CORRENTE
         if(tipoConta == 1){
@@ -276,6 +280,7 @@ public class Bd {
                     // PASSANDO NO HASHMAP DE CHAVES PIX CONTAS CORRENTES
                     for (Pix i : clienteBuscaContaCorrente.getChavesPix()) {
                         System.out.println("    [" + cont + "] " +  "    Chave " + i.getTipoChavePix() + ": " + i.getConteudoChave());
+                        chavesOpc.put(cont, i.getConteudoChave());
                         cont++;
                     }
                 }
@@ -294,6 +299,7 @@ public class Bd {
                     try {
                         for (Pix i : clienteBuscaContaCorrente.getChavesPix()) {
                             System.out.println("    [" + cont + "] " + "    Chave " + i.getTipoChavePix() + ": " + i.getConteudoChave());
+                            chavesOpc.put(cont, i.getConteudoChave());
                             cont++;
                         }
                     }catch(Exception ignored){}
@@ -301,6 +307,7 @@ public class Bd {
                     try {
                         for (Pix i : clienteBuscaContaPoupanca.getChavesPix()) {
                             System.out.println("    [" + cont + "] " + "Chave " + i.getTipoChavePix() + ": " + i.getConteudoChave());
+                            chavesOpc.put(cont, i.getConteudoChave());
                             cont++;
                         }
                     }catch(Exception ignored){}
@@ -308,7 +315,8 @@ public class Bd {
                 }
                 // SE AS CHAVES PIX DA CONTA CORRENTE E POUPANÇA NÃO RETORNAREM NADA
                 else {
-                    System.out.println("Não há chaves PIX cadastradas nesta conta");
+                    temChave = false;
+                    System.out.println("    Não há chaves PIX cadastradas nesta conta");
                 }
             }
 
@@ -326,6 +334,7 @@ public class Bd {
                     // PASSANDO NO HASHMAP DE CHAVES PIX CONTAS POUPANCAS
                     for (Pix i : clienteBuscaContaPoupanca.getChavesPix()) {
                         System.out.println("    [" + cont + "] " + "Chave " + i.getTipoChavePix() + ": " + i.getConteudoChave());
+                        chavesOpc.put(cont, i.getConteudoChave());
                         cont++;
                     }
                 }
@@ -346,6 +355,7 @@ public class Bd {
                     try {
                         for (Pix i : clienteBuscaContaCorrente.getChavesPix()) {
                             System.out.println("    [" + cont + "] " + "Chave " + i.getTipoChavePix() + ": " + i.getConteudoChave());
+                            chavesOpc.put(cont, i.getConteudoChave());
                             cont++;
                         }
                     }catch(Exception ignored){}
@@ -354,6 +364,7 @@ public class Bd {
                     try {
                         for (Pix i : clienteBuscaContaPoupanca.getChavesPix()) {
                             System.out.println("    [" + cont + "] " + "Chave " + i.getTipoChavePix() + ": " + i.getConteudoChave());
+                            chavesOpc.put(cont, i.getConteudoChave());
                             cont++;
                         }
                     }catch(Exception ignored){}
@@ -361,14 +372,59 @@ public class Bd {
                 }
                 // SE AS CHAVES PIX DA CONTA CORRENTE E POUPANÇA NÃO RETORNAREM NADA
                 else {
+                    temChave = false;
                     System.out.println("    Não há chaves PIX cadastradas nesta conta");
                 }
 
             }
         }
+
+        if(!temChave){
+            return(chavesOpc = null);
+        }else{
+            return(chavesOpc);
+        }
+
     }
 
     // Apagar chaves pix do cliente
+    public static void pixDelete(Integer tipoConta, Integer entrada){
 
+        String valor = "";
+
+        Map<Integer, String> chavesOpc = buscarChavesPixCliente(tipoConta);
+
+        if(chavesOpc != null) {
+            try {
+                for (Map.Entry<Integer, String> entry : chavesOpc.entrySet()) {
+                    if (entry.getKey() == entrada) {
+                        pixsMap.remove(entry.getKey());
+                        chavesOpc.remove(entry.getKey());
+                        valor = entry.getValue();
+                    }
+                }
+            }catch(Exception ignored){}
+            try {
+                for (Pix i : clienteBuscaContaCorrente.getChavesPix()) {
+                    if (i.getConteudoChave() == valor) {
+                        clienteBuscaContaCorrente.getChavesPix().remove(i);
+                        break;
+                    }
+                }
+            }catch(Exception ignored){}
+            try{
+                for (Pix i : clienteBuscaContaPoupanca.getChavesPix()) {
+                    if (i.getConteudoChave() == valor) {
+                        clienteBuscaContaPoupanca.getChavesPix().remove(i);
+                        break;
+                    }
+                }
+            }catch(Exception ignored){}
+            pixsMap.remove(entrada);
+        }
+
+
+
+    }
 
 }

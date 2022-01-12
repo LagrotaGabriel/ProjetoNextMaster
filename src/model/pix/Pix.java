@@ -49,27 +49,4 @@ public class Pix {
         this.cliente = cliente;
     }
 
-    // Cadastra pix
-    public void cadastraPix(){
-
-
-
-    }
-
-    // Deleta Pix
-    public void deletaPix(){
-
-    }
-
-    // Transfere Pix
-    public void transferePix(){
-
-    }
-
-    // Histórico Pix
-    public void historicoPix(){
-
-    }
-
-
 }

@@ -2,6 +2,8 @@ package view;
 import dao.Bd;
 import model.conta.ContaTipo;
 import util.Layout;
+
+import java.util.Map;
 import java.util.Scanner;
 import controller.*;
 
@@ -654,7 +656,16 @@ public class Main {
     // Menu Apaga PIX
     public static void menuApagaPix(Integer contaTipo){
 
-        Bd.buscarChavesPixCliente(contaTipo, true);
+        if(Bd.buscarChavesPixCliente(contaTipo) != null) {
+            layout.TopLine(3);
+            layout.br(1);
+            String n = entry("    Escolha: ");
+            if (contaTipo == 1) {
+                Bd.pixDelete(1, Integer.parseInt(n));
+            } else {
+                Bd.pixDelete(2, Integer.parseInt(n));
+            }
+        }
         menuPix(contaTipo);
 
     }
@@ -664,11 +675,15 @@ public class Main {
 
     }
 
-    // Menu Historico PIX
+    // Menu Consulta PIX
     public static void menuConsultaPix(Integer contaTipo){
 
-        Bd.buscarChavesPixCliente(contaTipo, false);
+        layout.TopLine(3);
+        layout.br(1);
+        Bd.buscarChavesPixCliente(contaTipo);
         menuPix(contaTipo);
+        layout.BottomLine(3);
+        layout.br(1);
 
     }
 

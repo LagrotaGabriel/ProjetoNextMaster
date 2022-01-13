@@ -1,6 +1,4 @@
 package model.pix;
-
-import dao.Bd;
 import model.cliente.Cliente;
 
 public class Pix {
@@ -48,15 +46,5 @@ public class Pix {
     public void setCliente(Cliente cliente) {
         this.cliente = cliente;
     }
-
-
-
-
-
-
-
-
-
-
 
 }

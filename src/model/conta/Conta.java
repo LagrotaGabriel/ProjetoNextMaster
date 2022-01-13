@@ -63,6 +63,7 @@ public abstract class Conta {
         this.chavesPix = chavesPix;
     }
 
+    /*
     // Saque
     public String Saque(Float valor){
         if(valor > getSaldo()){
@@ -77,5 +78,6 @@ public abstract class Conta {
     public void Deposito(Float valor){
         setSaldo(getSaldo() + valor);
     }
+    */
 
 }

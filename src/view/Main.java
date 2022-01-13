@@ -1,7 +1,8 @@
 package view;
+import bo.ContaCorrenteBo;
+import bo.ContaPoupancaBo;
 import dao.Bd;
 import model.conta.ContaTipo;
-import model.pix.Pix;
 import util.Layout;
 
 import java.util.Scanner;
@@ -298,7 +299,7 @@ public class Main {
 
                 // Depósito
                 if(Integer.parseInt(n) == 1) {
-                    Bd.clienteBuscaContaCorrente.Deposito(menuDeposito());
+                    ContaCorrenteBo.Deposito(menuDeposito());
                     layout.BottomLine(2);
                     layout.br(1);
                     layout.Loading(2);
@@ -308,7 +309,7 @@ public class Main {
 
                 // Saque
                 else if (Integer.parseInt(n) == 2) {
-                    System.out.println(Bd.clienteBuscaContaCorrente.Saque(menuSaque()));
+                    System.out.println(ContaCorrenteBo.Saque(menuSaque()));
                     layout.BottomLine(2);
                     layout.br(1);
                     layout.Loading(2);
@@ -413,7 +414,7 @@ public class Main {
 
                 // Depósito
                 if (Integer.parseInt(n) == 1) {
-                    Bd.clienteBuscaContaPoupanca.Deposito(menuDeposito());
+                    ContaPoupancaBo.Deposito(menuDeposito());
                     layout.BottomLine(2);
                     layout.br(1);
                     layout.Loading(2);
@@ -423,7 +424,7 @@ public class Main {
 
                 // Saque
                 else if (Integer.parseInt(n) == 2) {
-                    System.out.println(Bd.clienteBuscaContaPoupanca.Saque(menuSaque()));
+                    System.out.println(ContaPoupancaBo.Saque(menuDeposito()));
                     layout.BottomLine(2);
                     layout.br(1);
                     layout.Loading(2);

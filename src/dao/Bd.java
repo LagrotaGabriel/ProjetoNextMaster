@@ -16,7 +16,6 @@ public class Bd {
     public static Pix pix;
     public static ContaCorrente contaCorrenteTransf = null;
     public static ContaPoupanca contaPoupancaTransf = null;
-
     public static Map<Integer, Cliente> clientesMap = new HashMap<>();
     public static Map<Integer, ContaCorrente> contaCorrentesMap = new HashMap<>();
     public static Map<Integer, ContaPoupanca> contaPoupancasMap = new HashMap<>();

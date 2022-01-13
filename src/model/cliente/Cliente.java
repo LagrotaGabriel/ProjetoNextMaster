@@ -75,13 +75,5 @@ public class Cliente {
         this.telefone = telefone;
     }
 
-    // Cadastrar Cliente
-    public void cadastrarCliente(){
 
-    }
-
-    // Gerar Conta
-    public void gerarConta(){
-
-    }
 }

@@ -1,9 +1,9 @@
 package view;
 import dao.Bd;
 import model.conta.ContaTipo;
+import model.pix.Pix;
 import util.Layout;
 
-import java.util.Map;
 import java.util.Scanner;
 import controller.*;
 
@@ -20,7 +20,7 @@ public class Main {
 
         Cadastro.cadastrarUsuario("Gabriel", "47153427821", "558468263",
                 "1234", "São Paulo", "SP", "Lauzane", "583",
-                "Avenida Coronel Manuel Py", "02442090", "gabriellagrota23@gmail.com", "97981-5415", "3");
+                "Avenida Coronel Manuel Py", "02442090", "gabriellagrota23@gmail.com", "979815415", "3");
 
         Cadastro.cadastrarUsuario("Henrique", "123456789012", "558468263",
                 "1", "São Paulo", "SP", "Lauzane", "583",
@@ -247,7 +247,7 @@ public class Main {
     // Parametro String 1 - CONTA CORRENTE , String 2 - CONTA POUPANÇA
     public static void menuPrincipal(String ct){
 
-        String n = "-1";
+        String n = "0";
 
         // Conta corrente
         if(Integer.parseInt(ct) == 1){
@@ -303,7 +303,7 @@ public class Main {
                     layout.br(1);
                     layout.Loading(2);
                     layout.LimparTela();
-                    n = "";
+                    n = "0";
                 }
 
                 // Saque
@@ -313,12 +313,13 @@ public class Main {
                     layout.br(1);
                     layout.Loading(2);
                     layout.LimparTela();
-                    n = "";
+                    n = "0";
                 }
 
                 // Transferência
                 else if (Integer.parseInt(n) == 3) {
                     System.out.println("");
+                    n = "0";
                 }
 
                 // Menu Pix
@@ -417,7 +418,7 @@ public class Main {
                     layout.br(1);
                     layout.Loading(2);
                     layout.LimparTela();
-                    n = "";
+                    n = "0";
                 }
 
                 // Saque
@@ -427,12 +428,13 @@ public class Main {
                     layout.br(1);
                     layout.Loading(2);
                     layout.LimparTela();
-                    n = "";
+                    n = "0";
                 }
 
                 // Transferir
                 else if (Integer.parseInt(n) == 3) {
                     System.out.println("");
+                    n = "0";
                 }
 
                 // Menu Pix
@@ -543,6 +545,8 @@ public class Main {
             n = entry("    Escolha: ");
             layout.BottomLine(3);
             layout.br(1);
+            layout.Loading(3);
+            layout.LimparTela();
 
             // Cadastrar PIX
             if(Integer.parseInt(n) == 1){
@@ -560,7 +564,11 @@ public class Main {
             }
             // Transferir PIX
             else if(Integer.parseInt(n) == 3){
-                menuTransferePix();
+
+                menuTransferePix(contaTipo);
+                layout.Loading(3);
+                layout.LimparTela();
+                menuPix(contaTipo);
             }
             // Consultar PIX
             else if(Integer.parseInt(n) == 4){
@@ -610,8 +618,6 @@ public class Main {
             n = entry("    Escolha: ");
             layout.BottomLine(3);
             layout.br(1);
-            layout.Loading(3);
-            layout.LimparTela();
 
             // CPF
             if(Integer.parseInt(n) == 1){
@@ -657,6 +663,8 @@ public class Main {
 
             // VOLTAR
             else{
+                layout.Loading(3);
+                layout.LimparTela();
                 menuPix(contaTipo);
             }
         }
@@ -666,7 +674,15 @@ public class Main {
     // Menu Apaga PIX
     public static void menuApagaPix(Integer contaTipo){
 
+        // Interface
+        layout.TopLine(3);
+        layout.br(1);
+        System.out.println("                =-=-= Deletar chave PIX=-=-=");
+        layout.BottomLine(3);
+        layout.br(1);
+
         if(Bd.buscarChavesPixCliente(contaTipo, true) != null) {
+
             layout.TopLine(3);
             layout.br(1);
             String n = entry("    Escolha: ");
@@ -680,16 +696,48 @@ public class Main {
         }
 
 
+
     }
 
     // Menu Transfere PIX
-    public static void menuTransferePix(){
+    public static void menuTransferePix(Integer contaTipo){
+
+        // Interface
+        layout.TopLine(3);
+        layout.br(1);
+        System.out.println("              =-=-= Transferência via PIX =-=-=");
+        layout.BottomLine(3);
+        layout.br(1);
+        layout.TopLine(3);
+        layout.br(1);
+
+        // Entrada
+        String transfChave = entry("    Chave de transferência: ");
+        Float transfValor = Float.parseFloat(entry("    Valor da transferência: R$ "));
+
+        layout.BottomLine(3);
+        layout.br(1);
+
+        layout.TopLine(3);
+        layout.br(1);
+        System.out.println(Bd.transferir(transfChave, transfValor, contaTipo));
+        layout.BottomLine(3);
+        layout.br(1);
+
+        layout.Loading(3);
+        layout.LimparTela();
 
     }
 
     // Menu Consulta PIX
     public static void menuConsultaPix(Integer contaTipo){
 
+        // Interface
+        layout.TopLine(3);
+        layout.br(1);
+        System.out.println("              =-=-= Menu consulta PIX=-=-=");
+        layout.BottomLine(3);
+        layout.br(1);
         layout.TopLine(3);
         layout.br(1);
         Bd.buscarChavesPixCliente(contaTipo, true);

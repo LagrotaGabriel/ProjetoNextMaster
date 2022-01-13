@@ -63,11 +63,6 @@ public abstract class Conta {
         this.chavesPix = chavesPix;
     }
 
-    // Saldo
-    public void Saldo(){
-
-    }
-
     // Saque
     public String Saque(Float valor){
         if(valor > getSaldo()){

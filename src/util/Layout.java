@@ -15,14 +15,14 @@ public class Layout {
     }
 
     // Método Sleep
-    public void Sleep(Integer n){
+    public void sleep(Integer n){
         try{
             Thread.sleep(n);
         }catch(InterruptedException ignored){}
     }
 
     // Linhas
-    public void TopLine(Integer sz){
+    public void topLine(Integer sz){
         if(sz == 1){
             size = 20;
         }else if(sz == 2){
@@ -31,16 +31,16 @@ public class Layout {
             size = 60;
         }
         System.out.print("╔");
-        Sleep(timer1);
+        sleep(timer1);
         for(int i = 0; i < size; i++){
             System.out.print("═");
-            Sleep(timer1);
+            sleep(timer1);
         }
         System.out.print("╗");
-        Sleep(150);
+        sleep(150);
     }
 
-    public void CentralLine(Integer sz){
+    public void centralLine(Integer sz){
         if(sz == 1){
             size = 22;
         }else if(sz == 2){
@@ -48,16 +48,16 @@ public class Layout {
         }else{
             size = 62;
         }
-        Sleep(timer1);
+        sleep(timer1);
         for(int i = 0; i < size; i++){
             System.out.print("═");
-            Sleep(timer1);
+            sleep(timer1);
         }
         System.out.print("");
-        Sleep(150);
+        sleep(150);
     }
 
-    public void BottomLine(Integer sz){
+    public void bottomLine(Integer sz){
         if(sz == 1){
             size = 20;
         }else if(sz == 2){
@@ -66,13 +66,13 @@ public class Layout {
             size = 60;
         }
         System.out.print("╚");
-        Sleep(timer1);
+        sleep(timer1);
         for(int i = 0; i < size; i++){
             System.out.print("═");
-            Sleep(timer1);
+            sleep(timer1);
         }
         System.out.print("╝");
-        Sleep(150);
+        sleep(150);
     }
 
     // Quebra de linhas
@@ -89,7 +89,7 @@ public class Layout {
     }
 
     // Barrinha de carregamento
-    public void Loading(Integer sz){
+    public void loading(Integer sz){
         if(sz == 1){
             size = 22;
         }else if(sz == 2){
@@ -97,21 +97,21 @@ public class Layout {
         }else{
             size = 62;
         }
-        Sleep(timer2);
+        sleep(timer2);
         for(int i = 0; i < size; i++){
             System.out.print("|");
-            Sleep(timer2);
+            sleep(timer2);
         }
         for(int i = 0; i < size; i++){
             System.out.print("\b");
-            Sleep(timer2);
+            sleep(timer2);
         }
         System.out.println();
-        Sleep(150);
+        sleep(150);
     }
 
     // Limpeza de tela
-    public void LimparTela(){
+    public void limparTela(){
         for(int i = 0; i < 80; i++){
             System.out.println("-");
         }

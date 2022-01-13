@@ -1,4 +1,5 @@
 package dao;
+import bo.PixBo;
 import model.cliente.Cliente;
 import model.conta.ContaCorrente;
 import model.conta.ContaPoupanca;
@@ -226,155 +227,7 @@ public class Bd {
         }
     }
 
-    // Buscar chaves pix do cliente
-    public static Map<Integer, String> buscarChavesPixCliente(Integer tipoConta, Boolean printa){
-
-        int cont = 1;
-        Boolean temChave = true;
-        Map<Integer, String> chavesOpc = new HashMap<>();
-
-        //String[] chavesOpc = new String[3];
-
-        // SE A CONTA FOR CORRENTE
-        if(tipoConta == 1){
-
-            // SE O CLIENTE SÓ TIVER CONTA CORRENTE
-            if(clienteBuscaContaPoupanca == null) {
-                // SE AS CHAVES PIX DA CONTA CORRENTE RETORNAREM ALGO
-                if (!clienteBuscaContaCorrente.getChavesPix().isEmpty()) {
-                    // PASSANDO NO HASHMAP DE CHAVES PIX CONTAS CORRENTES
-                    for (Pix i : clienteBuscaContaCorrente.getChavesPix()) {
-                        if(printa) {
-                            System.out.println("    [" + cont + "] " + " Chave " + i.getTipoChavePix() + ": " + i.getConteudoChave() + " - CC");
-                        }
-                        chavesOpc.put(cont, i.getConteudoChave());
-                        cont++;
-                    }
-                }
-                // SE AS CHAVES PIX DA CONTA CORRENTE NÃO RETORNAREM NADA
-                else {
-                    if(printa) {
-                        System.out.println("    Não há chaves PIX cadastradas nesta conta");
-                    }
-                }
-
-            }
-            // SE O CLIENTE TIVER CONTA CORRENTE E CONTA POUPANCA
-            else{
-                // SE AS CHAVES PIX DA CONTA CORRENTE E POUPANÇA RETORNAREM ALGO
-                if (!clienteBuscaContaCorrente.getChavesPix().isEmpty() || !clienteBuscaContaPoupanca.getChavesPix().isEmpty()) {
-
-                    // PASSANDO NO HASHMAP DE CHAVES PIX CONTAS CORRENTES
-                    try {
-                        for (Pix i : clienteBuscaContaCorrente.getChavesPix()) {
-                            if(printa) {
-                                System.out.println("    [" + cont + "] " + " Chave " + i.getTipoChavePix() + ": " + i.getConteudoChave() + " - CC");
-                            }
-                            chavesOpc.put(cont, i.getConteudoChave());
-                            cont++;
-                        }
-                    }catch(Exception ignored){}
-
-                    try {
-                        for (Pix i : clienteBuscaContaPoupanca.getChavesPix()) {
-                            if(printa) {
-                                System.out.println("    [" + cont + "] " + " Chave " + i.getTipoChavePix() + ": " + i.getConteudoChave() + " - CP");
-                            }
-                            chavesOpc.put(cont, i.getConteudoChave());
-                            cont++;
-                        }
-                    }catch(Exception ignored){}
-
-                }
-                // SE AS CHAVES PIX DA CONTA CORRENTE E POUPANÇA NÃO RETORNAREM NADA
-                else {
-                    temChave = false;
-                    if(printa) {
-                        System.out.println("    Não há chaves PIX cadastradas nesta conta");
-                    }
-                }
-            }
-
-
-        }
-
-        // SE A CONTA FOR POUPANÇA
-        else if(tipoConta == 2){
-
-            // SE O CLIENTE SÓ TIVER CONTA POUPANÇA
-            if(clienteBuscaContaCorrente == null) {
-
-                // SE AS CHAVES PIX DA CONTA POUPANCA RETORNAREM ALGO
-                if (!clienteBuscaContaPoupanca.getChavesPix().isEmpty()) {
-                    // PASSANDO NO HASHMAP DE CHAVES PIX CONTAS POUPANCAS
-                    for (Pix i : clienteBuscaContaPoupanca.getChavesPix()) {
-                        if(printa) {
-                            System.out.println("    [" + cont + "] " + "Chave " + i.getTipoChavePix() + ": " + i.getConteudoChave()  + " - CP");
-                        }
-                        chavesOpc.put(cont, i.getConteudoChave());
-                        cont++;
-                    }
-                }
-                // SE AS CHAVES PIX DA CONTA POUPANÇA NÃO RETORNAREM NADA
-                else {
-                    if(printa) {
-                        System.out.println("    Não há chaves PIX cadastradas nesta conta");
-                    }
-                }
-
-            }
-
-            // SE O CLIENTE TIVER CONTA CORRENTE E CONTA POUPANCA
-            else{
-
-                // SE AS CHAVES PIX DA CONTA CORRENTE E POUPANÇA RETORNAREM ALGO
-                if (!clienteBuscaContaCorrente.getChavesPix().isEmpty() || !clienteBuscaContaPoupanca.getChavesPix().isEmpty()) {
-
-                    // PASSANDO NO HASHMAP DE CHAVES PIX CONTAS CORRENTES
-                    try {
-                        for (Pix i : clienteBuscaContaCorrente.getChavesPix()) {
-                            if(printa) {
-                                System.out.println("    [" + cont + "] " + "Chave " + i.getTipoChavePix() + ": " + i.getConteudoChave() + " - CC");
-                            }
-                            chavesOpc.put(cont, i.getConteudoChave());
-                            cont++;
-                        }
-                    }catch(Exception ignored){}
-
-                    // PASSANDO NO HASHMAP DE CHAVES PIX CONTAS POUPANÇAS
-                    try {
-                        for (Pix i : clienteBuscaContaPoupanca.getChavesPix()) {
-                            if(printa) {
-                                System.out.println("    [" + cont + "] " + "Chave " + i.getTipoChavePix() + ": " + i.getConteudoChave() + " - CP");
-                            }
-                            chavesOpc.put(cont, i.getConteudoChave());
-                            cont++;
-                        }
-                    }catch(Exception ignored){}
-
-                }
-                // SE AS CHAVES PIX DA CONTA CORRENTE E POUPANÇA NÃO RETORNAREM NADA
-                else {
-                    temChave = false;
-                    if(printa) {
-                        System.out.println("    Não há chaves PIX cadastradas nesta conta");
-                    }
-                }
-
-            }
-        }
-
-        if(!temChave){
-            return(chavesOpc = null);
-        }
-
-        else{
-            return(chavesOpc);
-        }
-
-    }
-
-    // Busca chave pix por entrada
+    // Busca chave pix por entrada NO BD
     public static void buscarChavePix(String entrada){
 
         contaCorrenteTransf = null;
@@ -420,74 +273,12 @@ public class Bd {
         }
     }
 
-    // Transferir
-    public static String transferir(String transfChave, Float transfValor, Integer tipoConta){
-
-        Bd.buscarChavePix(transfChave);
-
-        // SE A CONTA USADA AGORA É CONTA CORRENTE
-        if(tipoConta == 1) {
-
-            // VERIFICA SE SALDO É SUFICIENTE PARA TRANSAÇÃO
-            if(Bd.clienteBuscaContaCorrente.getSaldo() > transfValor) {
-                // RETIRA O SALDO DA CONTA DO CLIENTE
-                Bd.clienteBuscaContaCorrente.setSaldo(Bd.clienteBuscaContaCorrente.getSaldo() - transfValor);
-
-                // SE A CONTA DE TRANSFERÊNCIA FOR CORRENTE
-                if (Bd.contaCorrenteTransf != null) {
-                    Bd.contaCorrenteTransf.setSaldo(Bd.contaCorrenteTransf.getSaldo() + transfValor);
-                    return("Transferência realizada. Seu saldo atual é: R$ " + Bd.clienteBuscaContaCorrente.getSaldo());
-                }
-
-                // SE A CONTA DE TRANSFERÊNCIA FOR POUPANÇA
-                if (Bd.contaPoupancaTransf != null) {
-                    Bd.contaPoupancaTransf.setSaldo(Bd.contaPoupancaTransf.getSaldo() + transfValor);
-                    return("Transferência realizada. Seu saldo atual é: R$ " + Bd.clienteBuscaContaCorrente.getSaldo());
-                }
-            }
-            // SEM SALDO SUFICIENTE PARA TRANSFERÊNCIA
-            else{
-                return("Não há saldo suficiente. Seu saldo disponível é: R$ " + Bd.clienteBuscaContaCorrente.getSaldo());
-            }
-        }
-
-        // SE A CONTA USADA AGORA É POUPANÇA
-        else if(tipoConta == 2){
-
-            // VERIFICA SE SALDO É SUFICIENTE PARA TRANSAÇÃO
-            if(Bd.clienteBuscaContaPoupanca.getSaldo() > transfValor) {
-
-                // RETIRA O SALDO DA CONTA DO CLIENTE
-                Bd.clienteBuscaContaPoupanca.setSaldo(Bd.clienteBuscaContaPoupanca.getSaldo() - transfValor);
-
-                // SE A CONTA DE TRANSFERÊNCIA FOR CORRENTE
-                if (Bd.contaCorrenteTransf != null) {
-                    Bd.contaCorrenteTransf.setSaldo(Bd.contaCorrenteTransf.getSaldo() + transfValor);
-                    return("Transferência realizada. Seu saldo atual é: R$ " + Bd.clienteBuscaContaPoupanca.getSaldo());
-                }
-
-                // SE A CONTA DE TRANSFERÊNCIA FOR POUPANÇA
-                if (Bd.contaPoupancaTransf != null) {
-                    Bd.contaPoupancaTransf.setSaldo(Bd.contaPoupancaTransf.getSaldo() + transfValor);
-                    return("Transferência realizada. Seu saldo atual é: R$ " + Bd.clienteBuscaContaPoupanca.getSaldo());
-                }
-
-            }
-            // SEM SALDO SUFICIENTE PARA TRANSFERÊNCIA
-            else{
-                return("Não há saldo suficiente. Seu saldo disponível é: R$ " + Bd.clienteBuscaContaPoupanca.getSaldo());
-            }
-        }
-
-        return("Retornando ao menu PIX");
-    }
-
     // Apagar chaves pix do cliente
     public static String pixDelete(Integer tipoConta, Integer entrada){
 
         String valor = "";
 
-        Map<Integer, String> chavesOpc = buscarChavesPixCliente(tipoConta, false);
+        Map<Integer, String> chavesOpc = PixBo.consultarChavesPixCliente(tipoConta, false);
 
         if(chavesOpc != null) {
             try {
@@ -520,8 +311,6 @@ public class Bd {
         }else{
             return("");
         }
-
-
 
     }
 

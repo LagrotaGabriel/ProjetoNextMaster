@@ -12,6 +12,7 @@ public class Main {
     public static Scanner input = new Scanner(System.in);
     public static LoginBo login = new LoginBo("", "");
 
+    // Método main
     public static void main(String[] args) {
 
        //menuAcesso();
@@ -38,22 +39,23 @@ public class Main {
 
     }
 
+    /* -------------------------------------- INÍCIO - MENU ACESSO --------------------------------------------- */
     // Menu de acesso
     private static void menuAcesso() {
         Integer choice;
 
         do {
-            layout.TopLine(3);
+            layout.topLine(3);
             System.out.println("\n    =-=-=-=-=-=Seja bem-vindo(a) ao banco Next!=-=-=-=-=-=");
-            layout.BottomLine(3);
+            layout.bottomLine(3);
             layout.br(1);
             System.out.println("           [1] Login     [2] Cadastro     [3] Sair");
-            layout.BottomLine(3);
+            layout.bottomLine(3);
             layout.br(1);
             System.out.print("           Escolha: ");
             choice = input.nextInt();
-            layout.Loading(3);
-            layout.LimparTela();
+            layout.loading(3);
+            layout.limparTela();
             if(choice == 1){
                 menuLogin();
             }else if(choice == 2){
@@ -69,20 +71,20 @@ public class Main {
     // Menu de login
     private static void menuLogin(){
 
-        layout.TopLine(3);
+        layout.topLine(3);
         System.out.println("\n           =-=-=-=-=-=Login de usuário=-=-=-=-=-=");
-        layout.BottomLine(3);
+        layout.bottomLine(3);
         layout.br(1);
-        layout.TopLine(3);
+        layout.topLine(3);
         layout.br(1);
         String loginCpf = entry("  Digite seu CPF: ");
         String loginSenha = entry("  Digite sua senha: ");
         login = new LoginBo(loginCpf, loginSenha);
         System.out.println(login.Acessar());
-        layout.BottomLine(3);
+        layout.bottomLine(3);
         layout.br(1);
-        layout.Loading(3);
-        layout.LimparTela();
+        layout.loading(3);
+        layout.limparTela();
         if(!login.isAtivo()){
             menuLogin();
         }else{
@@ -94,13 +96,13 @@ public class Main {
     // Menu de cadastro
     private static void menuCadastro(){
 
-        layout.TopLine(3);
+        layout.topLine(3);
 
         System.out.println("\n         =-=-=-=-=-=Cadastro de usuário=-=-=-=-=-=");
 
-        layout.BottomLine(3);
+        layout.bottomLine(3);
         layout.br(1);
-        layout.TopLine(3);
+        layout.topLine(3);
         layout.br(1);
 
         String nome = entry("  Digite seu nome: ");
@@ -116,23 +118,23 @@ public class Main {
         String rua = entry("  Digite o nome da sua rua: ");
         String numeroRua = entry("  Digite o número da casa: ");
         String cep = entry("  Digite o CEP: ");
-        layout.BottomLine(3);
+        layout.bottomLine(3);
         layout.br(1);
-        layout.TopLine(3);
+        layout.topLine(3);
         layout.br(1);
         System.out.println("              Digite o tipo de conta desejado: ");
         System.out.println("         [1] Corrente     [2] Poupança     [3] Ambas");
-        layout.BottomLine(3);
+        layout.bottomLine(3);
         layout.br(1);
-        layout.TopLine(3);
+        layout.topLine(3);
         layout.br(1);
         String tipoDeConta = entry("  Escolha: ");
-        layout.BottomLine(3);
+        layout.bottomLine(3);
         layout.br(1);
         CadastroBo.cadastrarUsuario(nome, cpf, rg, senha, cidade, estado, bairro, numeroRua, rua, cep, email, telefone,
                 tipoDeConta);
-        layout.Loading(3);
-        layout.LimparTela();
+        layout.loading(3);
+        layout.limparTela();
         System.out.println("Você foi cadastrado com sucesso!");
         if(Bd.contaCorrentesMap.size() > 0 && Bd.contaPoupancasMap.size() > 0){
             System.out.println("O número gerado para sua conta corrente é: " + Bd.contaCorrentesMap.get((Bd.contaCorrentesMap.size()-1)).getConta());
@@ -150,13 +152,13 @@ public class Main {
 
         String n = "0";
 
-        layout.TopLine(2);
+        layout.topLine(2);
         layout.br(1);
         System.out.println("    =-=-=-=-=-=Suas contas=-=-=-=-=-=");
 
-        layout.BottomLine(2);
+        layout.bottomLine(2);
         layout.br(1);
-        layout.TopLine(2);
+        layout.topLine(2);
         layout.br(1);
 
         // DUAS CONTAS
@@ -166,15 +168,15 @@ public class Main {
                 System.out.println("    [1] Conta corrente n° " + Bd.clienteBuscaContaCorrente.getConta());
                 System.out.println("    [2] Conta poupança n° " + Bd.clienteBuscaContaPoupanca.getConta());
                 System.out.println("    [3] Logout");
-                layout.BottomLine(2);
+                layout.bottomLine(2);
                 layout.br(1);
-                layout.TopLine(2);
+                layout.topLine(2);
                 layout.br(1);
                 n = entry("    Escolha: ");
-                layout.BottomLine(2);
+                layout.bottomLine(2);
                 layout.br(1);
-                layout.Loading(2);
-                layout.LimparTela();
+                layout.loading(2);
+                layout.limparTela();
                 if(n.equals("1")){
                     menuPrincipal("1");
                 }else if(n.equals("2")){
@@ -192,15 +194,15 @@ public class Main {
             while(Integer.parseInt(n) < 1 || Integer.parseInt(n) > 2) {
                 System.out.println("    [1] Conta poupança n° " + Bd.clienteBuscaContaPoupanca.getConta());
                 System.out.println("    [2] Logout");
-                layout.BottomLine(2);
+                layout.bottomLine(2);
                 layout.br(1);
-                layout.TopLine(2);
+                layout.topLine(2);
                 layout.br(1);
                 n = entry("    Escolha: ");
-                layout.BottomLine(2);
+                layout.bottomLine(2);
                 layout.br(1);
-                layout.Loading(2);
-                layout.LimparTela();
+                layout.loading(2);
+                layout.limparTela();
                 if(n.equals("1")){
                     menuPrincipal("2");
                 }else{
@@ -218,15 +220,15 @@ public class Main {
             while(Integer.parseInt(n) < 1 || Integer.parseInt(n) > 2) {
                 System.out.println("    [1] Conta corrente n° " + Bd.clienteBuscaContaCorrente.getConta());
                 System.out.println("    [2] Logout");
-                layout.BottomLine(2);
+                layout.bottomLine(2);
                 layout.br(1);
-                layout.TopLine(2);
+                layout.topLine(2);
                 layout.br(1);
                 n = entry("    Escolha: ");
-                layout.BottomLine(2);
+                layout.bottomLine(2);
                 layout.br(1);
-                layout.Loading(2);
-                layout.LimparTela();
+                layout.loading(2);
+                layout.limparTela();
                 if(n.equals("1")){
                     menuPrincipal("1");
                 }else{
@@ -240,9 +242,10 @@ public class Main {
         }
 
     }
+    /* --------------------------------------- FIM - MENU ACESSO --------------------------------------------- */
 
+    /* ----------------------------------- INÍCIO - MENU PRINCIPAL ------------------------------------------ */
     // Menu Principal
-    // Parametro String 1 - CONTA CORRENTE , String 2 - CONTA POUPANÇA
     public static void menuPrincipal(String ct){
 
         String n = "0";
@@ -252,15 +255,15 @@ public class Main {
 
             while(Integer.parseInt(n) < 1 || Integer.parseInt(n) > 6) {
 
-                layout.TopLine(3);
+                layout.topLine(3);
                 layout.br(1);
 
                 System.out.println("        =-=-=-=-=-=Conta corrente de " +
                         Bd.clienteBuscaContaCorrente.getCliente().getNome() + "=-=-=-=-=-=");
 
-                layout.BottomLine(3);
+                layout.bottomLine(3);
                 layout.br(1);
-                layout.TopLine(3);
+                layout.topLine(3);
                 layout.br(1);
 
                 // Informações da conta
@@ -273,44 +276,44 @@ public class Main {
                 System.out.printf("R$ %.2f", Bd.clienteBuscaContaCorrente.getSaldo());
 
                 layout.br(1);
-                layout.CentralLine(3);
+                layout.centralLine(3);
                 layout.br(1);
 
                 // Opções do menu
-                System.out.println("      [1] Depositar      [2] Sacar          [3] Transferir");
+                System.out.println("      [1] Depositar      [2] Sacar          [3] Cartões");
                 System.out.println("      [4] Menu Pix       [5] Consulta       [6] Voltar");
-                layout.BottomLine(3);
+                layout.bottomLine(3);
                 layout.br(1);
 
                 // Entrada do usuário
-                layout.TopLine(3);
+                layout.topLine(3);
                 layout.br(1);
                 n = entry("    Escolha: ");
-                layout.BottomLine(3);
+                layout.bottomLine(3);
                 layout.br(1);
 
-                layout.Loading(3);
-                layout.LimparTela();
+                layout.loading(3);
+                layout.limparTela();
 
                 // Direcionamento de opções
 
                 // Depósito
                 if(Integer.parseInt(n) == 1) {
                     ContaCorrenteBo.Deposito(menuDeposito());
-                    layout.BottomLine(2);
+                    layout.bottomLine(2);
                     layout.br(1);
-                    layout.Loading(2);
-                    layout.LimparTela();
+                    layout.loading(2);
+                    layout.limparTela();
                     n = "0";
                 }
 
                 // Saque
                 else if (Integer.parseInt(n) == 2) {
                     System.out.println(ContaCorrenteBo.Saque(menuSaque()));
-                    layout.BottomLine(2);
+                    layout.bottomLine(2);
                     layout.br(1);
-                    layout.Loading(2);
-                    layout.LimparTela();
+                    layout.loading(2);
+                    layout.limparTela();
                     n = "0";
                 }
 
@@ -367,15 +370,15 @@ public class Main {
 
             while(Integer.parseInt(n) < 1 || Integer.parseInt(n) > 6) {
 
-                layout.TopLine(3);
+                layout.topLine(3);
                 layout.br(1);
 
                 System.out.println("        =-=-=-=-=-=Conta poupança de " +
                         Bd.clienteBuscaContaPoupanca.getCliente().getNome() + "=-=-=-=-=-=");
 
-                layout.BottomLine(3);
+                layout.bottomLine(3);
                 layout.br(1);
-                layout.TopLine(3);
+                layout.topLine(3);
                 layout.br(1);
 
                 // Informações da conta
@@ -388,44 +391,44 @@ public class Main {
                 System.out.printf("R$ %.2f", Bd.clienteBuscaContaPoupanca.getSaldo());
 
                 layout.br(1);
-                layout.CentralLine(3);
+                layout.centralLine(3);
                 layout.br(1);
 
                 // Opções do menu
-                System.out.println("      [1] Depositar      [2] Sacar          [3] Transferir");
+                System.out.println("      [1] Depositar      [2] Sacar          [3] Cartões");
                 System.out.println("      [4] Menu Pix       [5] Consulta       [6] Voltar");
-                layout.BottomLine(3);
+                layout.bottomLine(3);
                 layout.br(1);
 
                 // Entrada do usuário
-                layout.TopLine(3);
+                layout.topLine(3);
                 layout.br(1);
                 n = entry("    Escolha: ");
-                layout.BottomLine(3);
+                layout.bottomLine(3);
                 layout.br(1);
 
-                layout.Loading(3);
-                layout.LimparTela();
+                layout.loading(3);
+                layout.limparTela();
 
                 // Direcionamento de opções
 
                 // Depósito
                 if (Integer.parseInt(n) == 1) {
                     ContaPoupancaBo.Deposito(menuDeposito());
-                    layout.BottomLine(2);
+                    layout.bottomLine(2);
                     layout.br(1);
-                    layout.Loading(2);
-                    layout.LimparTela();
+                    layout.loading(2);
+                    layout.limparTela();
                     n = "0";
                 }
 
                 // Saque
                 else if (Integer.parseInt(n) == 2) {
                     System.out.println(ContaPoupancaBo.Saque(menuDeposito()));
-                    layout.BottomLine(2);
+                    layout.bottomLine(2);
                     layout.br(1);
-                    layout.Loading(2);
-                    layout.LimparTela();
+                    layout.loading(2);
+                    layout.limparTela();
                     n = "0";
                 }
 
@@ -483,14 +486,14 @@ public class Main {
     // Menu Deposito
     public static Float menuDeposito(){
 
-        layout.TopLine(2);
+        layout.topLine(2);
         layout.br(1);
 
         System.out.println("      =-=-=-=-=-=Depósito=-=-=-=-=-=");
 
-        layout.BottomLine(2);
+        layout.bottomLine(2);
         layout.br(1);
-        layout.TopLine(2);
+        layout.topLine(2);
         layout.br(1);
         System.out.println("  [Digite 0 para sair]");
         return(Float.valueOf(entry("  Digite o valor do depósito: R$ ")));
@@ -500,14 +503,14 @@ public class Main {
     // Menu Saque
     public static Float menuSaque(){
 
-        layout.TopLine(2);
+        layout.topLine(2);
         layout.br(1);
 
         System.out.println("         =-=-=-=-=-=Saque=-=-=-=-=-=");
 
-        layout.BottomLine(2);
+        layout.bottomLine(2);
         layout.br(1);
-        layout.TopLine(2);
+        layout.topLine(2);
         layout.br(1);
         System.out.println("  [Digite 0 para sair]");
         return(Float.valueOf(entry("  Digite o valor do saque: R$ ")));
@@ -520,89 +523,91 @@ public class Main {
         String n = "-1";
 
         // Layout
-        layout.TopLine(3);
+        layout.topLine(3);
         layout.br(1);
         System.out.println("                   =-=-= Menu PIX=-=-=");
-        layout.BottomLine(3);
+        layout.bottomLine(3);
         layout.br(1);
 
         // Opções
-        layout.TopLine(3);
+        layout.topLine(3);
         layout.br(1);
         System.out.println("    [1] Cadastrar      [2] Apagar chave      [3] Transferir");
         System.out.println("    [4] Consultar      [5] Voltar");
-        layout.BottomLine(3);
+        layout.bottomLine(3);
         layout.br(1);
 
         // Repetição
         while(Integer.parseInt(n) < 0 || Integer.parseInt(n) > 5) {
 
             // Layout
-            layout.TopLine(3);
+            layout.topLine(3);
             layout.br(1);
             n = entry("    Escolha: ");
-            layout.BottomLine(3);
+            layout.bottomLine(3);
             layout.br(1);
-            layout.Loading(3);
-            layout.LimparTela();
+            layout.loading(3);
+            layout.limparTela();
 
             // Cadastrar PIX
             if(Integer.parseInt(n) == 1){
                 menuCadastroPix(contaTipo);
-                layout.Loading(3);
-                layout.LimparTela();
+                layout.loading(3);
+                layout.limparTela();
                 menuPix(contaTipo);
             }
             // Apagar PIX
             else if(Integer.parseInt(n) == 2){
                 menuApagaPix(contaTipo);
-                layout.Loading(3);
-                layout.LimparTela();
+                layout.loading(3);
+                layout.limparTela();
                 menuPix(contaTipo);
             }
             // Transferir PIX
             else if(Integer.parseInt(n) == 3){
 
                 menuTransferePix(contaTipo);
-                layout.Loading(3);
-                layout.LimparTela();
+                layout.loading(3);
+                layout.limparTela();
                 menuPix(contaTipo);
             }
             // Consultar PIX
             else if(Integer.parseInt(n) == 4){
                 menuConsultaPix(contaTipo);
-                layout.Loading(3);
-                layout.LimparTela();
+                layout.loading(3);
+                layout.limparTela();
                 menuPix(contaTipo);
             }
             // Voltar PIX
             else if(Integer.parseInt(n) == 5){
-                layout.Loading(3);
-                layout.LimparTela();
+                layout.loading(3);
+                layout.limparTela();
                 menuPrincipal(contaTipo.toString());
             }
 
         }
     }
+    /* -------------------------------------- FIM - MENU PRINCIPAL -------------------------------------------- */
 
+    /* --------------------------------------- INÍCIO - PARTE PIX --------------------------------------------- */
     // Menu de cadastro de Pix
     public static void menuCadastroPix(Integer contaTipo){
 
         String n = "-1";
 
         // Interface
-        layout.TopLine(3);
+        layout.topLine(3);
         layout.br(1);
         System.out.println("              =-=-= Menu cadastro PIX=-=-=");
-        layout.BottomLine(3);
+        layout.bottomLine(3);
         layout.br(1);
 
         // Opções
-        layout.TopLine(3);
+        layout.topLine(3);
         layout.br(1);
         System.out.println("        [1] CPF      [2] Email      [3] Telefone");
         System.out.println("        [4] Voltar");
-        layout.BottomLine(3);
+        layout.bottomLine(3);
         layout.br(1);
 
         // Repetição
@@ -611,10 +616,10 @@ public class Main {
             String chave;
 
             // Layout
-            layout.TopLine(3);
+            layout.topLine(3);
             layout.br(1);
             n = entry("    Escolha: ");
-            layout.BottomLine(3);
+            layout.bottomLine(3);
             layout.br(1);
 
             // CPF
@@ -661,8 +666,8 @@ public class Main {
 
             // VOLTAR
             else{
-                layout.Loading(3);
-                layout.LimparTela();
+                layout.loading(3);
+                layout.limparTela();
                 menuPix(contaTipo);
             }
         }
@@ -673,18 +678,18 @@ public class Main {
     public static void menuApagaPix(Integer contaTipo){
 
         // Interface
-        layout.TopLine(3);
+        layout.topLine(3);
         layout.br(1);
         System.out.println("                =-=-= Deletar chave PIX=-=-=");
-        layout.BottomLine(3);
+        layout.bottomLine(3);
         layout.br(1);
 
-        if(Bd.buscarChavesPixCliente(contaTipo, true) != null) {
+        if(PixBo.consultarChavesPixCliente(contaTipo, true) != null) {
 
-            layout.TopLine(3);
+            layout.topLine(3);
             layout.br(1);
             String n = entry("    Escolha: ");
-            layout.BottomLine(3);
+            layout.bottomLine(3);
             layout.br(1);
             if (contaTipo == 1) {
                 System.out.println(Bd.pixDelete(1, Integer.parseInt(n)));
@@ -701,29 +706,29 @@ public class Main {
     public static void menuTransferePix(Integer contaTipo){
 
         // Interface
-        layout.TopLine(3);
+        layout.topLine(3);
         layout.br(1);
         System.out.println("              =-=-= Transferência via PIX =-=-=");
-        layout.BottomLine(3);
+        layout.bottomLine(3);
         layout.br(1);
-        layout.TopLine(3);
+        layout.topLine(3);
         layout.br(1);
 
         // Entrada
         String transfChave = entry("    Chave de transferência: ");
         Float transfValor = Float.parseFloat(entry("    Valor da transferência: R$ "));
 
-        layout.BottomLine(3);
+        layout.bottomLine(3);
         layout.br(1);
 
-        layout.TopLine(3);
+        layout.topLine(3);
         layout.br(1);
-        System.out.println(Bd.transferir(transfChave, transfValor, contaTipo));
-        layout.BottomLine(3);
+        System.out.println(PixBo.transferir(transfChave, transfValor, contaTipo));
+        layout.bottomLine(3);
         layout.br(1);
 
-        layout.Loading(3);
-        layout.LimparTela();
+        layout.loading(3);
+        layout.limparTela();
 
     }
 
@@ -731,18 +736,19 @@ public class Main {
     public static void menuConsultaPix(Integer contaTipo){
 
         // Interface
-        layout.TopLine(3);
+        layout.topLine(3);
         layout.br(1);
         System.out.println("              =-=-= Menu consulta PIX=-=-=");
-        layout.BottomLine(3);
+        layout.bottomLine(3);
         layout.br(1);
-        layout.TopLine(3);
+        layout.topLine(3);
         layout.br(1);
-        Bd.buscarChavesPixCliente(contaTipo, true);
-        layout.BottomLine(3);
+        PixBo.consultarChavesPixCliente(contaTipo, true);
+        layout.bottomLine(3);
         layout.br(1);
 
     }
+    /* ---------------------------------------- FIM - PARTE PIX ---------------------------------------------- */
 
     // Entry
     public static String entry(String texto) {

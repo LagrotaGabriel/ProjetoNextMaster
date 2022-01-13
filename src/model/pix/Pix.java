@@ -3,11 +3,9 @@ import model.cliente.Cliente;
 
 public class Pix {
 
-    String id;
-    Cliente cliente;
-    String conteudoChave;
-    Boolean ativo;
-    TipoChavePix tipoChavePix;
+    private Cliente cliente;
+    private final String conteudoChave;
+    private final TipoChavePix tipoChavePix;
 
     public Pix(Cliente cliente, String conteudoChave, TipoChavePix tipoChavePix){
         this.cliente = cliente;
@@ -16,29 +14,11 @@ public class Pix {
     }
 
     // Setters and Getters
-    public String getId() {
-        return id;
-    }
-    public void setId(String id) {
-        this.id = id;
-    }
     public String getConteudoChave() {
         return conteudoChave;
     }
-    public void setConteudoChave(String conteudoChave) {
-        this.conteudoChave = conteudoChave;
-    }
-    public Boolean isAtivo() {
-        return ativo;
-    }
-    public void setAtivo(Boolean ativo) {
-        this.ativo = ativo;
-    }
     public model.pix.TipoChavePix getTipoChavePix() {
         return tipoChavePix;
-    }
-    public void setTipoChavePix(model.pix.TipoChavePix tipoChavePix) {
-        tipoChavePix = tipoChavePix;
     }
     public Cliente getCliente() {
         return cliente;
@@ -46,5 +26,4 @@ public class Pix {
     public void setCliente(Cliente cliente) {
         this.cliente = cliente;
     }
-
 }

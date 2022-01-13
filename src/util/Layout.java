@@ -1,8 +1,5 @@
 package util;
 
-import java.text.NumberFormat;
-import java.util.Locale;
-
 public class Layout {
 
     // Atributos
@@ -82,11 +79,11 @@ public class Layout {
         }
     }
 
-    // FORMATA PARA REAIS
+    /* FORMATA PARA REAIS
     public static String convertToReais(double valor) {
         Locale ptBr = new Locale("pt", "BR");
         return NumberFormat.getCurrencyInstance(ptBr).format(valor);
-    }
+    }*/
 
     // Barrinha de carregamento
     public void loading(Integer sz){

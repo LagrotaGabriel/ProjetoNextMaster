@@ -31,18 +31,12 @@ public class Main {
 
         menuLogin();
 
-        //menuPix(1);
-
-        // menuCadastro();
-
-        //menuContas();
-
     }
 
     /* -------------------------------------- INÍCIO - MENU ACESSO --------------------------------------------- */
     // Menu de acesso
     private static void menuAcesso() {
-        Integer choice;
+        int choice;
 
         do {
             layout.topLine(3);
@@ -232,7 +226,6 @@ public class Main {
                 if(n.equals("1")){
                     menuPrincipal("1");
                 }else{
-                    System.out.println("CCCCCCCCCCCCCCCCCC");
                     login.setAtivo(false);
                     Bd.zerarInstancias();
                     login = null;
@@ -319,7 +312,6 @@ public class Main {
 
                 // Transferência
                 else if (Integer.parseInt(n) == 3) {
-                    System.out.println("");
                     n = "0";
                 }
 
@@ -330,7 +322,7 @@ public class Main {
 
                 // Menu Cartões
                 else if (Integer.parseInt(n) == 5) {
-                    System.out.println("");
+                    System.out.println("Em construção");
                 }
 
                 // Voltar
@@ -434,7 +426,6 @@ public class Main {
 
                 // Transferir
                 else if (Integer.parseInt(n) == 3) {
-                    System.out.println("");
                     n = "0";
                 }
 
@@ -445,7 +436,7 @@ public class Main {
 
                 // Menu Cartões
                 else if (Integer.parseInt(n) == 5) {
-                    System.out.println("");
+                    System.out.println("Em construção");
                 }
 
                 // Voltar
@@ -612,8 +603,6 @@ public class Main {
 
         // Repetição
         while(Integer.parseInt(n) < 0 || Integer.parseInt(n) > 4) {
-
-            String chave;
 
             // Layout
             layout.topLine(3);

@@ -74,7 +74,7 @@ public class PixBo {
     public static Map<Integer, String> consultarChavesPixCliente(Integer tipoConta, Boolean printa){
 
         int cont = 1;
-        Boolean temChave = true;
+        boolean temChave = true;
         Map<Integer, String> chavesOpc = new HashMap<>();
 
         //String[] chavesOpc = new String[3];
@@ -89,7 +89,7 @@ public class PixBo {
                     // PASSANDO NO HASHMAP DE CHAVES PIX CONTAS CORRENTES
                     for (Pix i : Bd.clienteBuscaContaCorrente.getChavesPix()) {
                         if(printa) {
-                            System.out.println("    [" + cont + "] " + " Chave " + i.getTipoChavePix() + ": " + i.getConteudoChave() + " - CC");
+                            System.out.println("    [" + cont + "] " + " Chave " + i.getTipoChavePix() + ": " + i.getConteudoChave() + " - CC - " + i.getTipoChavePix());
                         }
                         chavesOpc.put(cont, i.getConteudoChave());
                         cont++;
@@ -112,7 +112,7 @@ public class PixBo {
                     try {
                         for (Pix i : Bd.clienteBuscaContaCorrente.getChavesPix()) {
                             if(printa) {
-                                System.out.println("    [" + cont + "] " + " Chave " + i.getTipoChavePix() + ": " + i.getConteudoChave() + " - CC");
+                                System.out.println("    [" + cont + "] " + " Chave " + i.getTipoChavePix() + ": " + i.getConteudoChave() + " - CC - " + i.getTipoChavePix());
                             }
                             chavesOpc.put(cont, i.getConteudoChave());
                             cont++;
@@ -122,7 +122,7 @@ public class PixBo {
                     try {
                         for (Pix i : Bd.clienteBuscaContaPoupanca.getChavesPix()) {
                             if(printa) {
-                                System.out.println("    [" + cont + "] " + " Chave " + i.getTipoChavePix() + ": " + i.getConteudoChave() + " - CP");
+                                System.out.println("    [" + cont + "] " + " Chave " + i.getTipoChavePix() + ": " + i.getConteudoChave() + " - CP - " + i.getTipoChavePix());
                             }
                             chavesOpc.put(cont, i.getConteudoChave());
                             cont++;
@@ -153,7 +153,7 @@ public class PixBo {
                     // PASSANDO NO HASHMAP DE CHAVES PIX CONTAS POUPANCAS
                     for (Pix i : Bd.clienteBuscaContaPoupanca.getChavesPix()) {
                         if(printa) {
-                            System.out.println("    [" + cont + "] " + "Chave " + i.getTipoChavePix() + ": " + i.getConteudoChave()  + " - CP");
+                            System.out.println("    [" + cont + "] " + "Chave " + i.getTipoChavePix() + ": " + i.getConteudoChave()  + " - CP - " + i.getTipoChavePix());
                         }
                         chavesOpc.put(cont, i.getConteudoChave());
                         cont++;
@@ -178,7 +178,7 @@ public class PixBo {
                     try {
                         for (Pix i : Bd.clienteBuscaContaCorrente.getChavesPix()) {
                             if(printa) {
-                                System.out.println("    [" + cont + "] " + "Chave " + i.getTipoChavePix() + ": " + i.getConteudoChave() + " - CC");
+                                System.out.println("    [" + cont + "] " + "Chave " + i.getTipoChavePix() + ": " + i.getConteudoChave() + " - CC - " + i.getTipoChavePix());
                             }
                             chavesOpc.put(cont, i.getConteudoChave());
                             cont++;
@@ -189,7 +189,7 @@ public class PixBo {
                     try {
                         for (Pix i : Bd.clienteBuscaContaPoupanca.getChavesPix()) {
                             if(printa) {
-                                System.out.println("    [" + cont + "] " + "Chave " + i.getTipoChavePix() + ": " + i.getConteudoChave() + " - CP");
+                                System.out.println("    [" + cont + "] " + "Chave " + i.getTipoChavePix() + ": " + i.getConteudoChave() + " - CP - " + i.getTipoChavePix());
                             }
                             chavesOpc.put(cont, i.getConteudoChave());
                             cont++;
@@ -209,7 +209,7 @@ public class PixBo {
         }
 
         if(!temChave){
-            return(chavesOpc = null);
+            return null;
         }
 
         else{

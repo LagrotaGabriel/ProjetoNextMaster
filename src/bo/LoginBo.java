@@ -1,8 +1,8 @@
-package controller;
+package bo;
 import dao.Bd;
 import model.cliente.Cliente;
 
-public class Login {
+public class LoginBo {
 
     // Atributos
     private final String cpf;
@@ -11,7 +11,7 @@ public class Login {
     private static Cliente clienteAcesso;
 
     // Construtor
-    public Login(String cpf, String senha){
+    public LoginBo(String cpf, String senha){
         this.cpf = cpf;
         this.senha = senha;
         this.ativo = false;

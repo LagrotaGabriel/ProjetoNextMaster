@@ -1,4 +1,4 @@
-package controller;
+package bo;
 import dao.Bd;
 import model.cliente.Cliente;
 import model.cliente.Endereco;
@@ -6,10 +6,10 @@ import model.conta.ContaCorrente;
 import model.conta.ContaPoupanca;
 import java.util.Random;
 
-public class Cadastro {
+public class CadastroBo {
 
     public static void cadastrarUsuario(String nome, String cpf, String rg, String senha, String cidade,
-                                          String estado, String bairro, String numeroRua, String rua, String cep,
+                                        String estado, String bairro, String numeroRua, String rua, String cep,
                                         String email, String telefone, String tipoDeConta){
 
 
@@ -85,6 +85,5 @@ public class Cadastro {
             Bd.contaPoupancasMap.put(valMax+1, contaPoupanca);
         }
     }
-
 
 }

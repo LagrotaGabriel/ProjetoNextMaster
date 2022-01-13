@@ -1,33 +1,30 @@
 package view;
-import bo.ContaCorrenteBo;
-import bo.ContaPoupancaBo;
+import bo.*;
 import dao.Bd;
 import model.conta.ContaTipo;
 import util.Layout;
-
 import java.util.Scanner;
-import controller.*;
 
 public class Main {
 
     // Instâncias
     public static Layout layout = new Layout(5, 5);
     public static Scanner input = new Scanner(System.in);
-    public static Login login = new Login("", "");
+    public static LoginBo login = new LoginBo("", "");
 
     public static void main(String[] args) {
 
        //menuAcesso();
 
-        Cadastro.cadastrarUsuario("Gabriel", "47153427821", "558468263",
+        CadastroBo.cadastrarUsuario("Gabriel", "47153427821", "558468263",
                 "1234", "São Paulo", "SP", "Lauzane", "583",
                 "Avenida Coronel Manuel Py", "02442090", "gabriellagrota23@gmail.com", "979815415", "3");
 
-        Cadastro.cadastrarUsuario("Henrique", "123456789012", "558468263",
+        CadastroBo.cadastrarUsuario("Henrique", "123456789012", "558468263",
                 "1", "São Paulo", "SP", "Lauzane", "583",
                 "Avenida Coronel Manuel Py", "02442090", "email@gmail.com", "961329075", "2");
 
-        Cadastro.cadastrarUsuario("Afonso", "210987654321", "558468263",
+        CadastroBo.cadastrarUsuario("Afonso", "210987654321", "558468263",
                 "2", "São Paulo", "SP", "Lauzane", "583",
                 "Avenida Coronel Manuel Py", "02442090", "blablabla@foursys.com", "992844948", "1");
 
@@ -80,7 +77,7 @@ public class Main {
         layout.br(1);
         String loginCpf = entry("  Digite seu CPF: ");
         String loginSenha = entry("  Digite sua senha: ");
-        login = new Login(loginCpf, loginSenha);
+        login = new LoginBo(loginCpf, loginSenha);
         System.out.println(login.Acessar());
         layout.BottomLine(3);
         layout.br(1);
@@ -132,7 +129,7 @@ public class Main {
         String tipoDeConta = entry("  Escolha: ");
         layout.BottomLine(3);
         layout.br(1);
-        Cadastro.cadastrarUsuario(nome, cpf, rg, senha, cidade, estado, bairro, numeroRua, rua, cep, email, telefone,
+        CadastroBo.cadastrarUsuario(nome, cpf, rg, senha, cidade, estado, bairro, numeroRua, rua, cep, email, telefone,
                 tipoDeConta);
         layout.Loading(3);
         layout.LimparTela();

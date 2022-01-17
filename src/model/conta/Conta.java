@@ -1,5 +1,7 @@
 package model.conta;
 import model.cartao.Cartao;
+import model.cartao.credito.Credito;
+import model.cartao.debito.Debito;
 import model.cliente.Cliente;
 import model.pix.Pix;
 import java.util.ArrayList;
@@ -14,6 +16,8 @@ public abstract class Conta {
     protected ContaTipo contaTipo;
     protected Cliente cliente;
     public ArrayList<Pix> chavesPix = new ArrayList<>();
+    public ArrayList<Debito> cartoesDebitoCliente = new ArrayList<>();
+    public ArrayList<Credito> cartoesCreditoCliente = new ArrayList<>();
 
     public Conta(Cliente cliente) {
         this.cliente = cliente;
@@ -46,6 +50,20 @@ public abstract class Conta {
     }
     public ArrayList<Pix> getChavesPix() {
         return chavesPix;
+    }
+
+    public ArrayList<Debito> getCartoesDebitoCliente(){
+        return(cartoesDebitoCliente);
+    }
+    public void addCartoesDebitoCliente(Debito cartaoDebito){
+        cartoesDebitoCliente.add(cartaoDebito);
+    }
+
+    public ArrayList<Credito> getCartoesCreditoCliente(){
+        return(cartoesCreditoCliente);
+    }
+    public void addCartoesCreditoCliente(Credito cartaoCredito){
+        cartoesCreditoCliente.add(cartaoCredito);
     }
 
 }

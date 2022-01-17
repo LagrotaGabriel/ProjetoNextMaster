@@ -12,9 +12,9 @@ public class Credito extends Cartao {
     private Float totalFatura;
 
     // Construtor
-    public Credito(Integer idCartao, String numeroCartao, String bandeira, String senha, Boolean ativo, Cliente cliente, Limite limite) {
-        super(idCartao, numeroCartao, bandeira, senha, ativo, cliente);
-        this.limite = limite;
+    public Credito(Cliente cliente) {
+        super(cliente);
+        this.limite = new Limite(1000.00f, 0.00f);
     }
 
     // Getters and Setters

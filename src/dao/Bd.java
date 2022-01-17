@@ -323,36 +323,108 @@ public class Bd {
     }
 
     // Insere novo cartão de débito
-    public static String insereCartaoDebito(Debito debito){
+    public static void insereCartaoDebito(Debito debito, Integer tipoConta){
 
-        if(cartoesDebitoMap.size() == 0){
-            cartoesDebitoMap.put(1, debito);
-        }else{
-            cartoesDebitoMap.put(cartoesDebitoMap.size()+1, debito);
+        // SE A CONTA DO CLIENTE FOR UMA CONTA CORRENTE
+        if(tipoConta == 1){
+            // SE A CONTA DO CLIENTE ATUAL NÃO TIVER NENHUM CARTÃO DE DÉBITO CADASTRADO
+            if(clienteBuscaContaCorrente.cartoesDebitoCliente.isEmpty()) {
+                // SE NÃO TIVER NENHUM CARTÃO DE DÉBITO CADASTRADO NO SISTEMA
+                if (cartoesDebitoMap.size() == 0) {
+                    // CADASTRA CARTÃO DE DÉBITO NO GLOBAL COM ID 1
+                    cartoesDebitoMap.put(1, debito);
+                }
+                // SE TIVER PELO MENOS UM CARTÃO DE DÉBITO CADASTRADO NO SISTEMA
+                else {
+                    // CADASTRA CARTÃO DE DÉBITO NO GLOBAL COM ID SIZE + 1
+                    cartoesDebitoMap.put(cartoesDebitoMap.size() + 1, debito);
+                }
+                // CADASTRA CARTÃO DE DÉBITO NO ARRAYLIST DO CLIENTE ATUAL
+                clienteBuscaContaCorrente.cartoesDebitoCliente.add(debito);
+            }
         }
-
-        return("Cartão inserido com sucesso!");
+        // SE A CONTA DO CLIENTE FOR UMA CONTA POUPANÇA
+        else if(tipoConta == 2){
+            // SE A CONTA DO CLIENTE ATUAL NÃO TIVER NENHUM CARTÃO DE DÉBITO CADASTRADO
+            if(clienteBuscaContaPoupanca.cartoesDebitoCliente.isEmpty()) {
+                // SE NÃO TIVER NENHUM CARTÃO DE DÉBITO CADASTRADO NO SISTEMA
+                if (cartoesDebitoMap.size() == 0) {
+                    // CADASTRA CARTÃO DE DÉBITO NO GLOBAL COM ID 1
+                    cartoesDebitoMap.put(1, debito);
+                }
+                // SE TIVER PELO MENOS UM CARTÃO DE DÉBITO CADASTRADO NO SISTEMA
+                else {
+                    // CADASTRA CARTÃO DE DÉBITO NO GLOBAL COM ID SIZE + 1
+                    cartoesDebitoMap.put(cartoesDebitoMap.size() + 1, debito);
+                }
+                // CADASTRA CARTÃO DE DÉBITO NO ARRAYLIST DO CLIENTE ATUAL
+                clienteBuscaContaPoupanca.cartoesDebitoCliente.add(debito);
+            }
+        }
     }
 
     // Insere novo cartão de crédito
-    public static String insereCartaoCredito(Credito credito){
-        if(cartoesCreditoMap.size() == 0){
-            cartoesCreditoMap.put(1, credito);
-        }else{
-            cartoesCreditoMap.put(cartoesCreditoMap.size()+1, credito);
-        }
+    public static void insereCartaoCredito(Credito credito, Integer tipoConta){
 
-        return("Cartão inserido com sucesso!");
+        // SE A CONTA DO CLIENTE FOR UMA CONTA CORRENTE
+        if(tipoConta == 1){
+            // SE A CONTA DO CLIENTE ATUAL NÃO TIVER NENHUM CARTÃO DE CRÉDITO CADASTRADO
+            if(clienteBuscaContaCorrente.cartoesCreditoCliente.isEmpty()) {
+                // SE NÃO TIVER NENHUM CARTÃO DE CRÉDITO CADASTRADO NO SISTEMA
+                if (cartoesCreditoMap.size() == 0) {
+                    // CADASTRA CARTÃO DE CRÉDITO NO GLOBAL COM ID 1
+                    cartoesCreditoMap.put(1, credito);
+                }
+                // SE TIVER PELO MENOS UM CARTÃO DE CRÉDITO CADASTRADO NO SISTEMA
+                else {
+                    // CADASTRA CARTÃO DE CRÉDITO NO GLOBAL COM ID SIZE + 1
+                    cartoesCreditoMap.put(cartoesCreditoMap.size() + 1, credito);
+                }
+                // CADASTRA CARTÃO DE DÉBITO NO ARRAYLIST DO CLIENTE ATUAL
+                clienteBuscaContaCorrente.cartoesCreditoCliente.add(credito);
+            }
+        }
     }
 
-    // Busca cartões do cliente
+    // Busca cartões de DÉBITO do cliente
     public static Debito buscaCartoesDebitoCliente(Integer tipoConta){
 
         Debito existente = null;
 
         // CONTA CORRENTE
         if(tipoConta == 1) {
+
+            // BUSCA OS VALORES DENTRO DOS CARTÕES DE DÉBITO GLOBAIS
             for (Debito key : cartoesDebitoMap.values()) {
+                // SE ALGUM O CLIENTE DE CARTÃO DE CRÉDITO DO DB GLOBAL FOR IGUAL AO CLIENTE ATUAL
+                if (key.getCliente() == clienteBuscaContaCorrente.getCliente()) {
+                    existente = key;
+                }
+            }
+        }
+        // CONTA POUPANÇA
+        else if(tipoConta == 2){
+            // BUSCA OS VALORES DENTRO DOS CARTÕES DE DÉBITO GLOBAIS
+            for (Debito key : cartoesDebitoMap.values()) {
+                // SE ALGUM O CLIENTE DE CARTÃO DE CRÉDITO DO DB GLOBAL FOR IGUAL AO CLIENTE ATUAL
+                if (key.getCliente() == clienteBuscaContaPoupanca.getCliente()) {
+                    existente = key;
+                }
+            }
+        }
+
+        return(existente);
+
+    }
+
+    // Busca cartões de CRÉDITO do cliente
+    public static Credito buscaCartoesCreditoCliente(Integer tipoConta){
+
+        Credito existente = null;
+
+        // CONTA CORRENTE
+        if(tipoConta == 1) {
+            for (Credito key : cartoesCreditoMap.values()) {
                 System.out.println(key);
                 if (key.getCliente() == clienteBuscaContaCorrente.getCliente()) {
                     existente = key;
@@ -361,7 +433,7 @@ public class Bd {
         }
         // CONTA POUPANÇA
         else if(tipoConta == 2){
-            for (Debito key : cartoesDebitoMap.values()) {
+            for (Credito key : cartoesCreditoMap.values()) {
                 System.out.println(key);
                 if (key.getCliente() == clienteBuscaContaPoupanca.getCliente()) {
                     existente = key;

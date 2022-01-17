@@ -1,22 +1,28 @@
 package model.cartao;
 import model.cliente.*;
 
+import java.util.Random;
+import java.util.UUID;
+
 public abstract class Cartao {
 
     // Atributos
-    protected Integer idCartao;
+    protected String idCartao;
     protected String numeroCartao;
     protected String bandeira;
     protected String senha;
     protected Boolean ativo;
     protected Cliente cliente;
 
-    public Cartao(Integer idCartao, String numeroCartao, String bandeira, String senha, Boolean ativo, Cliente cliente) {
-        this.idCartao = idCartao;
-        this.numeroCartao = numeroCartao;
-        this.bandeira = bandeira;
-        this.senha = senha;
-        this.ativo = ativo;
+    Integer randomNumeroCartao = new Random().nextInt(111111,999999);
+    Integer randomNumeroSenha = new Random().nextInt(1111, 9999);
+
+    public Cartao(Cliente cliente) {
+        this.idCartao = UUID.randomUUID().toString();
+        this.numeroCartao = randomNumeroCartao.toString();
+        this.senha = randomNumeroSenha.toString();
+        this.bandeira = "VISA";
+        this.ativo = true;
         this.cliente = cliente;
     }
 
@@ -51,10 +57,10 @@ public abstract class Cartao {
     public void setCliente(Cliente cliente) {
         this.cliente = cliente;
     }
-    public Integer getIdCartao() {
+    public String getIdCartao() {
         return idCartao;
     }
-    public void setIdCartao(Integer idCartao) {
+    public void setIdCartao(String idCartao) {
         this.idCartao = idCartao;
     }
 }

@@ -1,8 +1,11 @@
 package view;
 import bo.*;
 import dao.Bd;
+import gui.TelaLogin;
 import model.conta.ContaTipo;
 import util.Layout;
+
+import java.util.Random;
 
 public class Main {
 
@@ -749,7 +752,7 @@ public class Main {
         // Layout
         layout.topLine(3);
         layout.br(1);
-        System.out.println("                   =-=-= Menu Cartões=-=-=");
+        System.out.println("                  =-=-= Menu Cartões=-=-=");
         layout.bottomLine(3);
         layout.br(1);
 
@@ -769,8 +772,6 @@ public class Main {
             layout.loading(3);
             layout.limparTela();
             if(n > 0 && n < 4){
-
-
                 if(n == 1){
                     menuMeusCartoes(tipoConta);
                 }else if(n == 2){
@@ -778,7 +779,6 @@ public class Main {
                 }else{
                     menuPrincipal(String.valueOf(tipoConta));
                 }
-
             }else{
                 System.out.println("    Entrada incorreta!");
             }
@@ -791,6 +791,40 @@ public class Main {
     }
 
     public static void menuNovoCartao(Integer tipoConta){
+
+        int n = 0;
+
+        layout.topLine(3);
+        layout.br(1);
+        System.out.println("                =-=-= Cadastrar novo cartão =-=-=");
+        layout.bottomLine(3);
+        layout.br(1);
+
+        layout.topLine(3);
+        layout.br(1);
+        System.out.println("            [1] Débito   [2] Crédito   [3] Sair");
+        layout.bottomLine(3);
+        layout.br(1);
+
+        do {
+
+            layout.topLine(3);
+            layout.br(1);
+            n = Integer.parseInt(Layout.entry("    Escolha: "));
+            layout.bottomLine(3);
+            layout.br(1);
+            layout.loading(3);
+            layout.limparTela();
+            if(n < 1 || n > 3){
+                System.out.println("Entrada inválida");
+            }else if(n == 1){
+                System.out.println(DebitoBo.validaInsercaoDebito(tipoConta));
+            }else if(n == 2){
+                System.out.println(CreditoBo.validaInsercaoCredito(tipoConta));
+            }else{
+                menuMeusCartoes(tipoConta);
+            }
+        }while(n < 1 || n > 3);
 
     }
 

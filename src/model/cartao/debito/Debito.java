@@ -11,9 +11,9 @@ public class Debito extends Cartao {
     private float limiteTransacao;
 
     // Construtor
-    public Debito(Integer idCartao, String numeroCartao, String bandeira, String senha, Boolean ativo, Cliente cliente, float limiteTransacao) {
-        super(idCartao, numeroCartao, bandeira, senha, ativo, cliente);
-        this.limiteTransacao = limiteTransacao;
+    public Debito(Cliente cliente) {
+        super(cliente);
+        this.limiteTransacao = 1000.00f;
     }
 
     // Getters e setters

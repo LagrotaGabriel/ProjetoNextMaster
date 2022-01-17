@@ -13,7 +13,6 @@ public class CadastroBo {
                                         String email, String telefone, String tipoDeConta){
 
 
-
         Integer random = new Random().nextInt(111111,999999);
         Endereco endereco = new Endereco(cidade, estado, bairro, Integer.parseInt(numeroRua), rua, cep);
         Cliente cliente = new Cliente(nome, cpf, rg, endereco, senha, email, telefone);

@@ -1,13 +1,18 @@
 package model.conta;
 
 import model.cartao.Cartao;
+import model.cartao.credito.Credito;
+import model.cartao.debito.Debito;
 import model.cliente.Cliente;
+
+import java.util.ArrayList;
 
 public class ContaCorrente extends Conta{
 
     // Atributos
     private Float taxaManutencao;
     private Float limiteCredito;
+
 
     // Construtor
     public ContaCorrente(Cliente cliente, Integer agencia, Integer conta, Float saldo, Float taxaManutencao) {
@@ -62,6 +67,8 @@ public class ContaCorrente extends Conta{
     public void setLimiteCredito(Float limiteCredito) {
         this.limiteCredito = limiteCredito;
     }
+
+
 
     // Descontar taxa
     public String descontarTaxa(){

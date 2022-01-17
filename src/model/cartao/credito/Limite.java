@@ -2,7 +2,7 @@ package model.cartao.credito;
 
 public class Limite {
 
-    private float LimiteDisponivel;
+    private float limiteDisponivel;
     private float limiteUtilizado;
     private float limiteTotal;
 
@@ -11,15 +11,15 @@ public class Limite {
 
         this.limiteTotal = limiteTotal;
         this.limiteUtilizado = limiteUtilizado;
-        LimiteDisponivel = getLimiteTotal() - getLimiteUtilizado();
+        this.limiteDisponivel = getLimiteTotal() - getLimiteUtilizado();
     }
 
     // Getters
     public float getLimiteDisponivel() {
-        return LimiteDisponivel;
+        return limiteDisponivel;
     }
     public void setLimiteDisponivel(float limiteDisponivel) {
-        LimiteDisponivel = limiteDisponivel;
+        limiteDisponivel = limiteDisponivel;
     }
     public float getLimiteUtilizado() {
         return limiteUtilizado;

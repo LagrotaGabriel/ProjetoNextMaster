@@ -1,5 +1,6 @@
 package bo;
 import dao.Bd;
+import gui.TelaContas;
 import model.cliente.Cliente;
 
 public class LoginBo {
@@ -32,10 +33,8 @@ public class LoginBo {
     }
 
     // Acessar
-    public String Acessar(){
-
+    public Boolean Acessar(){
         for(Cliente i: Bd.clientesMap.values()) {
-
             if(i.getCpf().equals(getCpf())){
 
                 if(i.getSenha().equals(getSenha())){
@@ -52,11 +51,10 @@ public class LoginBo {
 
         }
 
-
         if(isAtivo()){
-            return("  Acesso concedido");
+            return(true);
         }else{
-            return("  Acesso negado");
+            return(false);
         }
 
     }

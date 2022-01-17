@@ -3,22 +3,20 @@ import bo.*;
 import dao.Bd;
 import model.conta.ContaTipo;
 import util.Layout;
-import java.util.Scanner;
 
 public class Main {
 
     // Instâncias
     public static Layout layout = new Layout(5, 5);
-    public static Scanner input = new Scanner(System.in);
     public static LoginBo login = new LoginBo("", "");
 
     // Método main
     public static void main(String[] args) {
 
-       //menuAcesso();
 
-        CadastroBo.cadastrarUsuario("Gabriel", "47153427821", "558468263",
-                "1234", "São Paulo", "SP", "Lauzane", "583",
+
+        CadastroBo.cadastrarUsuario("Gabriel", "471", "558468263",
+                "1", "São Paulo", "SP", "Lauzane", "583",
                 "Avenida Coronel Manuel Py", "02442090", "gabriellagrota23@gmail.com", "979815415", "3");
 
         CadastroBo.cadastrarUsuario("Henrique", "123456789012", "558468263",
@@ -29,7 +27,10 @@ public class Main {
                 "2", "São Paulo", "SP", "Lauzane", "583",
                 "Avenida Coronel Manuel Py", "02442090", "blablabla@foursys.com", "992844948", "1");
 
+
         menuLogin();
+
+        //TelaLogin telaLogin = new TelaLogin();
 
     }
 
@@ -46,8 +47,7 @@ public class Main {
             System.out.println("           [1] Login     [2] Cadastro     [3] Sair");
             layout.bottomLine(3);
             layout.br(1);
-            System.out.print("           Escolha: ");
-            choice = input.nextInt();
+            choice = Integer.parseInt(Layout.entry("           Escolha: "));
             layout.loading(3);
             layout.limparTela();
             if(choice == 1){
@@ -71,8 +71,8 @@ public class Main {
         layout.br(1);
         layout.topLine(3);
         layout.br(1);
-        String loginCpf = entry("  Digite seu CPF: ");
-        String loginSenha = entry("  Digite sua senha: ");
+        String loginCpf = Layout.entry("  Digite seu CPF: ");
+        String loginSenha = Layout.entry("  Digite sua senha: ");
         login = new LoginBo(loginCpf, loginSenha);
         System.out.println(login.Acessar());
         layout.bottomLine(3);
@@ -99,19 +99,19 @@ public class Main {
         layout.topLine(3);
         layout.br(1);
 
-        String nome = entry("  Digite seu nome: ");
+        String nome = Layout.entry("  Digite seu nome: ");
 
-        String cpf = entry("  Digite seu CPF: ");
-        String rg = entry("  Digite seu RG: ");
-        String email = entry("  Digite seu Email: ");
-        String telefone = entry("  Digite seu Telefone: ");
-        String senha = entry("  Digite a sua senha: ");
-        String estado = entry("  Digite o seu estado: ");
-        String cidade = entry("  Digite a sua cidade: ");
-        String bairro = entry("  Digite o nome do seu bairro: ");
-        String rua = entry("  Digite o nome da sua rua: ");
-        String numeroRua = entry("  Digite o número da casa: ");
-        String cep = entry("  Digite o CEP: ");
+        String cpf = Layout.entry("  Digite seu CPF: ");
+        String rg = Layout.entry("  Digite seu RG: ");
+        String email = Layout.entry("  Digite seu Email: ");
+        String telefone = Layout.entry("  Digite seu Telefone: ");
+        String senha = Layout.entry("  Digite a sua senha: ");
+        String estado = Layout.entry("  Digite o seu estado: ");
+        String cidade = Layout.entry("  Digite a sua cidade: ");
+        String bairro = Layout.entry("  Digite o nome do seu bairro: ");
+        String rua = Layout.entry("  Digite o nome da sua rua: ");
+        String numeroRua = Layout.entry("  Digite o número da casa: ");
+        String cep = Layout.entry("  Digite o CEP: ");
         layout.bottomLine(3);
         layout.br(1);
         layout.topLine(3);
@@ -122,7 +122,7 @@ public class Main {
         layout.br(1);
         layout.topLine(3);
         layout.br(1);
-        String tipoDeConta = entry("  Escolha: ");
+        String tipoDeConta = Layout.entry("  Escolha: ");
         layout.bottomLine(3);
         layout.br(1);
         CadastroBo.cadastrarUsuario(nome, cpf, rg, senha, cidade, estado, bairro, numeroRua, rua, cep, email, telefone,
@@ -166,7 +166,7 @@ public class Main {
                 layout.br(1);
                 layout.topLine(2);
                 layout.br(1);
-                n = entry("    Escolha: ");
+                n = Layout.entry("    Escolha: ");
                 layout.bottomLine(2);
                 layout.br(1);
                 layout.loading(2);
@@ -192,7 +192,7 @@ public class Main {
                 layout.br(1);
                 layout.topLine(2);
                 layout.br(1);
-                n = entry("    Escolha: ");
+                n = Layout.entry("    Escolha: ");
                 layout.bottomLine(2);
                 layout.br(1);
                 layout.loading(2);
@@ -218,7 +218,7 @@ public class Main {
                 layout.br(1);
                 layout.topLine(2);
                 layout.br(1);
-                n = entry("    Escolha: ");
+                n = Layout.entry("    Escolha: ");
                 layout.bottomLine(2);
                 layout.br(1);
                 layout.loading(2);
@@ -281,7 +281,7 @@ public class Main {
                 // Entrada do usuário
                 layout.topLine(3);
                 layout.br(1);
-                n = entry("    Escolha: ");
+                n = Layout.entry("    Escolha: ");
                 layout.bottomLine(3);
                 layout.br(1);
 
@@ -312,6 +312,7 @@ public class Main {
 
                 // Transferência
                 else if (Integer.parseInt(n) == 3) {
+                    menuCartoes(1);
                     n = "0";
                 }
 
@@ -395,7 +396,7 @@ public class Main {
                 // Entrada do usuário
                 layout.topLine(3);
                 layout.br(1);
-                n = entry("    Escolha: ");
+                n = Layout.entry("    Escolha: ");
                 layout.bottomLine(3);
                 layout.br(1);
 
@@ -426,6 +427,7 @@ public class Main {
 
                 // Transferir
                 else if (Integer.parseInt(n) == 3) {
+                    menuCartoes(1);
                     n = "0";
                 }
 
@@ -487,7 +489,7 @@ public class Main {
         layout.topLine(2);
         layout.br(1);
         System.out.println("  [Digite 0 para sair]");
-        return(Float.valueOf(entry("  Digite o valor do depósito: R$ ")));
+        return(Float.valueOf(Layout.entry("  Digite o valor do depósito: R$ ")));
 
     }
 
@@ -504,7 +506,7 @@ public class Main {
         layout.topLine(2);
         layout.br(1);
         System.out.println("  [Digite 0 para sair]");
-        return(Float.valueOf(entry("  Digite o valor do saque: R$ ")));
+        return(Float.valueOf(Layout.entry("  Digite o valor do saque: R$ ")));
 
     }
 
@@ -534,7 +536,7 @@ public class Main {
             // Layout
             layout.topLine(3);
             layout.br(1);
-            n = entry("    Escolha: ");
+            n = Layout.entry("    Escolha: ");
             layout.bottomLine(3);
             layout.br(1);
             layout.loading(3);
@@ -607,7 +609,7 @@ public class Main {
             // Layout
             layout.topLine(3);
             layout.br(1);
-            n = entry("    Escolha: ");
+            n = Layout.entry("    Escolha: ");
             layout.bottomLine(3);
             layout.br(1);
 
@@ -677,7 +679,7 @@ public class Main {
 
             layout.topLine(3);
             layout.br(1);
-            String n = entry("    Escolha: ");
+            String n = Layout.entry("    Escolha: ");
             layout.bottomLine(3);
             layout.br(1);
             if (contaTipo == 1) {
@@ -704,8 +706,8 @@ public class Main {
         layout.br(1);
 
         // Entrada
-        String transfChave = entry("    Chave de transferência: ");
-        Float transfValor = Float.parseFloat(entry("    Valor da transferência: R$ "));
+        String transfChave = Layout.entry("    Chave de transferência: ");
+        Float transfValor = Float.parseFloat(Layout.entry("    Valor da transferência: R$ "));
 
         layout.bottomLine(3);
         layout.br(1);
@@ -739,10 +741,75 @@ public class Main {
     }
     /* ---------------------------------------- FIM - PARTE PIX ---------------------------------------------- */
 
-    // Entry
-    public static String entry(String texto) {
-        System.out.print(texto);
-        return input.next();
+    // Menu Cartões
+    public static void menuCartoes(Integer tipoConta){
+
+        int n;
+
+        // Layout
+        layout.topLine(3);
+        layout.br(1);
+        System.out.println("                   =-=-= Menu Cartões=-=-=");
+        layout.bottomLine(3);
+        layout.br(1);
+
+        // Opções
+        layout.topLine(3);
+        layout.br(1);
+        System.out.println("       [1] Meus cartões   [2] Novo cartão   [3] Sair");
+        layout.bottomLine(3);
+        layout.br(1);
+
+        do {
+            layout.topLine(3);
+            layout.br(1);
+            n = Integer.parseInt(Layout.entry("    Escolha: "));
+            layout.bottomLine(3);
+            layout.br(1);
+            layout.loading(3);
+            layout.limparTela();
+            if(n > 0 && n < 4){
+
+
+                if(n == 1){
+                    menuMeusCartoes(tipoConta);
+                }else if(n == 2){
+                    menuNovoCartao(tipoConta);
+                }else{
+                    menuPrincipal(String.valueOf(tipoConta));
+                }
+
+            }else{
+                System.out.println("    Entrada incorreta!");
+            }
+        }while(n < 1 || n > 3);
+
     }
+
+    public static void menuMeusCartoes(Integer tipoConta){
+
+    }
+
+    public static void menuNovoCartao(Integer tipoConta){
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 }

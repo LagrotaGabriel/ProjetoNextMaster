@@ -1,9 +1,7 @@
 package model.cartao.credito;
-
 import model.cartao.Cartao;
 import model.cartao.Transacao;
 import model.cliente.Cliente;
-
 import java.util.ArrayList;
 
 public class Credito extends Cartao {
@@ -14,16 +12,9 @@ public class Credito extends Cartao {
     private Float totalFatura;
 
     // Construtor
-    public Credito(String numeroCartao, String codigoDeSeguranca, Cliente cliente, String validade, String senha,
-                   Limite limite, ArrayList<Transacao> fatura, Float totalFatura) {
-        this.numeroCartao = numeroCartao;
-        this.codigoDeSeguranca = codigoDeSeguranca;
-        this.cliente = cliente;
-        this.validade = validade;
-        this.senha = senha;
+    public Credito(Integer idCartao, String numeroCartao, String bandeira, String senha, Boolean ativo, Cliente cliente, Limite limite) {
+        super(idCartao, numeroCartao, bandeira, senha, ativo, cliente);
         this.limite = limite;
-        this.fatura = fatura;
-        this.totalFatura = totalFatura;
     }
 
     // Getters and Setters

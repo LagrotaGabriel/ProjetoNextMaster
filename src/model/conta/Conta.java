@@ -23,20 +23,8 @@ public abstract class Conta {
     public Integer getAgencia() {
         return agencia;
     }
-    public void setAgencia(Integer agencia) {
-        this.agencia = agencia;
-    }
     public Integer getConta() {
         return conta;
-    }
-    public void setConta(Integer conta) {
-        this.conta = conta;
-    }
-    public Cartao getCartao() {
-        return cartao;
-    }
-    public void setCartao(Cartao cartao) {
-        this.cartao = cartao;
     }
     public Float getSaldo() {
         return saldo;
@@ -59,9 +47,5 @@ public abstract class Conta {
     public ArrayList<Pix> getChavesPix() {
         return chavesPix;
     }
-    public void setChavesPix(ArrayList<Pix> chavesPix) {
-        this.chavesPix = chavesPix;
-    }
-
 
 }

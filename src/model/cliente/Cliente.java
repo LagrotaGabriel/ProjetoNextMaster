@@ -29,11 +29,20 @@ public class Cliente {
     public String getNome() {
         return nome;
     }
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
     public String getCpf() {
         return cpf;
+    }
+    public String getSenha() {
+        return senha;
+    }
+    public String getEmail() {
+        return email;
+    }
+    public String getTelefone() {
+        return telefone;
+    }
+    public void setNome(String nome) {
+        this.nome = nome;
     }
     public void setCpf(String cpf) {
         this.cpf = cpf;
@@ -50,9 +59,6 @@ public class Cliente {
     public void setEndereco(Endereco endereco) {
         this.endereco = endereco;
     }
-    public String getSenha() {
-        return senha;
-    }
     public void setSenha(String senha) {
         this.senha = senha;
     }
@@ -62,14 +68,8 @@ public class Cliente {
     public void setPix(Pix pix) {
         this.pix = pix;
     }
-    public String getEmail() {
-        return email;
-    }
     public void setEmail(String email) {
         this.email = email;
-    }
-    public String getTelefone() {
-        return telefone;
     }
     public void setTelefone(String telefone) {
         this.telefone = telefone;

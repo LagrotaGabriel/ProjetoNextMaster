@@ -26,9 +26,6 @@ public class ContaCorrente extends Conta{
     public Integer getAgencia() {
         return agencia;
     }
-    public void setAgencia(Integer agencia) {
-        this.agencia = agencia;
-    }
     public Integer getConta() {
         return this.conta;
     }

@@ -4,11 +4,21 @@ import model.cliente.*;
 public abstract class Cartao {
 
     // Atributos
+    protected Integer idCartao;
     protected String numeroCartao;
-    protected String codigoDeSeguranca;
-    protected Cliente cliente;
-    protected String validade;
+    protected String bandeira;
     protected String senha;
+    protected Boolean ativo;
+    protected Cliente cliente;
+
+    public Cartao(Integer idCartao, String numeroCartao, String bandeira, String senha, Boolean ativo, Cliente cliente) {
+        this.idCartao = idCartao;
+        this.numeroCartao = numeroCartao;
+        this.bandeira = bandeira;
+        this.senha = senha;
+        this.ativo = ativo;
+        this.cliente = cliente;
+    }
 
     // Getters e Setters
     public String getNumeroCartao() {
@@ -17,11 +27,23 @@ public abstract class Cartao {
     public void setNumeroCartao(String numeroCartao) {
         this.numeroCartao = numeroCartao;
     }
-    public String getCodigoDeSeguranca() {
-        return codigoDeSeguranca;
+    public String getBandeira() {
+        return bandeira;
     }
-    public void setCodigoDeSeguranca(String codigoDeSeguranca) {
-        this.codigoDeSeguranca = codigoDeSeguranca;
+    public void setBandeira(String codigoDeSeguranca) {
+        this.bandeira = codigoDeSeguranca;
+    }
+    public String getSenha() {
+        return senha;
+    }
+    public void setSenha(String senha) {
+        this.senha = senha;
+    }
+    public Boolean isAtivo() {
+        return ativo;
+    }
+    public void setAtivo(Boolean ativo) {
+        this.ativo = ativo;
     }
     public Cliente getCliente() {
         return cliente;
@@ -29,16 +51,10 @@ public abstract class Cartao {
     public void setCliente(Cliente cliente) {
         this.cliente = cliente;
     }
-    public String getValidade() {
-        return validade;
+    public Integer getIdCartao() {
+        return idCartao;
     }
-    public void setValidade(String validade) {
-        this.validade = validade;
-    }
-    public String getSenha() {
-        return senha;
-    }
-    public void setSenha(String senha) {
-        this.senha = senha;
+    public void setIdCartao(Integer idCartao) {
+        this.idCartao = idCartao;
     }
 }

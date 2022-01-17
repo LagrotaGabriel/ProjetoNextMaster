@@ -18,19 +18,38 @@ public class PixBo {
 
             // VERIFICA SE SALDO É SUFICIENTE PARA TRANSAÇÃO
             if(Bd.clienteBuscaContaCorrente.getSaldo() > transfValor) {
-                // RETIRA O SALDO DA CONTA DO CLIENTE
-                Bd.clienteBuscaContaCorrente.setSaldo(Bd.clienteBuscaContaCorrente.getSaldo() - transfValor);
+
 
                 // SE A CONTA DE TRANSFERÊNCIA FOR CORRENTE
                 if (Bd.contaCorrenteTransf != null) {
+
+                    // RETIRANDO SALDO DA CONTA DO CLIENTE
+                    Bd.clienteBuscaContaCorrente.setSaldo(Bd.clienteBuscaContaCorrente.getSaldo() - (transfValor));
+                    // ADICIONANDO SALDO NA CONTA A RECEBER
                     Bd.contaCorrenteTransf.setSaldo(Bd.contaCorrenteTransf.getSaldo() + transfValor);
+                    // RETORNANDO SALDO ATUAL PÓS-TRANSFERÊNCIA
                     return("    Transferência realizada. Seu saldo é: R$ " + Bd.clienteBuscaContaCorrente.getSaldo());
                 }
 
                 // SE A CONTA DE TRANSFERÊNCIA FOR POUPANÇA
                 if (Bd.contaPoupancaTransf != null) {
-                    Bd.contaPoupancaTransf.setSaldo(Bd.contaPoupancaTransf.getSaldo() + transfValor);
-                    return("    Transferência realizada. Seu saldo é: R$ " + Bd.clienteBuscaContaCorrente.getSaldo());
+
+                    // VERIFICA SE O CLIENTE ATUAL POSSUI SALDO PARA DEBITAR A TAXA
+                    if(Bd.clienteBuscaContaCorrente.getSaldo() > transfValor + 5.60f) {
+
+                        // RETIRANDO SALDO DA CONTA DO CLIENTE
+                        Bd.clienteBuscaContaCorrente.setSaldo(Bd.clienteBuscaContaCorrente.getSaldo() - (transfValor + 5.60f));
+                        // ADICIONANDO SALDO NA CONTA A RECEBER
+                        Bd.contaPoupancaTransf.setSaldo(Bd.contaPoupancaTransf.getSaldo() + transfValor);
+                        // RETORNANDO SALDO ATUAL PÓS-TRANSFERÊNCIA
+                        return ("    Transferência realizada. Seu saldo é: R$ " + Bd.clienteBuscaContaCorrente.getSaldo());
+
+                    }
+                    // SE O CLIENTE NÃO POSSUIR SALDO COM O INCREMENTO DA TAXA DE TRANSFERÊNCIA
+                    else{
+                        return("    Não há saldo suficiente. Seu saldo é: R$ " + Bd.clienteBuscaContaCorrente.getSaldo());
+                    }
+
                 }
             }
             // SEM SALDO SUFICIENTE PARA TRANSFERÊNCIA
@@ -45,13 +64,23 @@ public class PixBo {
             // VERIFICA SE SALDO É SUFICIENTE PARA TRANSAÇÃO
             if(Bd.clienteBuscaContaPoupanca.getSaldo() > transfValor) {
 
-                // RETIRA O SALDO DA CONTA DO CLIENTE
-                Bd.clienteBuscaContaPoupanca.setSaldo(Bd.clienteBuscaContaPoupanca.getSaldo() - transfValor);
+
 
                 // SE A CONTA DE TRANSFERÊNCIA FOR CORRENTE
                 if (Bd.contaCorrenteTransf != null) {
-                    Bd.contaCorrenteTransf.setSaldo(Bd.contaCorrenteTransf.getSaldo() + transfValor);
-                    return("    Transferência realizada. Seu saldo é: R$ " + Bd.clienteBuscaContaPoupanca.getSaldo());
+
+                    // VERIFICA SE APÓS INCREMENTO DE TAXA CLIENTE AINDA POSSUI SALDO SUFICIENTE
+                    if(Bd.clienteBuscaContaPoupanca.getSaldo() > (transfValor + 5.60f)) {
+                        // RETIRA O SALDO DA CONTA DO CLIENTE
+                        Bd.clienteBuscaContaPoupanca.setSaldo(Bd.clienteBuscaContaPoupanca.getSaldo() - (transfValor + 5.60f));
+                        // INCREMENTANDO O SALDO DO QUE RECEBEU
+                        Bd.contaCorrenteTransf.setSaldo(Bd.contaCorrenteTransf.getSaldo() + transfValor);
+                        return ("    Transferência realizada. Seu saldo é: R$ " + Bd.clienteBuscaContaPoupanca.getSaldo());
+                    }
+                    // SE NÃO POSSUIR SALDO COM O INCREMENTO DA TAXA
+                    else{
+                        return("    Não há saldo suficiente. Seu saldo é: R$ " + Bd.clienteBuscaContaPoupanca.getSaldo());
+                    }
                 }
 
                 // SE A CONTA DE TRANSFERÊNCIA FOR POUPANÇA

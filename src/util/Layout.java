@@ -1,9 +1,13 @@
 package util;
+import java.text.NumberFormat;
+import java.util.Locale;
+import java.util.Scanner;
 
 public class Layout {
 
     // Atributos
     Integer timer1, timer2, size;
+    public static Scanner input = new Scanner(System.in);
 
     // Construtor
     public Layout(Integer timer1,Integer  timer2){
@@ -79,11 +83,17 @@ public class Layout {
         }
     }
 
-    /* FORMATA PARA REAIS
+    //FORMATA PARA REAIS
     public static String convertToReais(double valor) {
         Locale ptBr = new Locale("pt", "BR");
         return NumberFormat.getCurrencyInstance(ptBr).format(valor);
-    }*/
+    }
+
+    // Entry
+    public static String entry(String texto) {
+        System.out.print(texto);
+        return input.next();
+    }
 
     // Barrinha de carregamento
     public void loading(Integer sz){

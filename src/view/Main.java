@@ -580,6 +580,49 @@ public class Main {
 
         }
     }
+
+    // Menu Cartões
+    public static void menuCartoes(Integer tipoConta){
+
+        int n;
+
+        // Layout
+        layout.topLine(3);
+        layout.br(1);
+        System.out.println("                  =-=-= Menu Cartões=-=-=");
+        layout.bottomLine(3);
+        layout.br(1);
+
+        // Opções
+        layout.topLine(3);
+        layout.br(1);
+        System.out.println("       [1] Meus cartões   [2] Novo cartão   [3] Sair");
+        layout.bottomLine(3);
+        layout.br(1);
+
+        do {
+            layout.topLine(3);
+            layout.br(1);
+            n = Integer.parseInt(Layout.entry("    Escolha: "));
+            layout.bottomLine(3);
+            layout.br(1);
+            layout.loading(3);
+            layout.limparTela();
+            if(n > 0 && n < 4){
+                if(n == 1){
+                    menuMeusCartoes(tipoConta);
+                }else if(n == 2){
+                    menuNovoCartao(tipoConta);
+
+                }else{
+                    menuPrincipal(String.valueOf(tipoConta));
+                }
+            }else{
+                System.out.println("    Entrada incorreta!");
+            }
+        }while(n < 1 || n > 3);
+
+    }
     /* -------------------------------------- FIM - MENU PRINCIPAL -------------------------------------------- */
 
     /* --------------------------------------- INÍCIO - PARTE PIX --------------------------------------------- */
@@ -741,49 +784,9 @@ public class Main {
     }
     /* ---------------------------------------- FIM - PARTE PIX ---------------------------------------------- */
 
-    // Menu Cartões
-    public static void menuCartoes(Integer tipoConta){
+    /* -----------------------------------=- INÍCIO - PARTE CARTÕES ------------------------------------------ */
 
-        int n;
-
-        // Layout
-        layout.topLine(3);
-        layout.br(1);
-        System.out.println("                  =-=-= Menu Cartões=-=-=");
-        layout.bottomLine(3);
-        layout.br(1);
-
-        // Opções
-        layout.topLine(3);
-        layout.br(1);
-        System.out.println("       [1] Meus cartões   [2] Novo cartão   [3] Sair");
-        layout.bottomLine(3);
-        layout.br(1);
-
-        do {
-            layout.topLine(3);
-            layout.br(1);
-            n = Integer.parseInt(Layout.entry("    Escolha: "));
-            layout.bottomLine(3);
-            layout.br(1);
-            layout.loading(3);
-            layout.limparTela();
-            if(n > 0 && n < 4){
-                if(n == 1){
-                    menuMeusCartoes(tipoConta);
-                }else if(n == 2){
-                    menuNovoCartao(tipoConta);
-
-                }else{
-                    menuPrincipal(String.valueOf(tipoConta));
-                }
-            }else{
-                System.out.println("    Entrada incorreta!");
-            }
-        }while(n < 1 || n > 3);
-
-    }
-
+    // SELEÇÃO DE CARTÕES DO CLIENTE
     public static void menuMeusCartoes(Integer tipoConta){
 
         int n = 0, cont = 0;
@@ -822,6 +825,10 @@ public class Main {
                 layout.topLine(3);
                 layout.br(1);
                 n = Integer.parseInt(Layout.entry("    Escolha: "));
+                layout.bottomLine(3);
+                layout.br(1);
+                layout.loading(3);
+                layout.limparTela();
 
                 // SE TIVER CARTÃO DE CRÉDITO E DÉBITO APARECENDO NA LISTAGEM
                 if(cont == 3) {
@@ -853,18 +860,25 @@ public class Main {
                 // SE TIVER SÓ UM CARTÃO APARECENDO NA LISTAGEM
                 else if(cont == 2){
 
-                    // RODA A LISTAGEM
-                    for (Map.Entry<Cartao, String> entry : listar.entrySet()) {
+                    // SE O CLIENTE SELECIONAR A OPÇÃO 1
+                    if(n == 1) {
+                        // RODA A LISTAGEM
+                        for (Map.Entry<Cartao, String> entry : listar.entrySet()) {
 
-                        // SE FOR CRÉDITO
-                        if(entry.getValue().equals("Crédito")){
-                            menuCartaoSelecionado(tipoConta, 2);
-                        }
-                        // SE FOR DÉBITO
-                        else if(entry.getValue().equals("Débito")){
-                            menuCartaoSelecionado(tipoConta, 1);
-                        }
+                            // SE FOR CRÉDITO
+                            if (entry.getValue().equals("Crédito")) {
+                                menuCartaoSelecionado(tipoConta, 2);
+                            }
+                            // SE FOR DÉBITO
+                            else if (entry.getValue().equals("Débito")) {
+                                menuCartaoSelecionado(tipoConta, 1);
+                            }
 
+                        }
+                    }
+                    // VOLTA AO MENU DE CARTÕES
+                    else if(n == 2){
+                        menuCartoes(tipoConta);
                     }
 
                 }
@@ -882,6 +896,7 @@ public class Main {
 
     }
 
+    // CRIAÇÃO DE NOVO CARTÃO
     public static void menuNovoCartao(Integer tipoConta){
 
         int n = 0;
@@ -953,10 +968,8 @@ public class Main {
                 layout.br(1);
 
                 // LAYOUT INFORMAÇÕES DO CARTÃO DE DÉBITO CC
-                System.out.print("  Numero: " + Bd.clienteBuscaContaCorrente.getCartoesDebitoCliente().get(0).getNumeroCartao());
+                System.out.print("    Numero: " + Bd.clienteBuscaContaCorrente.getCartoesDebitoCliente().get(0).getNumeroCartao());
                 System.out.print("  ||  Bandeira: " + Bd.clienteBuscaContaCorrente.getCartoesDebitoCliente().get(0).getBandeira());
-                System.out.print("  ||  Limite: " + Layout.convertToReais(Bd.clienteBuscaContaCorrente.getCartoesDebitoCliente().get(0).getLimiteTransacao()));
-
                 // SE O CARTÃO DE DÉBITO CC ESTIVER ATIVADO
                 if(Bd.clienteBuscaContaCorrente.getCartoesDebitoCliente().get(0).isAtivo()) {
                     System.out.println("  ||  Status: ATIVO");
@@ -964,7 +977,7 @@ public class Main {
                     layout.br(1);
 
                     // OPÇÕES
-                    System.out.println("       [1] Desativar   [2] Comprar   [3] Extrato   [4] Sair");
+                    System.out.println("     [1] Desativar   [2] Comprar   [3] Extrato   [4] Sair");
 
                     // Layout
                     layout.bottomLine(3);
@@ -984,7 +997,7 @@ public class Main {
 
                         // DESATIVAR CARTÃO DE DÉBITO CC
                         if(n == 1){
-
+                            System.out.println(DebitoBo.ativaOuDesativaCartao(tipoConta, false));
                         }
                         // COMPRAR COM O CARTÃO DE DÉBITO CC
                         else if(n == 2){
@@ -1030,7 +1043,7 @@ public class Main {
 
                         // ATIVAR CARTÃO DE DÉBITO CC
                         if(n == 1){
-
+                            System.out.println(DebitoBo.ativaOuDesativaCartao(tipoConta, true));
                         }
                         // SAIR DO MENU DO CARTÃO DE DÉBITO CC
                         else if(n == 2){
@@ -1051,7 +1064,7 @@ public class Main {
                 layout.br(1);
 
                 // LAYOUT INFORMAÇÕES DO CARTÃO DE DÉBITO CP
-                System.out.print("  Numero: " + Bd.clienteBuscaContaPoupanca.getCartoesDebitoCliente().get(0).getNumeroCartao());
+                System.out.print("    Numero: " + Bd.clienteBuscaContaPoupanca.getCartoesDebitoCliente().get(0).getNumeroCartao());
                 System.out.print("  ||  Bandeira: " + Bd.clienteBuscaContaPoupanca.getCartoesDebitoCliente().get(0).getBandeira());
                 System.out.print("  ||  Limite: " + Layout.convertToReais(Bd.clienteBuscaContaPoupanca.getCartoesDebitoCliente().get(0).getLimiteTransacao()));
 
@@ -1082,7 +1095,7 @@ public class Main {
 
                         // DESATIVAR CARTÃO DE DÉBITO CP
                         if(n == 1){
-
+                            System.out.println(DebitoBo.ativaOuDesativaCartao(tipoConta, false));
                         }
                         // COMPRAR COM O CARTÃO DE DÉBITO CP
                         else if(n == 2){
@@ -1128,7 +1141,7 @@ public class Main {
 
                         // ATIVAR CARTÃO DE DÉBITO CP
                         if(n == 1){
-
+                            System.out.println(DebitoBo.ativaOuDesativaCartao(tipoConta, true));
                         }
                         // SAIR DO MENU DO CARTÃO DE DÉBITO CP
                         else if(n == 2){
@@ -1153,12 +1166,10 @@ public class Main {
                 layout.br(1);
 
                 // LAYOUT INFORMAÇÕES DO CARTÃO DE CRÉDITO CC
-                System.out.print("  Numero: " + Bd.clienteBuscaContaCorrente.getCartoesCreditoCliente().get(0).getNumeroCartao());
-                System.out.println("  ||  Bandeira: " + Bd.clienteBuscaContaCorrente.getCartoesCreditoCliente().get(0).getBandeira());
-                System.out.print("  Limite total: " + Layout.convertToReais(Bd.clienteBuscaContaCorrente.getCartoesCreditoCliente().get(0).getLimite().getLimiteTotal()));
-                System.out.print("  ||  Utilizado: " + Layout.convertToReais(Bd.clienteBuscaContaCorrente.getCartoesCreditoCliente().get(0).getLimite().getLimiteUtilizado()));
-                System.out.println("  Limite disponível: " + Layout.convertToReais(Bd.clienteBuscaContaCorrente.getCartoesCreditoCliente().get(0).getLimite().getLimiteDisponivel()));
-
+                System.out.print("    Limite total: " + Layout.convertToReais(Bd.clienteBuscaContaCorrente.getCartoesCreditoCliente().get(0).getLimite().getLimiteTotal()));
+                System.out.println("  ||  Disponível: " + Layout.convertToReais(Bd.clienteBuscaContaCorrente.getCartoesCreditoCliente().get(0).getLimite().getLimiteDisponivel()));
+                System.out.print("    Numero: " + Bd.clienteBuscaContaCorrente.getCartoesCreditoCliente().get(0).getNumeroCartao());
+                System.out.print("  ||  Bandeira: " + Bd.clienteBuscaContaCorrente.getCartoesCreditoCliente().get(0).getBandeira());
                 // SE O CARTÃO DE CRÉDITO CC ESTIVER ATIVADO
                 if(Bd.clienteBuscaContaCorrente.getCartoesCreditoCliente().get(0).isAtivo()) {
                     System.out.println("  ||  Status: ATIVO");
@@ -1187,7 +1198,7 @@ public class Main {
 
                         // DESATIVAR CARTÃO DE CRÉDITO CC
                         if(n == 1){
-
+                            CreditoBo.ativaOuDesativaCartao(tipoConta, false);
                         }
                         // COMPRAR COM O CARTÃO DE CRÉDITO CC
                         else if(n == 2){
@@ -1236,7 +1247,7 @@ public class Main {
 
                         // ATIVAR CARTÃO DE CRÉDITO CC
                         if(n == 1){
-
+                            CreditoBo.ativaOuDesativaCartao(tipoConta, true);
                         }
                         // SAIR DO MENU DO CARTÃO DE CRÉDITO CC
                         else if(n == 2){
@@ -1255,14 +1266,13 @@ public class Main {
                 layout.topLine(3);
                 layout.br(1);
 
-                // LAYOUT INFORMAÇÕES DO CARTÃO DE CRÉDITO CC
-                System.out.print("  Numero: " + Bd.clienteBuscaContaPoupanca.getCartoesCreditoCliente().get(0).getNumeroCartao());
-                System.out.println("  ||  Bandeira: " + Bd.clienteBuscaContaPoupanca.getCartoesCreditoCliente().get(0).getBandeira());
-                System.out.print("  Limite total: " + Layout.convertToReais(Bd.clienteBuscaContaPoupanca.getCartoesCreditoCliente().get(0).getLimite().getLimiteTotal()));
-                System.out.print("  ||  Utilizado: " + Layout.convertToReais(Bd.clienteBuscaContaPoupanca.getCartoesCreditoCliente().get(0).getLimite().getLimiteUtilizado()));
-                System.out.println("  Limite disponível: " + Layout.convertToReais(Bd.clienteBuscaContaPoupanca.getCartoesCreditoCliente().get(0).getLimite().getLimiteDisponivel()));
+                // LAYOUT INFORMAÇÕES DO CARTÃO DE CRÉDITO CP
+                System.out.print("    Limite total: " + Layout.convertToReais(Bd.clienteBuscaContaPoupanca.getCartoesCreditoCliente().get(0).getLimite().getLimiteTotal()));
+                System.out.println("  ||  Disponível: " + Layout.convertToReais(Bd.clienteBuscaContaPoupanca.getCartoesCreditoCliente().get(0).getLimite().getLimiteDisponivel()));
+                System.out.print("    Numero: " + Bd.clienteBuscaContaPoupanca.getCartoesCreditoCliente().get(0).getNumeroCartao());
+                System.out.print("  ||  Bandeira: " + Bd.clienteBuscaContaPoupanca.getCartoesCreditoCliente().get(0).getBandeira());
 
-                // SE O CARTÃO DE CRÉDITO CC ESTIVER ATIVADO
+                // SE O CARTÃO DE CRÉDITO CP ESTIVER ATIVADO
                 if(Bd.clienteBuscaContaPoupanca.getCartoesCreditoCliente().get(0).isAtivo()) {
                     System.out.println("  ||  Status: ATIVO");
                     layout.centralLine(3);
@@ -1288,23 +1298,23 @@ public class Main {
                         layout.loading(3);
                         layout.limparTela();
 
-                        // DESATIVAR CARTÃO DE CRÉDITO CC
+                        // DESATIVAR CARTÃO DE CRÉDITO CP
                         if(n == 1){
-
+                            CreditoBo.ativaOuDesativaCartao(tipoConta, false);
                         }
-                        // COMPRAR COM O CARTÃO DE CRÉDITO CC
+                        // COMPRAR COM O CARTÃO DE CRÉDITO CP
                         else if(n == 2){
 
                         }
-                        // VER FATURA DO CARTÃO DE CRÉDITO CC
+                        // VER FATURA DO CARTÃO DE CRÉDITO CP
                         else if(n == 3){
 
                         }
-                        // PAGAR FATURA DO CARTÃO DE CRÉDITO CC
+                        // PAGAR FATURA DO CARTÃO DE CRÉDITO CP
                         else if(n == 4){
 
                         }
-                        // SAIR DO MENU DO CARTÃO DE CREDITO CC
+                        // SAIR DO MENU DO CARTÃO DE CREDITO CP
                         else if(n == 5){
                             menuCartoes(tipoConta);
                         }
@@ -1312,7 +1322,7 @@ public class Main {
 
                 }
 
-                // SE O CARTÃO DE CRÉDITO CC ESTIVER DESATIVADO
+                // SE O CARTÃO DE CRÉDITO CP ESTIVER DESATIVADO
                 else{
                     System.out.println("  ||  Status: INATIVO");
                     layout.centralLine(3);
@@ -1337,11 +1347,11 @@ public class Main {
                         layout.loading(3);
                         layout.limparTela();
 
-                        // ATIVAR CARTÃO DE CRÉDITO CC
+                        // ATIVAR CARTÃO DE CRÉDITO CP
                         if(n == 1){
-
+                            CreditoBo.ativaOuDesativaCartao(tipoConta, true);
                         }
-                        // SAIR DO MENU DO CARTÃO DE CRÉDITO CC
+                        // SAIR DO MENU DO CARTÃO DE CRÉDITO CP
                         else if(n == 2){
                             menuCartoes(tipoConta);
                         }
@@ -1363,6 +1373,7 @@ public class Main {
 
     }
 
+    /* -------------------------------------- FIM - PARTE CARTÕES -------------------------------------------- */
 
 
 

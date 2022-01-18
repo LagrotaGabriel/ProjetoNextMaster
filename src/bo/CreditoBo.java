@@ -50,4 +50,41 @@ public class CreditoBo {
             }
         }
     }
+
+    // ATIVAR/DESATIVAR CARTÃO
+    public static String ativaOuDesativaCartao(Integer tipoConta, Boolean status){
+
+        // SE A CONTA FOR CORRENTE
+        if(tipoConta == 1){
+
+            // SE FOR PRA ATIVAR
+            if(status){
+                Bd.clienteBuscaContaCorrente.getCartoesCreditoCliente().get(0).setAtivo(true);
+                return("Cartão de crédito ativado com sucesso");
+
+            }
+            // SE FOR PRA DESATIVAR
+            else{
+                Bd.clienteBuscaContaCorrente.getCartoesCreditoCliente().get(0).setAtivo(false);
+                return("Cartão de crédito desativado com sucesso");
+            }
+
+        }
+        // SE A CONTA FOR POUPANÇA
+        else{
+
+            // SE FOR PRA ATIVAR
+            if(status){
+                Bd.clienteBuscaContaPoupanca.getCartoesCreditoCliente().get(0).setAtivo(true);
+                return("Cartão de crédito ativado com sucesso");
+            }
+            // SE FOR PRA DESATIVAR
+            else{
+                Bd.clienteBuscaContaPoupanca.getCartoesCreditoCliente().get(0).setAtivo(false);
+                return("Cartão de crédito desativado com sucesso");
+            }
+
+        }
+
+    }
 }

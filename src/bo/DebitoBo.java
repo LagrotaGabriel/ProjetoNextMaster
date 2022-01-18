@@ -50,4 +50,41 @@ public class DebitoBo {
         }
 
     }
+
+    // ATIVAR/DESATIVAR CARTÃO
+    public static String ativaOuDesativaCartao(Integer tipoConta, Boolean status){
+
+        // SE A CONTA FOR CORRENTE
+        if(tipoConta == 1){
+
+            // SE FOR PRA ATIVAR
+            if(status){
+                Bd.clienteBuscaContaCorrente.getCartoesDebitoCliente().get(0).setAtivo(true);
+                return("Cartão de débito ativado com sucesso");
+
+            }
+            // SE FOR PRA DESATIVAR
+            else{
+                Bd.clienteBuscaContaCorrente.getCartoesDebitoCliente().get(0).setAtivo(false);
+                return("Cartão de débito desativado com sucesso");
+            }
+
+        }
+        // SE A CONTA FOR POUPANÇA
+        else{
+
+            // SE FOR PRA ATIVAR
+            if(status){
+                Bd.clienteBuscaContaPoupanca.getCartoesDebitoCliente().get(0).setAtivo(true);
+                return("Cartão de débito ativado com sucesso");
+            }
+            // SE FOR PRA DESATIVAR
+            else{
+                Bd.clienteBuscaContaPoupanca.getCartoesDebitoCliente().get(0).setAtivo(false);
+                return("Cartão de débito desativado com sucesso");
+            }
+
+        }
+
+    }
 }

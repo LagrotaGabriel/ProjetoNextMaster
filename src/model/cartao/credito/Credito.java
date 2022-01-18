@@ -4,13 +4,16 @@ import model.cartao.TipoCartao;
 import model.cartao.Transacao;
 import model.cliente.Cliente;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Credito extends Cartao {
 
     // Atributos
     private Limite limite;
-    private ArrayList<Transacao> fatura;
+    public static Map<Integer, Transacao> fatura = new HashMap<>();
     private Float totalFatura;
+
 
     // Construtor
     public Credito(Cliente cliente, Float limite, TipoCartao tipoCartao) {
@@ -25,11 +28,11 @@ public class Credito extends Cartao {
     public void setLimite(Limite limite) {
         this.limite = limite;
     }
-    public ArrayList<Transacao> getFatura() {
+    public static Map<Integer, Transacao> getFatura() {
         return fatura;
     }
-    public void setFatura(ArrayList<Transacao> fatura) {
-        this.fatura = fatura;
+    public static void setFatura(Map<Integer, Transacao> fatura) {
+        Credito.fatura = fatura;
     }
     public Float getTotalFatura() {
         return totalFatura;
@@ -38,28 +41,18 @@ public class Credito extends Cartao {
         this.totalFatura = totalFatura;
     }
 
-    // Solicitar aumento de limite
-    public void solicitarLimite(){
-
-    }
-
-    // Ver limite
-    public void verLimite(){
-
-    }
-
-    // Ver Fatura
-    public void verFatura(){
-
-    }
-
-    // Parcelar Fatura
-    public void parcelarFatura(){
-
-    }
-
-    // Pagar Fatura
-    public void pagarFatura(){
+    // Adicionar na fatura
+    public static void salvarTransacao(Transacao transacao){
+        // ID AUTOINCREMENT
+        int pos;
+        if(fatura.size() == 0){
+            pos = 1;
+        }
+        else{
+            pos = fatura.size()+1;
+        }
+        // ADICIONAR AO BD INTERNO DO CARTÃO
+        fatura.put(pos, transacao);
 
     }
 }

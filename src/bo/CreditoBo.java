@@ -1,8 +1,16 @@
 package bo;
 import dao.Bd;
 import model.cartao.TipoCartao;
+import model.cartao.Transacao;
 import model.cartao.credito.Credito;
+import model.cartao.debito.Debito;
 import model.conta.ContaTipo;
+import util.Layout;
+import view.Main;
+
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Map;
 
 public class CreditoBo {
 
@@ -86,6 +94,243 @@ public class CreditoBo {
             }
 
         }
+
+    }
+
+    // COMPRAR
+    public static String processaCompra(Integer tipoConta, String nomeItem, Float valorItem){
+
+        // INSTANCIANDO NOVA DATA
+        Date date = new Date();
+
+        // SE FOR CONTA CORRENTE
+        if(tipoConta == 1){
+
+            //SE VALOR SE ADEQUAR AO LIMITE DA FATURA
+            if(valorItem <= Bd.clienteBuscaContaCorrente
+                    .getCartoesCreditoCliente()
+                    .get(0)
+                    .getLimite()
+                    .getLimiteDisponivel()){
+
+                // ATUALIZANDO UTILIZADO DO CARTÃO DE CRÉDITO DO CLIENTE
+                Bd.clienteBuscaContaCorrente
+                        .getCartoesCreditoCliente()
+                        .get(0)
+                        .getLimite()
+                        .setLimiteUtilizado(
+                                Bd.clienteBuscaContaCorrente
+                                    .getCartoesCreditoCliente()
+                                    .get(0)
+                                    .getLimite()
+                                    .getLimiteUtilizado()
+                                            + valorItem);
+
+                // ATUALIZANDO LIMITE DO CARTÃO DE CRÉDITO DO CLIENTE
+                Bd.clienteBuscaContaCorrente
+                        .getCartoesCreditoCliente()
+                        .get(0)
+                        .getLimite().atualizarLimite();
+
+                    // INSTANCIANDO OBJETO TRANSAÇÃO
+                Transacao transacao = new Transacao(date, nomeItem, valorItem,
+                        Bd.clienteBuscaContaCorrente
+                                .getCliente(),
+                        Bd.clienteBuscaContaCorrente ,
+                        Bd.clienteBuscaContaCorrente
+                                .getCartoesCreditoCliente().get(0));
+
+                    // ADICIONANDO TRANSAÇÃO AO BD
+                Credito.salvarTransacao(transacao);
+
+                return("Compra no valor de " + Layout.convertToReais(valorItem) + " realizada com sucesso. " +
+                            "\nSeu limite atual: " + Layout.convertToReais(Bd.clienteBuscaContaCorrente
+                        .getCartoesCreditoCliente()
+                        .get(0)
+                        .getLimite()
+                        .getLimiteDisponivel()));
+
+
+            }
+            // SE VALOR NÃO SE ADEQUA AO LIMITE DE TRANSAÇÃO
+            else{
+                return("Não foi possível realizar a compra.\nO valor excede seu limite disponível ("
+                        + Layout.convertToReais(Bd.clienteBuscaContaCorrente
+                        .getCartoesCreditoCliente()
+                        .get(0).getLimite()
+                        .getLimiteDisponivel()) +
+                        ").");
+            }
+        }
+        // SE FOR CONTA POUPANÇA
+        if(tipoConta == 2){
+            //SE VALOR SE ADEQUAR AO LIMITE DA FATURA
+            if(valorItem <= Bd.clienteBuscaContaPoupanca
+                    .getCartoesCreditoCliente()
+                    .get(0).getLimite()
+                    .getLimiteDisponivel()){
+
+                // ATUALIZANDO LIMITE DO CARTÃO DE CRÉDITO DO CLIENTE
+                Bd.clienteBuscaContaPoupanca.getCartoesCreditoCliente().get(0)
+                        .getLimite()
+                        .setLimiteDisponivel(Bd.clienteBuscaContaPoupanca
+                                .getCartoesCreditoCliente()
+                                .get(0)
+                                .getLimite()
+                                .getLimiteDisponivel() - valorItem);
+
+                // INSTANCIANDO OBJETO TRANSAÇÃO
+                Transacao transacao = new Transacao(date, nomeItem, valorItem,
+                        Bd.clienteBuscaContaPoupanca
+                                .getCliente(),
+                        Bd.clienteBuscaContaPoupanca ,
+                        Bd.clienteBuscaContaPoupanca
+                                .getCartoesCreditoCliente().get(0));
+
+                // ADICIONANDO TRANSAÇÃO AO BD
+                Credito.salvarTransacao(transacao);
+
+                return("Compra no valor de " + Layout.convertToReais(valorItem) + " realizada com sucesso. " +
+                        "\nSeu limite atual: " + Layout.convertToReais(Bd.clienteBuscaContaPoupanca
+                        .getCartoesCreditoCliente().get(0)
+                        .getLimite()
+                        .getLimiteDisponivel()));
+
+            }
+
+            // SE VALOR NÃO SE ADEQUA AO LIMITE DE TRANSAÇÃO
+            else{
+                return("Não foi possível realizar a compra.\nO valor excede seu limite disponível ("
+                        + Layout.convertToReais(Bd.clienteBuscaContaPoupanca
+                        .getCartoesCreditoCliente()
+                        .get(0).getLimite()
+                        .getLimiteDisponivel()) +
+                        ").");
+            }
+        }
+        return("");
+    }
+
+    // FATURA
+    public static void retornaFatura(Integer tipoConta){
+
+        Float soma = 0.00f;
+
+        // SE A CONTA É CORRENTE
+        if(tipoConta == 1) {
+            // SE TIVER PELO MENOS UM ITEM NA FATURA
+            if (!Credito.fatura.isEmpty()) {
+
+                Main.layout.topLine(3);
+                Main.layout.br(1);
+
+                // TÍTULO
+                System.out.println("             FATURA DO CARTÃO DE CRÉDITO "
+                        + Bd.clienteBuscaContaCorrente
+                        .getCartoesCreditoCliente()
+                        .get(0)
+                        .getNumeroCartao());
+
+                Main.layout.bottomLine(3);
+                Main.layout.br(1);
+
+                Main.layout.topLine(3);
+                Main.layout.br(1);
+
+                // RODANDO NO FOR OS ITENS DA FATURA DO CLIENTE
+                for (Map.Entry<Integer, Transacao> entry : Credito.fatura.entrySet()) {
+
+                    Calendar cal = Calendar.getInstance();
+                    cal.setTime(entry.getValue().getDataCompra());
+
+                    System.out.println("    [" + entry.getKey() + "] "
+                            + entry.getValue().getDescricao() + " || "
+                            + cal.get(Calendar.DAY_OF_MONTH) + "/"
+                            + cal.get(Calendar.MONTH)+1 + "/"
+                            + cal.get(Calendar.YEAR) + " || "
+                            + cal.get(Calendar.HOUR_OF_DAY) + ":"
+                            + cal.get(Calendar.MINUTE) + "hrs || "
+                            + Layout.convertToReais(entry.getValue().getValor()));
+
+                    soma += entry.getValue().getValor();
+                }
+
+                Main.layout.centralLine(3);
+                Main.layout.br(1);
+
+                System.out.println("    Total: " + Layout.convertToReais(soma));
+
+                Main.layout.bottomLine(3);
+                Main.layout.br(1);
+
+            }
+
+            // SE NÃO TIVER NADA NA FATURA
+            else{
+                System.out.println(("Não existem transações realizadas neste cartão."));
+            }
+
+        }
+
+        // SE A CONTA É POUPANÇA
+        else{
+            // SE TIVER PELO MENOS UM ITEM NA FATURA
+            if (!Credito.fatura.isEmpty()) {
+
+                Main.layout.topLine(3);
+                Main.layout.br(1);
+
+                // TÍTULO
+                System.out.println("             FATURA DO CARTÃO DE CRÉDITO "
+                        + Bd.clienteBuscaContaPoupanca
+                        .getCartoesCreditoCliente()
+                        .get(0)
+                        .getNumeroCartao());
+
+                Main.layout.bottomLine(3);
+                Main.layout.br(1);
+
+                Main.layout.topLine(3);
+                Main.layout.br(1);
+
+                // RODANDO NO FOR OS ITENS DA FATURA DO CLIENTE
+                for (Map.Entry<Integer, Transacao> entry : Credito.fatura.entrySet()) {
+
+                    Calendar cal = Calendar.getInstance();
+                    cal.setTime(entry.getValue().getDataCompra());
+
+                    System.out.println("    [" + entry.getKey() + "] "
+                            + entry.getValue().getDescricao() + " || "
+                            + cal.get(Calendar.DAY_OF_MONTH) + "/"
+                            + cal.get(Calendar.MONTH)+1 + "/"
+                            + cal.get(Calendar.YEAR) + " || "
+                            + cal.get(Calendar.HOUR_OF_DAY) + ":"
+                            + cal.get(Calendar.MINUTE) + "hrs || "
+                            + Layout.convertToReais(entry.getValue().getValor()));
+
+                    soma += entry.getValue().getValor();
+                }
+
+                Main.layout.centralLine(3);
+                Main.layout.br(1);
+
+                System.out.println("    Total: " + Layout.convertToReais(soma));
+
+                Main.layout.bottomLine(3);
+                Main.layout.br(1);
+
+            }
+
+            // SE NÃO TIVER NADA NA FATURA
+            else{
+                System.out.println(("Não existem transações realizadas neste cartão."));
+            }
+
+        }
+
+
+
+
 
     }
 }

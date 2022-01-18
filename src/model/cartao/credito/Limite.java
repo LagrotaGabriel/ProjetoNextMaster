@@ -12,6 +12,7 @@ public class Limite {
         this.limiteTotal = limiteTotal;
         this.limiteUtilizado = limiteUtilizado;
         this.limiteDisponivel = getLimiteTotal() - getLimiteUtilizado();
+
     }
 
     // Getters
@@ -32,6 +33,11 @@ public class Limite {
     }
     public void setLimiteTotal(float limiteTotal) {
         this.limiteTotal = limiteTotal;
+    }
+
+    // ATUALIZA LIMITE
+    public void atualizarLimite(){
+        this.limiteDisponivel -= getLimiteUtilizado();
     }
 
     // Exibir Limite

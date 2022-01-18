@@ -12,7 +12,6 @@ public class Credito extends Cartao {
     // Atributos
     private Limite limite;
     public static Map<Integer, Transacao> fatura = new HashMap<>();
-    private Float totalFatura;
 
 
     // Construtor
@@ -34,12 +33,7 @@ public class Credito extends Cartao {
     public static void setFatura(Map<Integer, Transacao> fatura) {
         Credito.fatura = fatura;
     }
-    public Float getTotalFatura() {
-        return totalFatura;
-    }
-    public void setTotalFatura(Float totalFatura) {
-        this.totalFatura = totalFatura;
-    }
+
 
     // Adicionar na fatura
     public static void salvarTransacao(Transacao transacao){

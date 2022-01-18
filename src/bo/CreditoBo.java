@@ -3,7 +3,6 @@ import dao.Bd;
 import model.cartao.TipoCartao;
 import model.cartao.Transacao;
 import model.cartao.credito.Credito;
-import model.cartao.debito.Debito;
 import model.conta.ContaTipo;
 import util.Layout;
 import view.Main;
@@ -333,4 +332,207 @@ public class CreditoBo {
 
 
     }
+
+    // PAGAR FATURA
+    public static String pagarFatura(Integer tipoConta){
+
+        int n = 0 ;
+
+        // SE A CONTA É UMA CONTA CORRENTE
+        if(tipoConta == 1){
+
+            // SE EXISTE ALGO PARA SER PAGO
+            if(!Credito.getFatura().isEmpty()){
+
+                // EXIBE A FATURA
+                retornaFatura(tipoConta);
+
+                // LAYOUT
+                Main.layout.topLine(3);
+                Main.layout.br(1);
+
+                System.out.println("        [1] Pagar    [2] Voltar");
+
+                Main.layout.bottomLine(3);
+                Main.layout.br(1);
+
+                // REPETIDOR PARA EVITAR ERROS DE ENTRADA DO USUÁRIO
+                do{
+
+                    // LAYOUT
+                    Main.layout.topLine(3);
+                    Main.layout.br(1);
+
+                    // OPÇÕES
+                    n = Integer.parseInt(Layout.entry("    Escolha: "));
+
+                    // LAYOUT
+                    Main.layout.bottomLine(3);
+                    Main.layout.br(1);
+
+                    // CARREGA E LIMPA A TELA
+                    Main.layout.loading(3);
+                    Main.layout.limparTela();
+
+                    // SE O USUÁRIO ESCOLHER PAGAR
+                    if(n == 1){
+
+                        // SE SALDO DISPONÍVEL FOR O SUFICIENTE
+                        if(Bd.clienteBuscaContaCorrente
+                                .getSaldo()
+                                >= Bd.clienteBuscaContaCorrente
+                                .getCartoesCreditoCliente()
+                                .get(0)
+                                .getLimite()
+                                .getLimiteUtilizado()){
+
+                            // ATUALIZA SALDO DO CLIENTE
+                            Bd.clienteBuscaContaCorrente
+                                    .setSaldo(Bd.clienteBuscaContaCorrente
+                                            .getSaldo()
+                                            - Bd.clienteBuscaContaCorrente
+                                            .getCartoesCreditoCliente()
+                                            .get(0)
+                                            .getLimite()
+                                            .getLimiteUtilizado());
+
+                            // ZERA VALOR UTILIZADO PELO CLIENTE
+                            Bd.clienteBuscaContaCorrente
+                                    .getCartoesCreditoCliente()
+                                    .get(0).getLimite()
+                                    .setLimiteUtilizado(0.00f);
+
+                            // ZERA A FATURA DO CARTÃO
+                            Credito
+                                    .getFatura()
+                                    .clear();
+
+                            // ATUALIZANDO LIMITE
+                            Bd.clienteBuscaContaCorrente
+                                    .getCartoesCreditoCliente()
+                                    .get(0)
+                                    .getLimite()
+                                    .atualizarTotal();
+
+                            return(("Você pagou a sua fatura com sucesso.\nSeu saldo atual é: " +
+                                    Layout.convertToReais(Bd.clienteBuscaContaCorrente.getSaldo())));
+                        }
+
+                    }
+
+                    // SE O USUÁRIO ESCOLHER VOLTAR PARA O MENU
+                    else if(n == 2){
+                        Main.menuCartaoSelecionado(tipoConta, 2);
+                    }
+
+                }while(n < 1 || n > 2);
+
+            }
+            // SE NÃO EXISTE NADA PARA SER PAGO
+            else{
+                return("Não existe nada para ser pago");
+            }
+
+        }
+
+        // SE A CONTA É UMA CONTA POUPANÇA
+        else{
+
+            // SE EXISTE ALGO PARA SER PAGO
+            if(!Credito.getFatura().isEmpty()){
+
+                // EXIBE A FATURA
+                retornaFatura(tipoConta);
+
+                // LAYOUT
+                Main.layout.topLine(3);
+                Main.layout.br(1);
+
+                System.out.println("        [1] Pagar    [2] Voltar");
+
+                Main.layout.bottomLine(3);
+                Main.layout.br(1);
+
+                // REPETIDOR PARA EVITAR ERROS DE ENTRADA DO USUÁRIO
+                do{
+
+                    // LAYOUT
+                    Main.layout.topLine(3);
+                    Main.layout.br(1);
+
+                    // OPÇÕES
+                    n = Integer.parseInt(Layout.entry("    Escolha: "));
+
+                    // LAYOUT
+                    Main.layout.bottomLine(3);
+                    Main.layout.br(1);
+
+                    // CARREGA E LIMPA A TELA
+                    Main.layout.loading(3);
+                    Main.layout.limparTela();
+
+                    // SE O USUÁRIO ESCOLHER PAGAR
+                    if(n == 1){
+
+                        // SE SALDO DISPONÍVEL FOR O SUFICIENTE
+                        if(Bd.clienteBuscaContaPoupanca
+                                .getSaldo()
+                                >= Bd.clienteBuscaContaPoupanca
+                                .getCartoesCreditoCliente()
+                                .get(0)
+                                .getLimite()
+                                .getLimiteUtilizado()){
+
+                            // ATUALIZA SALDO DO CLIENTE
+                            Bd.clienteBuscaContaPoupanca
+                                    .setSaldo(Bd.clienteBuscaContaPoupanca
+                                            .getSaldo()
+                                            - Bd.clienteBuscaContaPoupanca
+                                            .getCartoesCreditoCliente()
+                                            .get(0)
+                                            .getLimite()
+                                            .getLimiteUtilizado());
+
+                            // ZERA VALOR UTILIZADO PELO CLIENTE
+                            Bd.clienteBuscaContaPoupanca
+                                    .getCartoesCreditoCliente()
+                                    .get(0).getLimite()
+                                    .setLimiteUtilizado(0.00f);
+
+                            // ZERA A FATURA DO CARTÃO
+                            Credito
+                                    .getFatura()
+                                    .clear();
+
+                            // ATUALIZANDO LIMITE
+                            Bd.clienteBuscaContaPoupanca
+                                    .getCartoesCreditoCliente()
+                                    .get(0)
+                                    .getLimite()
+                                    .atualizarTotal();
+
+                            return(("Você pagou a sua fatura com sucesso.\nSeu saldo atual é: " +
+                                    Layout.convertToReais(Bd.clienteBuscaContaPoupanca.getSaldo())));
+                        }
+                    }
+
+                    // SE O USUÁRIO ESCOLHER VOLTAR PARA O MENU
+                    else if(n == 2){
+                        Main.menuCartaoSelecionado(tipoConta, 2);
+                    }
+
+                }while(n < 1 || n > 2);
+
+            }
+            // SE NÃO EXISTE NADA PARA SER PAGO
+            else{
+                return("Não existe nada para ser pago");
+
+            }
+
+        }
+
+        return("");
+    }
+
 }

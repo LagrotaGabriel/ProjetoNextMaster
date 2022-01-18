@@ -1136,7 +1136,6 @@ public class Main {
 
         // SE O CARTÃO FOR DE CRÉDITO
         else if(tipoCartao == 2){
-
             // SE A CONTA FOR CORRENTE
             if(tipoConta == 1){
 
@@ -1212,7 +1211,10 @@ public class Main {
                         }
                         // PAGAR FATURA DO CARTÃO DE CRÉDITO CC
                         else if(n == 4){
-
+                            System.out.println(CreditoBo.pagarFatura(tipoConta));
+                            layout.loading(3);
+                            layout.limparTela();
+                            menuCartaoSelecionado(1, 2);
                         }
                         // SAIR DO MENU DO CARTÃO DE CREDITO CC
                         else if(n == 5){
@@ -1339,7 +1341,10 @@ public class Main {
                         }
                         // PAGAR FATURA DO CARTÃO DE CRÉDITO CP
                         else if(n == 4){
-
+                            System.out.println(CreditoBo.pagarFatura(tipoConta));
+                            layout.loading(3);
+                            layout.limparTela();
+                            menuCartaoSelecionado(2, 2);
                         }
                         // SAIR DO MENU DO CARTÃO DE CREDITO CP
                         else if(n == 5){

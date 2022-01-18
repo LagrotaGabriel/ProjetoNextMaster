@@ -40,6 +40,11 @@ public class Limite {
         this.limiteDisponivel -= getLimiteUtilizado();
     }
 
+    public void atualizarTotal(){
+        this.limiteDisponivel = getLimiteTotal() - getLimiteUtilizado();
+    }
+
+
     // Exibir Limite
     public void exibirLimite(){
 

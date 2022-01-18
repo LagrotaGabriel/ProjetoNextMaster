@@ -1,5 +1,6 @@
 package model.cartao.debito;
 import model.cartao.Cartao;
+import model.cartao.TipoCartao;
 import model.cartao.Transacao;
 import model.cartao.credito.Limite;
 import model.cliente.Cliente;
@@ -14,8 +15,8 @@ public class Debito extends Cartao {
     public static Map<Integer, Transacao> extrato = new HashMap<>();
 
     // Construtor
-    public Debito(Cliente cliente, float limite) {
-        super(cliente);
+    public Debito(Cliente cliente, float limite, TipoCartao tipoCartao) {
+        super(cliente, tipoCartao);
         this.limiteTransacao = limite;
     }
 

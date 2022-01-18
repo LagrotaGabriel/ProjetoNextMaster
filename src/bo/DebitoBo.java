@@ -1,11 +1,11 @@
 package bo;
 import dao.Bd;
+import model.cartao.TipoCartao;
 import model.cartao.Transacao;
 import model.cartao.debito.Debito;
 import model.conta.ContaTipo;
 import util.Layout;
 import view.Main;
-
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Map;
@@ -32,7 +32,7 @@ public class DebitoBo {
             // SE O CLIENTE AINDA NÃO TIVER CARTÕES DE DÉBITO CADASTRADOS
             if(Bd.clienteBuscaContaCorrente.cartoesDebitoCliente.isEmpty()){
                 // MÉTODO DE INSERÇÃO DO CARTÃO NOS DBS
-                Debito debito = new Debito(Bd.clienteBuscaContaCorrente.getCliente(), limite);
+                Debito debito = new Debito(Bd.clienteBuscaContaCorrente.getCliente(), limite, TipoCartao.DEBITO);
                 Bd.insereCartaoDebito(debito, tipoConta);
                 return("Cartão de débito cadastrado com sucesso!");
             }
@@ -46,7 +46,7 @@ public class DebitoBo {
             // SE O CLIENTE AINDA NÃO TIVER CARTÕES DE DÉBITO CADASTRADOS
             if(Bd.clienteBuscaContaPoupanca.cartoesDebitoCliente.isEmpty()){
                 // MÉTODO DE INSERÇÃO DO CARTÃO NOS DBS
-                Debito debito = new Debito(Bd.clienteBuscaContaPoupanca.getCliente(), limite);
+                Debito debito = new Debito(Bd.clienteBuscaContaPoupanca.getCliente(), limite, TipoCartao.DEBITO);
                 Bd.insereCartaoDebito(debito, tipoConta);
                 return("Cartão de débito cadastrado com sucesso!");
             }
@@ -180,7 +180,6 @@ public class DebitoBo {
 
         Float soma = 0.00f;
 
-
         // SE A CONTA É CORRENTE
         if(tipoConta == 1) {
             // SE TIVER PELO MENOS UM ITEM NO EXTRATO
@@ -246,17 +245,19 @@ public class DebitoBo {
                 Main.layout.topLine(3);
                 Main.layout.br(1);
 
-                System.out.println("||      ID      ||    NOME      ||      DATA      ||      VALOR      ||");
-                Main.layout.centralLine(3);
-                Main.layout.br(1);
-
                 for (Map.Entry<Integer, Transacao> entry : Debito.extrato.entrySet()) {
 
-                    System.out.println("[" + entry.getKey() + "]" + "      "
-                            + entry.getValue().getDescricao() + "      "
-                            + entry.getValue().getDataCompra().getDay() + "/"
-                            + entry.getValue().getDataCompra().getMonth() + "/"
-                            + entry.getValue().getDataCompra().getYear() + "      "
+                    Calendar cal = Calendar.getInstance();
+                    cal.setTime(entry.getValue().getDataCompra());
+
+
+                    System.out.println("    [" + entry.getKey() + "] "
+                            + entry.getValue().getDescricao() + " || "
+                            + cal.get(Calendar.DAY_OF_MONTH) + "/"
+                            + cal.get(Calendar.MONTH)+1 + "/"
+                            + cal.get(Calendar.YEAR) + " || "
+                            + cal.get(Calendar.HOUR_OF_DAY) + ":"
+                            + cal.get(Calendar.MINUTE) + "hrs || "
                             + Layout.convertToReais(entry.getValue().getValor()));
 
                     soma += entry.getValue().getValor();

@@ -1,5 +1,6 @@
 package model.cartao.credito;
 import model.cartao.Cartao;
+import model.cartao.TipoCartao;
 import model.cartao.Transacao;
 import model.cliente.Cliente;
 import java.util.ArrayList;
@@ -12,8 +13,8 @@ public class Credito extends Cartao {
     private Float totalFatura;
 
     // Construtor
-    public Credito(Cliente cliente, Float limite) {
-        super(cliente);
+    public Credito(Cliente cliente, Float limite, TipoCartao tipoCartao) {
+        super(cliente, tipoCartao);
         this.limite = new Limite(limite , 0.00f);
     }
 

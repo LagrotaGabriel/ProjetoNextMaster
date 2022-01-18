@@ -63,21 +63,29 @@ public class CartaoBo {
     }
 
     // Retorna os cartões do cliente
-    public static Map<Cartao, String> listarCartoesDoCliente(Integer tipoConta){
+    public static Map<Integer, Cartao> listarCartoesDoCliente(Integer tipoConta){
 
-        Map<Cartao, String> cartoesList = new HashMap<>();
+        Map<Integer, Cartao> cartoesList = new HashMap<>();
 
         // SE A CONTA DO CLIENTE FOR CONTA CORRENTE
         if(tipoConta == 1){
             // SE TIVER CARTÕES DE DÉBITO CADASTRADOS
             if(!Bd.clienteBuscaContaCorrente.getCartoesDebitoCliente().isEmpty()){
                 // ADICIONA AO ARRAYLIST CARTÃO DE DÉBITO (SE TIVER)
-                cartoesList.put(Bd.clienteBuscaContaCorrente.getCartoesDebitoCliente().get(0), "Débito");
+                if(cartoesList.isEmpty()){
+                    cartoesList.put(1, Bd.clienteBuscaContaCorrente.getCartoesDebitoCliente().get(0));
+                }else {
+                    cartoesList.put(cartoesList.size() + 1, Bd.clienteBuscaContaCorrente.getCartoesDebitoCliente().get(0));
+                }
             }
             // SE TIVER CARTÕES DE CRÉDITO CADASTRADOS
             if(!Bd.clienteBuscaContaCorrente.getCartoesCreditoCliente().isEmpty()){
                 // ADICIONA AO ARRAYLIST CARTÃO DE CRÉDITO (SE TIVER)
-                cartoesList.put(Bd.clienteBuscaContaCorrente.getCartoesCreditoCliente().get(0), "Crédito");
+                if(cartoesList.isEmpty()){
+                    cartoesList.put(1, Bd.clienteBuscaContaCorrente.getCartoesCreditoCliente().get(0));
+                }else {
+                    cartoesList.put(cartoesList.size() + 1, Bd.clienteBuscaContaCorrente.getCartoesCreditoCliente().get(0));
+                }
             }
         }
         // SE A CONTA DO CLIENTE FOR CONTA POUPANÇA
@@ -85,12 +93,20 @@ public class CartaoBo {
             // SE TIVER CARTÕES DE DÉBITO CADASTRADOS
             if(!Bd.clienteBuscaContaPoupanca.getCartoesDebitoCliente().isEmpty()){
                 // ADICIONA AO ARRAYLIST CARTÃO DE DÉBITO (SE TIVER)
-                cartoesList.put(Bd.clienteBuscaContaPoupanca.getCartoesDebitoCliente().get(0), "Débito");
+                if(cartoesList.isEmpty()){
+                    cartoesList.put(1, Bd.clienteBuscaContaPoupanca.getCartoesDebitoCliente().get(0));
+                }else {
+                    cartoesList.put(cartoesList.size() + 1, Bd.clienteBuscaContaPoupanca.getCartoesDebitoCliente().get(0));
+                }
             }
             // SE TIVER CARTÕES DE CRÉDITO CADASTRADOS
             if(!Bd.clienteBuscaContaPoupanca.getCartoesCreditoCliente().isEmpty()){
                 // ADICIONA AO ARRAYLIST CARTÃO DE CRÉDITO (SE TIVER)
-                cartoesList.put(Bd.clienteBuscaContaPoupanca.getCartoesCreditoCliente().get(0), "Crédito");
+                if(cartoesList.isEmpty()){
+                    cartoesList.put(1, Bd.clienteBuscaContaPoupanca.getCartoesCreditoCliente().get(0));
+                }else {
+                    cartoesList.put(cartoesList.size() + 1, Bd.clienteBuscaContaPoupanca.getCartoesCreditoCliente().get(0));
+                }
             }
         }
 

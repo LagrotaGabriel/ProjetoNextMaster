@@ -1,5 +1,6 @@
 package bo;
 import dao.Bd;
+import model.cartao.TipoCartao;
 import model.cartao.credito.Credito;
 import model.conta.ContaTipo;
 
@@ -26,7 +27,7 @@ public class CreditoBo {
             // SE O CLIENTE AINDA NÃO TIVER CARTÕES DE CRÉDITO CADASTRADOS
             if(Bd.clienteBuscaContaCorrente.cartoesCreditoCliente.isEmpty()){
                 // MÉTODO DE INSERÇÃO DO CARTÃO NOS DBS
-                Credito credito = new Credito(Bd.clienteBuscaContaCorrente.getCliente(), limite);
+                Credito credito = new Credito(Bd.clienteBuscaContaCorrente.getCliente(), limite, TipoCartao.CREDITO);
                 Bd.insereCartaoCredito(credito, tipoConta);
                 return("Cartão de Crédito cadastrado com sucesso!");
             }
@@ -40,7 +41,7 @@ public class CreditoBo {
             // SE O CLIENTE AINDA NÃO TIVER CARTÕES DE CRÉDITO CADASTRADOS
             if(Bd.clienteBuscaContaPoupanca.cartoesCreditoCliente.isEmpty()){
                 // MÉTODO DE INSERÇÃO DO CARTÃO NOS DBS
-                Credito credito = new Credito(Bd.clienteBuscaContaPoupanca.getCliente(), limite);
+                Credito credito = new Credito(Bd.clienteBuscaContaPoupanca.getCliente(), limite, TipoCartao.CREDITO);
                 Bd.insereCartaoCredito(credito, tipoConta);
                 return("Cartão de Crédito cadastrado com sucesso!");
             }

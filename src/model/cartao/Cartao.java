@@ -13,17 +13,19 @@ public abstract class Cartao {
     protected String senha;
     protected Boolean ativo;
     protected Cliente cliente;
+    protected TipoCartao tipoCartao;
 
     Integer randomNumeroCartao = new Random().nextInt(111111,999999);
     Integer randomNumeroSenha = new Random().nextInt(1111, 9999);
 
-    public Cartao(Cliente cliente) {
+    public Cartao(Cliente cliente, TipoCartao tipoCartao) {
         this.idCartao = UUID.randomUUID().toString();
         this.numeroCartao = randomNumeroCartao.toString();
         this.senha = randomNumeroSenha.toString();
         this.bandeira = "VISA";
         this.ativo = true;
         this.cliente = cliente;
+        this.tipoCartao = tipoCartao;
     }
 
     // Getters e Setters
@@ -62,5 +64,11 @@ public abstract class Cartao {
     }
     public void setIdCartao(String idCartao) {
         this.idCartao = idCartao;
+    }
+    public TipoCartao getTipoCartao() {
+        return tipoCartao;
+    }
+    public void setTipoCartao(TipoCartao tipoCartao) {
+        this.tipoCartao = tipoCartao;
     }
 }

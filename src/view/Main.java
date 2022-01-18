@@ -2,6 +2,7 @@ package view;
 import bo.*;
 import dao.Bd;
 import model.cartao.Cartao;
+import model.cartao.TipoCartao;
 import model.conta.Conta;
 import model.conta.ContaTipo;
 import util.Layout;
@@ -789,8 +790,8 @@ public class Main {
     // SELEÇÃO DE CARTÕES DO CLIENTE
     public static void menuMeusCartoes(Integer tipoConta){
 
-        int n = 0, cont = 0;
-        Map<Cartao, String> listar = (CartaoBo.listarCartoesDoCliente(tipoConta)); // HASHMAP COM TIPO DE CARTÕES E CTS
+        int n = 0, tpCartao = 0;
+        Map<Integer, Cartao> listar = (CartaoBo.listarCartoesDoCliente(tipoConta)); // HASHMAP COM TIPO DE CARTÕES E CTS
 
         // LAYOUT
         layout.topLine(3);
@@ -803,90 +804,51 @@ public class Main {
         layout.topLine(3);
         layout.br(1);
 
-        // LISTAR CARTÕES DO CLIENTE SE ELE TIVER ALGUM CARTÃO CADASTRADO
+        // SE A LISTA DE CARTÕES DO CLIENTE NÃO ESTIVER VAZIA
         if(!listar.isEmpty()) {
 
-            // RODA A LISTAGEM DE CARTÕES DO CLIENTE
-            for (Map.Entry<Cartao, String> entry : listar.entrySet()) {
-                cont++;
-                System.out.println("    [" + cont + "] " + entry.getValue() + " - " + entry.getKey().getNumeroCartao());
+            // RODA A LISTA UM POR UM E IMPRIME NA TELA
+            for (Map.Entry<Integer, Cartao> entry : listar.entrySet()) {
+                //                           NÚMERO DA KEY                   CARTÃO DO CLIENTE
+                System.out.print("    [" + entry.getKey() + "] "
+                        + entry.getValue().getTipoCartao() + " || n° "
+                        + entry.getValue().getNumeroCartao() + " || "
+                        + "Status: ");
+                        if(entry.getValue().isAtivo()){
+                            System.out.print("ATIVO");
+                        }else{
+                            System.out.print("INATIVO");
+                        }
+                layout.br(1);
             }
-
-            cont++;
-            System.out.println("    [" + cont + "]" + " Voltar");
 
             // LAYOUT
             layout.bottomLine(3);
             layout.br(1);
 
-            // DO WHILE DE ESCOLHA DO USUÁRIO
+            // REPETIÇÃO PARA ANULAR ENTRADAS INCORRETAS
             do {
-                // ESCOLHA DO USUÁRIO
+                // OPÇÃO DO USUÁRIO
                 layout.topLine(3);
                 layout.br(1);
                 n = Integer.parseInt(Layout.entry("    Escolha: "));
-                layout.bottomLine(3);
-                layout.br(1);
                 layout.loading(3);
                 layout.limparTela();
 
-                // SE TIVER CARTÃO DE CRÉDITO E DÉBITO APARECENDO NA LISTAGEM
-                if(cont == 3) {
-
-                    // SE A SELEÇÃO FOR OUT OF BOUNDS
-                    if (n < 1 || n > cont) {
-                        System.out.println("    Valor inválido.");
-                    }
-
-                    // SE O ITEM SELECIONADO FOR O PRIMEIRO CARTÃO ( CRÉDITO )
-                    else if (n == 1) {
-                        menuCartaoSelecionado(tipoConta, 2);
-                    }
-
-                    // SE O ITEM SELECIONADO FOR O SEGUNDO CARTÃO ( DÉBITO )
-                    else if (n == 2) {
-                        menuCartaoSelecionado(tipoConta, 1);
-                    }
-
-                    // VOLTA PRO MENU CARTÕES
-                    else if (n == cont) {
-
-                        menuCartoes(tipoConta);
-
-                    }
-
+                // INVOCAR MÉTODO DE SELECIONAR CARTÃO
+                if(listar.get(n).getTipoCartao().equals(TipoCartao.DEBITO)){
+                    tpCartao = 1;
+                }
+                else if(listar.get(n).getTipoCartao().equals(TipoCartao.CREDITO)){
+                    tpCartao = 2;
                 }
 
-                // SE TIVER SÓ UM CARTÃO APARECENDO NA LISTAGEM
-                else if(cont == 2){
+                menuCartaoSelecionado(tipoConta, tpCartao);
 
-                    // SE O CLIENTE SELECIONAR A OPÇÃO 1
-                    if(n == 1) {
-                        // RODA A LISTAGEM
-                        for (Map.Entry<Cartao, String> entry : listar.entrySet()) {
-
-                            // SE FOR CRÉDITO
-                            if (entry.getValue().equals("Crédito")) {
-                                menuCartaoSelecionado(tipoConta, 2);
-                            }
-                            // SE FOR DÉBITO
-                            else if (entry.getValue().equals("Débito")) {
-                                menuCartaoSelecionado(tipoConta, 1);
-                            }
-
-                        }
-                    }
-                    // VOLTA AO MENU DE CARTÕES
-                    else if(n == 2){
-                        menuCartoes(tipoConta);
-                    }
-
-                }
-
-            }while(n < 1 || n > cont);
+            }while(n < 1 || n > listar.size());
 
         }
-        // SE CLIENTE NÃO TIVER NENHUM CARTÃO
+        // SE A LISTA DE CARTÕES DO CLIENTE ESTIVER VAZIA
         else{
             System.out.println("    Você não tem nenhum cartão cadastrado no momento");
             layout.loading(3);
@@ -1386,6 +1348,7 @@ public class Main {
 
     }
 
+    // MENU DE COMPRA DO CARTÃO DE DÉBITO
     public static void menuCartaoDebitoCompra(Integer tipoConta){
 
         layout.topLine(3);

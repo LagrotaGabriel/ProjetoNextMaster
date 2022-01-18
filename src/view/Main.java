@@ -960,6 +960,7 @@ public class Main {
 
         // SE O CARTÃO FOR DE DÉBITO
         if(tipoCartao == 1){
+
             // SE A CONTA FOR CORRENTE
             if(tipoConta == 1) {
 
@@ -1002,11 +1003,17 @@ public class Main {
                         }
                         // COMPRAR COM O CARTÃO DE DÉBITO CC
                         else if(n == 2){
-
+                            menuCartaoDebitoCompra(tipoConta);
+                            layout.loading(3);
+                            layout.limparTela();
+                            menuCartaoSelecionado(1, 1);
                         }
                         // SOLICITAR EXTRATO DO CARTÃO DE DÉBITO CC
                         else if(n == 3){
-
+                            DebitoBo.retornaExtrato(tipoConta);
+                            layout.loading(3);
+                            layout.limparTela();
+                            menuCartaoSelecionado(1, 1);
                         }
                         // SAIR DO MENU DO CARTÃO DE DÉBITO CC
                         else if(n == 4){
@@ -1102,11 +1109,17 @@ public class Main {
                         }
                         // COMPRAR COM O CARTÃO DE DÉBITO CP
                         else if(n == 2){
-
+                            menuCartaoDebitoCompra(tipoConta);
+                            layout.loading(3);
+                            layout.limparTela();
+                            menuCartaoSelecionado(2, 1);
                         }
                         // SOLICITAR EXTRATO DO CARTÃO DE DÉBITO CP
                         else if(n == 3){
-
+                            DebitoBo.retornaExtrato(tipoConta);
+                            layout.loading(3);
+                            layout.limparTela();
+                            menuCartaoSelecionado(2, 1);
                         }
                         // SAIR DO MENU DO CARTÃO DE DÉBITO CP
                         else if(n == 4){
@@ -1371,6 +1384,23 @@ public class Main {
             }
         }
 
+    }
+
+    public static void menuCartaoDebitoCompra(Integer tipoConta){
+
+        layout.topLine(3);
+        layout.br(1);
+        System.out.println("                 =-=-= Inserir Compra =-=-=");
+        layout.bottomLine(3);
+        layout.br(1);
+
+        layout.topLine(3);
+        layout.br(1);
+        String nomeProduto = Layout.entry("    Digite o nome do produto: ");
+        Float valorProduto = Float.parseFloat(Layout.entry("    Digite o valor do produto: R$ "));
+        layout.bottomLine(3);
+        layout.br(1);
+        System.out.println(DebitoBo.processaCompra(tipoConta, nomeProduto, valorProduto));
     }
 
     /* -------------------------------------- FIM - PARTE CARTÕES -------------------------------------------- */

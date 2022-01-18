@@ -4,8 +4,11 @@ import model.cartao.Transacao;
 import model.cartao.debito.Debito;
 import model.conta.ContaTipo;
 import util.Layout;
+import view.Main;
 
+import java.util.Calendar;
 import java.util.Date;
+import java.util.Map;
 
 public class DebitoBo {
 
@@ -102,9 +105,9 @@ public class DebitoBo {
         if(tipoConta == 1){
 
             //SE VALOR SE ADEQUAR AO LIMITE DE TRANSAÇÃO
-            if(Bd.clienteBuscaContaCorrente.getCartoesDebitoCliente().get(0).getLimiteTransacao() < valorItem){
+            if(valorItem <= Bd.clienteBuscaContaCorrente.getCartoesDebitoCliente().get(0).getLimiteTransacao()){
                 // SE SALDO DISPONÍVEL FOR SUFICIENTE
-                if(Bd.clienteBuscaContaCorrente.getSaldo() < valorItem){
+                if(Bd.clienteBuscaContaCorrente.getSaldo() >= valorItem){
 
                     // ATUALIZANDO SALDO DO CLIENTE
                     Bd.clienteBuscaContaCorrente.setSaldo(Bd.clienteBuscaContaCorrente.getSaldo()-valorItem);
@@ -118,7 +121,7 @@ public class DebitoBo {
                     // ADICIONANDO TRANSAÇÃO AO BD
                     Debito.salvarTransacao(transacao);
 
-                    return("Compra no valor de " + Layout.convertToReais(valorItem) + "realizada com sucesso. " +
+                    return("Compra no valor de " + Layout.convertToReais(valorItem) + " realizada com sucesso. " +
                             "\nSeu saldo atual: " + Layout.convertToReais(Bd.clienteBuscaContaCorrente.getSaldo()));
                 }
                 // SE SALDO DISPONÍVEL NÃO FOR SUFICIENTE
@@ -129,7 +132,7 @@ public class DebitoBo {
             }
             // SE VALOR NÃO SE ADEQUA AO LIMITE DE TRANSAÇÃO
             else{
-                return("Não foi possível realizar a compra.\nO valor inserido excede seu limite para transações ("
+                return("Não foi possível realizar a compra.\nO valor excede seu limite para transações ("
                         + Layout.convertToReais(Bd.clienteBuscaContaCorrente.getCartoesDebitoCliente().get(0).getLimiteTransacao()) +
                         ").");
             }
@@ -137,9 +140,9 @@ public class DebitoBo {
         // SE FOR CONTA POUPANÇA
         if(tipoConta == 2){
             // SE VALOR SE ADEQUAR AO LIMITE DE TRANSAÇÃO
-            if(Bd.clienteBuscaContaPoupanca.getCartoesDebitoCliente().get(0).getLimiteTransacao() < valorItem){
+            if(valorItem <= Bd.clienteBuscaContaPoupanca.getCartoesDebitoCliente().get(0).getLimiteTransacao()){
                 // SE SALDO DISPONÍVEL FOR SUFICIENTE
-                if(Bd.clienteBuscaContaPoupanca.getSaldo() < valorItem){
+                if(Bd.clienteBuscaContaPoupanca.getSaldo() >= valorItem){
 
                     // ATUALIZANDO SALDO DO CLIENTE
                     Bd.clienteBuscaContaPoupanca.setSaldo(Bd.clienteBuscaContaPoupanca.getSaldo()-valorItem);
@@ -153,7 +156,7 @@ public class DebitoBo {
                     // ADICIONANDO TRANSAÇÃO AO BD
                     Debito.salvarTransacao(transacao);
 
-                    return("Compra no valor de " + Layout.convertToReais(valorItem) + "realizada com sucesso. " +
+                    return("Compra no valor de " + Layout.convertToReais(valorItem) + " realizada com sucesso. " +
                             "\nSeu saldo atual: " + Layout.convertToReais(Bd.clienteBuscaContaPoupanca.getSaldo()));
                 }
                 // SE SALDO DISPONÍVEL NÃO FOR SUFICIENTE
@@ -164,11 +167,121 @@ public class DebitoBo {
             }
             // SE VALOR NÃO SE ADEQUA AO LIMITE DE TRANSAÇÃO
             else{
-                return("Não foi possível realizar a compra.\nO valor inserido excede seu limite para transações ("
+                return("Não foi possível realizar a compra.\nO valor excede seu limite para transações ("
                         + Layout.convertToReais(Bd.clienteBuscaContaPoupanca.getCartoesDebitoCliente().get(0).getLimiteTransacao()) +
                         ").");
             }
         }
         return("");
+    }
+
+    // EXTRATO
+    public static void retornaExtrato(Integer tipoConta){
+
+        Float soma = 0.00f;
+
+
+        // SE A CONTA É CORRENTE
+        if(tipoConta == 1) {
+            // SE TIVER PELO MENOS UM ITEM NO EXTRATO
+            if (!Debito.extrato.isEmpty()) {
+
+                Main.layout.topLine(3);
+                Main.layout.br(1);
+                System.out.println("             EXTRATO DO CARTÃO DE DÉBITO "
+                        + Bd.clienteBuscaContaCorrente.getCartoesDebitoCliente().get(0).getNumeroCartao());
+                Main.layout.bottomLine(3);
+                Main.layout.br(1);
+
+                Main.layout.topLine(3);
+                Main.layout.br(1);
+
+                for (Map.Entry<Integer, Transacao> entry : Debito.extrato.entrySet()) {
+
+                    Calendar cal = Calendar.getInstance();
+                    cal.setTime(entry.getValue().getDataCompra());
+
+
+                    System.out.println("    [" + entry.getKey() + "] "
+                            + entry.getValue().getDescricao() + " || "
+                            + cal.get(Calendar.DAY_OF_MONTH) + "/"
+                            + cal.get(Calendar.MONTH)+1 + "/"
+                            + cal.get(Calendar.YEAR) + " || "
+                            + cal.get(Calendar.HOUR_OF_DAY) + ":"
+                            + cal.get(Calendar.MINUTE) + "hrs || "
+                            + Layout.convertToReais(entry.getValue().getValor()));
+
+                    soma += entry.getValue().getValor();
+                }
+
+                Main.layout.centralLine(3);
+                Main.layout.br(1);
+
+                System.out.println("    Total: " + Layout.convertToReais(soma));
+
+                Main.layout.bottomLine(3);
+                Main.layout.br(1);
+
+            }
+
+            // SE NÃO TIVER NADA NO EXTRATO
+            else{
+                System.out.println(("Não existem transações realizadas neste cartão."));
+            }
+
+        }
+
+        // SE A CONTA É POUPANÇA
+        else{
+            // SE TIVER PELO MENOS UM ITEM NO EXTRATO
+            if (!Debito.extrato.isEmpty()) {
+
+                Main.layout.topLine(3);
+                Main.layout.br(1);
+                System.out.println("EXTRATO DO CARTÃO DE DÉBITO "
+                        + Bd.clienteBuscaContaPoupanca.getCartoesDebitoCliente().get(0).getNumeroCartao());
+                Main.layout.bottomLine(3);
+                Main.layout.br(1);
+
+                Main.layout.topLine(3);
+                Main.layout.br(1);
+
+                System.out.println("||      ID      ||    NOME      ||      DATA      ||      VALOR      ||");
+                Main.layout.centralLine(3);
+                Main.layout.br(1);
+
+                for (Map.Entry<Integer, Transacao> entry : Debito.extrato.entrySet()) {
+
+                    System.out.println("[" + entry.getKey() + "]" + "      "
+                            + entry.getValue().getDescricao() + "      "
+                            + entry.getValue().getDataCompra().getDay() + "/"
+                            + entry.getValue().getDataCompra().getMonth() + "/"
+                            + entry.getValue().getDataCompra().getYear() + "      "
+                            + Layout.convertToReais(entry.getValue().getValor()));
+
+                    soma += entry.getValue().getValor();
+                }
+
+                Main.layout.centralLine(3);
+                Main.layout.br(1);
+
+                System.out.println("Total: " + Layout.convertToReais(soma));
+
+                Main.layout.bottomLine(3);
+                Main.layout.br(1);
+
+            }
+
+            // SE NÃO TIVER NADA NO EXTRATO
+            else{
+                System.out.println(("Não existem transações realizadas neste cartão."));
+            }
+
+        }
+
+
+
+
+
     }
 }

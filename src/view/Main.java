@@ -788,7 +788,6 @@ public class Main {
 
         int n = 0, cont = 0;
         Map<Cartao, String> listar = (CartaoBo.listarCartoesDoCliente(tipoConta)); // HASHMAP COM TIPO DE CARTÕES E CTS
-        ArrayList<Cartao> listar2 = new ArrayList<>(); // ARRAYLIST SÓ COM OS CARTÕES DOS CLIENTES
 
         // LAYOUT
         layout.topLine(3);
@@ -801,14 +800,13 @@ public class Main {
         layout.topLine(3);
         layout.br(1);
 
-        // LISTAR CARTÕES DO CLIENTE
+        // LISTAR CARTÕES DO CLIENTE SE ELE TIVER ALGUM CARTÃO CADASTRADO
         if(!listar.isEmpty()) {
 
             // RODA A LISTAGEM DE CARTÕES DO CLIENTE
             for (Map.Entry<Cartao, String> entry : listar.entrySet()) {
                 cont++;
                 System.out.println("    [" + cont + "] " + entry.getValue() + " - " + entry.getKey().getNumeroCartao());
-                listar2.add(entry.getKey());
             }
 
             cont++;
@@ -835,12 +833,12 @@ public class Main {
 
                     // SE O ITEM SELECIONADO FOR O PRIMEIRO CARTÃO ( CRÉDITO )
                     else if (n == 1) {
-                        menuCartaoSelecionado(tipoConta, 2, listar2.get(0));
+                        menuCartaoSelecionado(tipoConta, 2);
                     }
 
                     // SE O ITEM SELECIONADO FOR O SEGUNDO CARTÃO ( DÉBITO )
                     else if (n == 2) {
-                        menuCartaoSelecionado(tipoConta, 1, listar2.get(1));
+                        menuCartaoSelecionado(tipoConta, 1);
                     }
 
                     // VOLTA PRO MENU CARTÕES
@@ -860,11 +858,11 @@ public class Main {
 
                         // SE FOR CRÉDITO
                         if(entry.getValue().equals("Crédito")){
-                            menuCartaoSelecionado(tipoConta, 2, entry.getKey());
+                            menuCartaoSelecionado(tipoConta, 2);
                         }
                         // SE FOR DÉBITO
                         else if(entry.getValue().equals("Débito")){
-                            menuCartaoSelecionado(tipoConta, 1, entry.getKey());
+                            menuCartaoSelecionado(tipoConta, 1);
                         }
 
                     }
@@ -874,6 +872,7 @@ public class Main {
             }while(n < 1 || n > cont);
 
         }
+        // SE CLIENTE NÃO TIVER NENHUM CARTÃO
         else{
             System.out.println("    Você não tem nenhum cartão cadastrado no momento");
             layout.loading(3);
@@ -925,13 +924,14 @@ public class Main {
     }
 
     // MENU DO CARTÃO SELECIONADO ( PARAMS: TIPO CARTÃO 1 - DÉBITO || TIPO CARTÃO 2 - CRÉDITO)
-    public static void menuCartaoSelecionado(Integer tipoConta, Integer tipoCartao, Cartao cartao){
+    public static void menuCartaoSelecionado(Integer tipoConta, Integer tipoCartao){
 
         int n = 0;
 
         // LAYOUT
         layout.topLine(3);
         layout.br(1);
+
         // VALIDA O TIPO DO CARTÃO PARA FAZER APARECER O TIPO DELE NO TÍTULO
         if(tipoCartao == 1) {
             System.out.println("             =-=-= Meu cartão de débito =-=-=");
@@ -939,6 +939,7 @@ public class Main {
         else if(tipoCartao == 2){
             System.out.println("             =-=-= Meu cartão de crédito =-=-=");
         }
+
         layout.bottomLine(3);
         layout.br(1);
 
@@ -978,6 +979,8 @@ public class Main {
                         n = Integer.parseInt(Layout.entry("    Escolha: "));
                         layout.bottomLine(3);
                         layout.br(1);
+                        layout.loading(3);
+                        layout.limparTela();
 
                         // DESATIVAR CARTÃO DE DÉBITO CC
                         if(n == 1){
@@ -993,7 +996,7 @@ public class Main {
                         }
                         // SAIR DO MENU DO CARTÃO DE DÉBITO CC
                         else if(n == 4){
-
+                            menuCartoes(tipoConta);
                         }
 
                     }while(n < 1 || n > 4);
@@ -1022,6 +1025,8 @@ public class Main {
                         n = Integer.parseInt(Layout.entry("    Escolha: "));
                         layout.bottomLine(3);
                         layout.br(1);
+                        layout.loading(3);
+                        layout.limparTela();
 
                         // ATIVAR CARTÃO DE DÉBITO CC
                         if(n == 1){
@@ -1029,7 +1034,7 @@ public class Main {
                         }
                         // SAIR DO MENU DO CARTÃO DE DÉBITO CC
                         else if(n == 2){
-
+                            menuCartoes(tipoConta);
                         }
 
                     }while(n < 1 || n > 2);
@@ -1072,6 +1077,8 @@ public class Main {
                         n = Integer.parseInt(Layout.entry("    Escolha: "));
                         layout.bottomLine(3);
                         layout.br(1);
+                        layout.loading(3);
+                        layout.limparTela();
 
                         // DESATIVAR CARTÃO DE DÉBITO CP
                         if(n == 1){
@@ -1087,7 +1094,7 @@ public class Main {
                         }
                         // SAIR DO MENU DO CARTÃO DE DÉBITO CP
                         else if(n == 4){
-
+                            menuCartoes(tipoConta);
                         }
 
                     }while(n < 1 || n > 4);
@@ -1116,6 +1123,8 @@ public class Main {
                         n = Integer.parseInt(Layout.entry("    Escolha: "));
                         layout.bottomLine(3);
                         layout.br(1);
+                        layout.loading(3);
+                        layout.limparTela();
 
                         // ATIVAR CARTÃO DE DÉBITO CP
                         if(n == 1){
@@ -1123,7 +1132,7 @@ public class Main {
                         }
                         // SAIR DO MENU DO CARTÃO DE DÉBITO CP
                         else if(n == 2){
-
+                            menuCartoes(tipoConta);
                         }
 
                     }while(n < 1 || n > 2);
@@ -1173,6 +1182,8 @@ public class Main {
                         n = Integer.parseInt(Layout.entry("    Escolha: "));
                         layout.bottomLine(3);
                         layout.br(1);
+                        layout.loading(3);
+                        layout.limparTela();
 
                         // DESATIVAR CARTÃO DE CRÉDITO CC
                         if(n == 1){
@@ -1192,7 +1203,7 @@ public class Main {
                         }
                         // SAIR DO MENU DO CARTÃO DE CREDITO CC
                         else if(n == 5){
-
+                            menuCartoes(tipoConta);
                         }
                     }while(n < 1 || n > 5);
 
@@ -1220,6 +1231,8 @@ public class Main {
                         n = Integer.parseInt(Layout.entry("    Escolha: "));
                         layout.bottomLine(3);
                         layout.br(1);
+                        layout.loading(3);
+                        layout.limparTela();
 
                         // ATIVAR CARTÃO DE CRÉDITO CC
                         if(n == 1){
@@ -1227,7 +1240,7 @@ public class Main {
                         }
                         // SAIR DO MENU DO CARTÃO DE CRÉDITO CC
                         else if(n == 2){
-
+                            menuCartoes(tipoConta);
                         }
 
                     }while(n < 1 || n > 2);
@@ -1272,6 +1285,8 @@ public class Main {
                         n = Integer.parseInt(Layout.entry("    Escolha: "));
                         layout.bottomLine(3);
                         layout.br(1);
+                        layout.loading(3);
+                        layout.limparTela();
 
                         // DESATIVAR CARTÃO DE CRÉDITO CC
                         if(n == 1){
@@ -1291,7 +1306,7 @@ public class Main {
                         }
                         // SAIR DO MENU DO CARTÃO DE CREDITO CC
                         else if(n == 5){
-
+                            menuCartoes(tipoConta);
                         }
                     }while(n < 1 || n > 5);
 
@@ -1319,6 +1334,8 @@ public class Main {
                         n = Integer.parseInt(Layout.entry("    Escolha: "));
                         layout.bottomLine(3);
                         layout.br(1);
+                        layout.loading(3);
+                        layout.limparTela();
 
                         // ATIVAR CARTÃO DE CRÉDITO CC
                         if(n == 1){
@@ -1326,7 +1343,7 @@ public class Main {
                         }
                         // SAIR DO MENU DO CARTÃO DE CRÉDITO CC
                         else if(n == 2){
-
+                            menuCartoes(tipoConta);
                         }
 
                     }while(n < 1 || n > 2);

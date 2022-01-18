@@ -998,6 +998,7 @@ public class Main {
                         // DESATIVAR CARTÃO DE DÉBITO CC
                         if(n == 1){
                             System.out.println(DebitoBo.ativaOuDesativaCartao(tipoConta, false));
+                            menuCartaoSelecionado(tipoConta, tipoCartao);
                         }
                         // COMPRAR COM O CARTÃO DE DÉBITO CC
                         else if(n == 2){
@@ -1044,6 +1045,7 @@ public class Main {
                         // ATIVAR CARTÃO DE DÉBITO CC
                         if(n == 1){
                             System.out.println(DebitoBo.ativaOuDesativaCartao(tipoConta, true));
+                            menuCartaoSelecionado(tipoConta, tipoCartao);
                         }
                         // SAIR DO MENU DO CARTÃO DE DÉBITO CC
                         else if(n == 2){
@@ -1096,6 +1098,7 @@ public class Main {
                         // DESATIVAR CARTÃO DE DÉBITO CP
                         if(n == 1){
                             System.out.println(DebitoBo.ativaOuDesativaCartao(tipoConta, false));
+                            menuCartaoSelecionado(tipoConta, tipoCartao);
                         }
                         // COMPRAR COM O CARTÃO DE DÉBITO CP
                         else if(n == 2){
@@ -1142,6 +1145,7 @@ public class Main {
                         // ATIVAR CARTÃO DE DÉBITO CP
                         if(n == 1){
                             System.out.println(DebitoBo.ativaOuDesativaCartao(tipoConta, true));
+                            menuCartaoSelecionado(tipoConta, tipoCartao);
                         }
                         // SAIR DO MENU DO CARTÃO DE DÉBITO CP
                         else if(n == 2){
@@ -1198,7 +1202,8 @@ public class Main {
 
                         // DESATIVAR CARTÃO DE CRÉDITO CC
                         if(n == 1){
-                            CreditoBo.ativaOuDesativaCartao(tipoConta, false);
+                            System.out.println(CreditoBo.ativaOuDesativaCartao(tipoConta, false));
+                            menuCartaoSelecionado(tipoConta, tipoCartao);
                         }
                         // COMPRAR COM O CARTÃO DE CRÉDITO CC
                         else if(n == 2){
@@ -1247,7 +1252,8 @@ public class Main {
 
                         // ATIVAR CARTÃO DE CRÉDITO CC
                         if(n == 1){
-                            CreditoBo.ativaOuDesativaCartao(tipoConta, true);
+                            System.out.println(CreditoBo.ativaOuDesativaCartao(tipoConta, true));
+                            menuCartaoSelecionado(tipoConta, tipoCartao);
                         }
                         // SAIR DO MENU DO CARTÃO DE CRÉDITO CC
                         else if(n == 2){
@@ -1300,7 +1306,8 @@ public class Main {
 
                         // DESATIVAR CARTÃO DE CRÉDITO CP
                         if(n == 1){
-                            CreditoBo.ativaOuDesativaCartao(tipoConta, false);
+                            System.out.println(CreditoBo.ativaOuDesativaCartao(tipoConta, false));
+                            menuCartaoSelecionado(tipoConta, tipoCartao);
                         }
                         // COMPRAR COM O CARTÃO DE CRÉDITO CP
                         else if(n == 2){
@@ -1349,7 +1356,8 @@ public class Main {
 
                         // ATIVAR CARTÃO DE CRÉDITO CP
                         if(n == 1){
-                            CreditoBo.ativaOuDesativaCartao(tipoConta, true);
+                            System.out.println(CreditoBo.ativaOuDesativaCartao(tipoConta, true));
+                            menuCartaoSelecionado(tipoConta, tipoCartao);
                         }
                         // SAIR DO MENU DO CARTÃO DE CRÉDITO CP
                         else if(n == 2){
@@ -1362,14 +1370,6 @@ public class Main {
 
             }
         }
-
-
-        // LAYOUT
-        layout.bottomLine(3);
-        layout.br(1);
-
-
-
 
     }
 

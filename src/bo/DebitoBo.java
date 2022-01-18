@@ -1,7 +1,11 @@
 package bo;
 import dao.Bd;
+import model.cartao.Transacao;
 import model.cartao.debito.Debito;
 import model.conta.ContaTipo;
+import util.Layout;
+
+import java.util.Date;
 
 public class DebitoBo {
 
@@ -86,5 +90,85 @@ public class DebitoBo {
 
         }
 
+    }
+
+    // COMPRAR
+    public static String processaCompra(Integer tipoConta, String nomeItem, Float valorItem){
+
+        // INSTANCIANDO NOVA DATA
+        Date date = new Date();
+
+        // SE FOR CONTA CORRENTE
+        if(tipoConta == 1){
+
+            //SE VALOR SE ADEQUAR AO LIMITE DE TRANSAÇÃO
+            if(Bd.clienteBuscaContaCorrente.getCartoesDebitoCliente().get(0).getLimiteTransacao() < valorItem){
+                // SE SALDO DISPONÍVEL FOR SUFICIENTE
+                if(Bd.clienteBuscaContaCorrente.getSaldo() < valorItem){
+
+                    // ATUALIZANDO SALDO DO CLIENTE
+                    Bd.clienteBuscaContaCorrente.setSaldo(Bd.clienteBuscaContaCorrente.getSaldo()-valorItem);
+
+                    // INSTANCIANDO OBJETO TRANSAÇÃO
+                    Transacao transacao = new Transacao(date, nomeItem, valorItem,
+                            Bd.clienteBuscaContaCorrente.getCliente(),
+                            Bd.clienteBuscaContaCorrente ,
+                            Bd.clienteBuscaContaCorrente.getCartoesDebitoCliente().get(0));
+
+                    // ADICIONANDO TRANSAÇÃO AO BD
+                    Debito.salvarTransacao(transacao);
+
+                    return("Compra no valor de " + Layout.convertToReais(valorItem) + "realizada com sucesso. " +
+                            "\nSeu saldo atual: " + Layout.convertToReais(Bd.clienteBuscaContaCorrente.getSaldo()));
+                }
+                // SE SALDO DISPONÍVEL NÃO FOR SUFICIENTE
+                else{
+                    return("Não foi possível realizar a compra, você não possui saldo suficiente.\nSeu saldo atual: " +
+                            Layout.convertToReais(Bd.clienteBuscaContaCorrente.getSaldo()));
+                }
+            }
+            // SE VALOR NÃO SE ADEQUA AO LIMITE DE TRANSAÇÃO
+            else{
+                return("Não foi possível realizar a compra.\nO valor inserido excede seu limite para transações ("
+                        + Layout.convertToReais(Bd.clienteBuscaContaCorrente.getCartoesDebitoCliente().get(0).getLimiteTransacao()) +
+                        ").");
+            }
+        }
+        // SE FOR CONTA POUPANÇA
+        if(tipoConta == 2){
+            // SE VALOR SE ADEQUAR AO LIMITE DE TRANSAÇÃO
+            if(Bd.clienteBuscaContaPoupanca.getCartoesDebitoCliente().get(0).getLimiteTransacao() < valorItem){
+                // SE SALDO DISPONÍVEL FOR SUFICIENTE
+                if(Bd.clienteBuscaContaPoupanca.getSaldo() < valorItem){
+
+                    // ATUALIZANDO SALDO DO CLIENTE
+                    Bd.clienteBuscaContaPoupanca.setSaldo(Bd.clienteBuscaContaPoupanca.getSaldo()-valorItem);
+
+                    // INSTANCIANDO OBJETO TRANSAÇÃO
+                    Transacao transacao = new Transacao(date, nomeItem, valorItem,
+                            Bd.clienteBuscaContaPoupanca.getCliente(),
+                            Bd.clienteBuscaContaPoupanca ,
+                            Bd.clienteBuscaContaPoupanca.getCartoesDebitoCliente().get(0));
+
+                    // ADICIONANDO TRANSAÇÃO AO BD
+                    Debito.salvarTransacao(transacao);
+
+                    return("Compra no valor de " + Layout.convertToReais(valorItem) + "realizada com sucesso. " +
+                            "\nSeu saldo atual: " + Layout.convertToReais(Bd.clienteBuscaContaPoupanca.getSaldo()));
+                }
+                // SE SALDO DISPONÍVEL NÃO FOR SUFICIENTE
+                else{
+                    return("Não foi possível realizar a compra, você não possui saldo suficiente.\nSeu saldo atual: " +
+                            Layout.convertToReais(Bd.clienteBuscaContaPoupanca.getSaldo()));
+                }
+            }
+            // SE VALOR NÃO SE ADEQUA AO LIMITE DE TRANSAÇÃO
+            else{
+                return("Não foi possível realizar a compra.\nO valor inserido excede seu limite para transações ("
+                        + Layout.convertToReais(Bd.clienteBuscaContaPoupanca.getCartoesDebitoCliente().get(0).getLimiteTransacao()) +
+                        ").");
+            }
+        }
+        return("");
     }
 }

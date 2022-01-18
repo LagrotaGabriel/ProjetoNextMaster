@@ -1,4 +1,5 @@
 package model.cartao;
+import model.cliente.Cliente;
 import model.conta.Conta;
 import java.util.ArrayList;
 import java.util.Date;
@@ -11,15 +12,16 @@ public class Transacao {
     private Float valor;
     private Cartao cartao;
     private Conta contaPagante;
-    private Conta contaRecebimento;
+    private Cliente clientePagante;
 
     // Construtor
-    public Transacao(Date dataCompra, String descricao, Float valor, Conta contaPagante, Conta contaRecebimento) {
+    public Transacao(Date dataCompra, String descricao, Float valor, Cliente clientePagante, Conta contaPagante, Cartao cartao) {
         this.dataCompra = dataCompra;
         this.descricao = descricao;
         this.valor = valor;
+        this.clientePagante = clientePagante;
+        this.cartao = cartao;
         this.contaPagante = contaPagante;
-        this.contaRecebimento = contaRecebimento;
     }
 
     // Getters e Setters
@@ -41,17 +43,11 @@ public class Transacao {
     public void setValor(Float valor) {
         this.valor = valor;
     }
-    public Conta getContaPagante() {
-        return contaPagante;
+    public Cliente getClientePagante() {
+        return clientePagante;
     }
-    public void setContaPagante(Conta contaPagante) {
-        this.contaPagante = contaPagante;
-    }
-    public Conta getContaRecebimento() {
-        return contaRecebimento;
-    }
-    public void setContaRecebimento(Conta contaRecebimento) {
-        this.contaRecebimento = contaRecebimento;
+    public void setClientePagante(Cliente clientePagante) {
+        this.clientePagante = clientePagante;
     }
     public Cartao getCartao() {
         return cartao;
@@ -59,9 +55,11 @@ public class Transacao {
     public void setCartao(Cartao cartao) {
         this.cartao = cartao;
     }
-
-    // Add Transação
-    public void addTransacao(Transacao transacao){
-
+    public Conta getContaPagante() {
+        return contaPagante;
     }
+    public void setContaPagante(Conta contaPagante) {
+        this.contaPagante = contaPagante;
+    }
+
 }

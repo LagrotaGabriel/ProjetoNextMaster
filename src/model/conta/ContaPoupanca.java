@@ -1,6 +1,10 @@
 package model.conta;
 import model.cartao.Cartao;
+import model.cartao.credito.Credito;
+import model.cartao.debito.Debito;
 import model.cliente.Cliente;
+
+import java.util.ArrayList;
 
 public class ContaPoupanca extends Conta{
 

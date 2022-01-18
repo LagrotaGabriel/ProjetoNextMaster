@@ -13,7 +13,6 @@ public class ContaCorrente extends Conta{
     private Float taxaManutencao;
     private Float limiteCredito;
 
-
     // Construtor
     public ContaCorrente(Cliente cliente, Integer agencia, Integer conta, Float saldo, Float taxaManutencao) {
 

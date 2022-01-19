@@ -5,6 +5,8 @@ import model.cartao.Cartao;
 import model.cartao.TipoCartao;
 import model.conta.ContaTipo;
 import util.Layout;
+
+import java.util.Locale;
 import java.util.Map;
 public class Main {
 
@@ -196,8 +198,7 @@ public class Main {
 
         // Declaração de variáveis
         Boolean passa;
-        String nome;
-        String cpf;
+        String nome, cpf, rg, email, telefone, senha, estado, cidade, bairro, rua, numeroRua, cep;
 
         // Instanciações
         EntradasBo entradasBo = new EntradasBo();
@@ -210,14 +211,16 @@ public class Main {
         layout.topLine(3);
         layout.br(1);
 
+        /* --------------------------------- INÍCIO - VALIDAÇÕES DE CADASTRO -------------------------------------- */
+
         // Validação de entrada do nome
         do {
-            nome = Layout.entry("    Digite seu nome: ").toUpperCase();
-            passa = entradasBo.cadastraNomeBo(nome);
-        }while(!passa);
 
-        // Retomando valor false ao passa
-        passa = false;
+            nome = Layout.entry("    Digite seu nome: ").toUpperCase();
+
+            passa = entradasBo.cadastraNomeBo(nome);
+
+        }while(!passa);
 
         // Validação de entrada do CPF
         do{
@@ -228,22 +231,115 @@ public class Main {
                     .replaceAll("-", "");
 
             passa = entradasBo.cadastraCpfBo(cpf);
+
         }while(!passa);
 
+        // Validação de entrada do RG
+        do{
 
-        // Retomando valor false ao passa
-        passa = false;
+            rg = Layout.entry("    Digite seu RG: ")
+                    .replace(".", "")
+                    .replace("-", "")
+                    .replace(" ", "");
 
-        String rg = Layout.entry("  Digite seu RG: ");
-        String email = Layout.entry("  Digite seu Email: ");
-        String telefone = Layout.entry("  Digite seu Telefone: ");
-        String senha = Layout.entry("  Digite a sua senha: ");
-        String estado = Layout.entry("  Digite o seu estado: ");
-        String cidade = Layout.entry("  Digite a sua cidade: ");
-        String bairro = Layout.entry("  Digite o nome do seu bairro: ");
-        String rua = Layout.entry("  Digite o nome da sua rua: ");
-        String numeroRua = Layout.entry("  Digite o número da casa: ");
-        String cep = Layout.entry("  Digite o CEP: ");
+            passa = entradasBo.cadastraRgBo(rg);
+
+        }while(!passa);
+
+        // Validação de entrada do EMAIL
+        do{
+
+            email = Layout.entry("    Digite seu Email: ")
+                    .replace(" ", "")
+                    .toLowerCase();
+
+            passa = entradasBo.cadastraEmailBo(email);
+
+        }while(!passa);
+
+        // Validação de entrada do TELEFONE
+        do{
+
+            telefone = Layout.entry("    Digite seu telefone sem DDD [XXXXX-XXXX]: ")
+                    .replaceAll(" ", "")
+                    .replaceAll("-", "");
+            passa = entradasBo.cadastraTelefoneBo(telefone);
+
+        }while(!passa);
+
+        // Validação de entrada da SENHA
+        do{
+
+            senha = Layout.entry("    Crie uma senha de 6 números: ")
+                    .replaceAll(" ", "");
+            passa = entradasBo.cadastraSenhaBo(senha);
+
+        }while(!passa);
+
+        // Validação de entrada do ESTADO
+        do{
+
+            estado = Layout.entry("    Digite a sua unidade federativa (XX): ")
+                    .toUpperCase()
+                    .replaceAll(" ", "");
+
+            passa = entradasBo.cadastraEstadoBo(estado);
+
+        }while(!passa);
+
+        // Validação de entrada da CIDADE
+        do{
+
+            cidade = Layout.entry("    Digite seu cidade: ")
+                    .replaceAll(" ", "")
+                    .toUpperCase();
+
+            passa = entradasBo.cadastraCidadeBo(cidade);
+
+        }while(!passa);
+
+        // Validação de entrada do BAIRRO
+        do{
+
+            bairro = Layout.entry("    Digite seu bairro: ")
+                    .replaceAll(" ", "")
+                    .toUpperCase();
+
+            passa = entradasBo.cadastraBairroBo(bairro);
+
+        }while(!passa);
+
+        // Validação de entrada da RUA
+        do{
+
+            rua = Layout.entry("    Digite seu rua: ")
+                    .replaceAll(" ", "")
+                    .toUpperCase();
+
+            passa = entradasBo.cadastraRuaBo(rua);
+
+        }while(!passa);
+
+        // Validação de entrada do NUMERO DA RUA
+        do{
+            numeroRua = Layout.entry("    Digite seu numero da rua: ")
+                    .replaceAll(" ", "");
+
+            passa = entradasBo.cadastraNumeroRuaBo(numeroRua);
+        }while(!passa);
+
+        // Validação de entrada do CEP
+        do{
+            cep = Layout.entry("    Digite seu CEP: ")
+                    .replaceAll(" ", "")
+                    .replace("-", "");
+
+            passa = entradasBo.cadastraCepBo(cep);
+
+        }while(!passa);
+
+        /* ---------------------------------- FIM - VALIDAÇÕES DE CADASTRO ---------------------------------------- */
+
         layout.bottomLine(3);
         layout.br(1);
         layout.topLine(3);

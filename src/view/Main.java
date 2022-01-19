@@ -19,7 +19,7 @@ public class Main {
     // Método main
     public static void main(String[] args) {
 
-        CadastroBo.cadastrarUsuario("Gabriel", "471", "558468263",
+        CadastroBo.cadastrarUsuario("Gabriel", "47153427821", "558468263",
                 "1", "São Paulo", "SP", "Lauzane", "583",
                 "Avenida Coronel Manuel Py", "02442090", "gabriellagrota23@gmail.com", "979815415", "3");
 
@@ -32,57 +32,167 @@ public class Main {
                 "Avenida Coronel Manuel Py", "02442090", "blablabla@foursys.com", "992844948", "1");
 
         menuLogin();
+        //menuAcesso();
+        //menuCadastro();
 
     }
 
     /* -------------------------------------- INÍCIO - MENU ACESSO --------------------------------------------- */
     // Menu de acesso
     private static void menuAcesso() {
-        int choice;
 
+        // Declaração de variáveis
+        int choice = 0;
+
+        // Repetidor para anular erros de entrada do usuário
         do {
+
+            // Título
             layout.topLine(3);
             System.out.println("\n    =-=-=-=-=-=Seja bem-vindo(a) ao banco Next!=-=-=-=-=-=");
             layout.bottomLine(3);
             layout.br(1);
+
+            // Menu de acesso
             System.out.println("           [1] Login     [2] Cadastro     [3] Sair");
             layout.bottomLine(3);
             layout.br(1);
-            choice = Integer.parseInt(Layout.entry("           Escolha: "));
-            layout.loading(3);
-            layout.limparTela();
-            if(choice == 1){
-                menuLogin();
-            }else if(choice == 2){
-                menuCadastro();
-            }else if(choice == 3){
-                System.exit(0);
-            }else{
-                System.out.println("Erro: Entrada incorreta. Digite um valor entre [1 e 3]");
+
+            // Try - Se o usuário entrar com alguma informação incorreta, ele não irá proceder
+            try {
+
+                // Entrada do usuário
+                choice = Integer.parseInt(Layout.entry("    Escolha: "));
+
+                layout.loading(3);
+                layout.limparTela();
+
+                // Se o usuário quiser realizar login
+                if(choice == 1){
+                    menuLogin();
+                }
+
+                // Se o usuário quiser realizar cadastro
+                else if(choice == 2){
+                    menuCadastro();
+                }
+
+                // Se o usuário quiser encerrar o sistema
+                else if(choice == 3){
+                    System.exit(0);
+                }
+
+                // Se o usuário digitar algum número diferente de 1 2 ou 3
+                else{
+                    System.out.println("Erro: Entrada incorreta. Digite um valor entre [1 e 3]");
+                }
+
             }
+
+            // Se ocorrer alguma excessão na entrada do usuário
+            catch(Exception e){
+
+                layout.loading(3);
+                layout.limparTela();
+                System.out.println("Erro: Entrada incorreta. Digite um valor entre [1 e 3]");
+
+            }
+
         }while(choice < 1 || choice > 3);
     }
 
     // Menu de login
     private static void menuLogin(){
 
+        // Inicialização de variáveis
+        Long loginCpf = 0L;
+        Integer n = 0;
+
+        // Layout do título
         layout.topLine(3);
         System.out.println("\n           =-=-=-=-=-=Login de usuário=-=-=-=-=-=");
         layout.bottomLine(3);
         layout.br(1);
-        layout.topLine(3);
-        layout.br(1);
-        String loginCpf = Layout.entry("  Digite seu CPF: ");
-        String loginSenha = Layout.entry("  Digite sua senha: ");
-        login = new LoginBo(loginCpf, loginSenha);
+
+        // Entrada do CPF COMO VALOR INTEIRO
+        do {
+            // Try de validação se o CPF inserido é numérico
+            try {
+
+                // Layout
+                layout.topLine(3);
+                layout.br(1);
+
+                // Tenta converter CPF (INTEIRO) para CPF STRING
+                loginCpf = Long.valueOf(Layout.entry("    Digite o seu CPF: ")
+                        .replace("-", "")
+                        .replace(".", ""));
+
+                // SE A ENTRADA DO CPF NÃO TIVER 11 DÍGITOS
+                if(loginCpf.toString()
+                        .replace("-", "").replace(".", "").length() != 11){
+
+                    // Layout
+                    layout.bottomLine(3);
+                    layout.br(1);
+                    layout.loading(3);
+                    layout.limparTela();
+                    layout.br(1);
+                    System.out.println("Erro: O CPF inserido deve possuir 11 dígitos");
+                    // Variável de saída da estrutura de repetição NEGADO
+                    n = 0;
+                }
+
+                // SE A ENTRADA DO CPF TIVER 11 DÍGITOS
+                else{
+                    // Variável de saída da estrutura de repetição APROVADO
+                    n = 1;
+                }
+
+            }
+            // Se a entrada do usuário para o CPF no login for inválida
+            catch (Exception e) {
+
+                // Layout
+                layout.bottomLine(3);
+                layout.br(1);
+                layout.loading(3);
+                layout.limparTela();
+                layout.br(1);
+                System.out.println("Erro: Digite apenas valores numéricos para a entrada do CPF");
+
+                // Valor de saída da estrutura de repetição NEGADO
+                n = 0;
+            }
+        }while(n != 1);
+
+        // Entrada da SENHA
+        String loginSenha = Layout.entry("    Digite sua senha: ");
+
+        // Instanciação do objeto de login
+        login = new LoginBo(loginCpf.toString(), loginSenha);
+
+        // Layout delay
+        layout.sleep(1600);
+
+        // Invocação do método de acesso do login
         System.out.println(login.Acessar());
+
+        // Layout de delay
+        layout.sleep(1600);
+
+        // Layout
         layout.bottomLine(3);
         layout.br(1);
         layout.loading(3);
         layout.limparTela();
+
+        // Se o login não for validado ele retorna ao menu de login novamente
         if(!login.isAtivo()){
             menuLogin();
-        }else{
+        }
+        // Se o login for validado ele avança para o menu de seleção de contas
+        else{
             menuContas();
         }
 
@@ -624,7 +734,7 @@ public class Main {
         }while(n < 1 || n > 3);
 
     }
-    /* -------------------------------------- FIM - MENU PRINCIPAL -------------------------------------------- */
+    /* --------------------------------------- FIM - MENU PRINCIPAL ------------------------------------------- */
 
     /* --------------------------------------- INÍCIO - PARTE PIX --------------------------------------------- */
     // Menu de cadastro de Pix
@@ -832,6 +942,8 @@ public class Main {
                 layout.topLine(3);
                 layout.br(1);
                 n = Integer.parseInt(Layout.entry("    Escolha: "));
+                layout.bottomLine(3);
+                layout.br(1);
                 layout.loading(3);
                 layout.limparTela();
 
@@ -1429,20 +1541,5 @@ public class Main {
     }
 
     /* -------------------------------------- FIM - PARTE CARTÕES -------------------------------------------- */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 }

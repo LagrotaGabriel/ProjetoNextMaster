@@ -52,9 +52,9 @@ public class LoginBo {
 
 
         if(isAtivo()){
-            return("  Acesso concedido");
+            return("    [Acesso concedido]");
         }else{
-            return("  Acesso negado");
+            return("    [Acesso negado]");
         }
 
     }

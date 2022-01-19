@@ -92,7 +92,7 @@ public class Layout {
     // Entry
     public static String entry(String texto) {
         System.out.print(texto);
-        return input.next();
+        return input.nextLine();
     }
 
     // Barrinha de carregamento

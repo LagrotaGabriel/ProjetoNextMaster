@@ -3,13 +3,9 @@ import bo.*;
 import dao.Bd;
 import model.cartao.Cartao;
 import model.cartao.TipoCartao;
-import model.conta.Conta;
 import model.conta.ContaTipo;
 import util.Layout;
-
-import java.util.ArrayList;
 import java.util.Map;
-import java.util.Random;
 public class Main {
 
     // Instâncias
@@ -31,9 +27,9 @@ public class Main {
                 "2", "São Paulo", "SP", "Lauzane", "583",
                 "Avenida Coronel Manuel Py", "02442090", "blablabla@foursys.com", "992844948", "1");
 
-        menuLogin();
-        //menuAcesso();
-        //menuCadastro();
+        //menuLogin();
+        menuCadastro();
+
 
     }
 
@@ -105,8 +101,8 @@ public class Main {
     private static void menuLogin(){
 
         // Inicialização de variáveis
-        Long loginCpf = 0L;
-        Integer n = 0;
+        long loginCpf = 0L;
+        int n = 0;
 
         // Layout do título
         layout.topLine(3);
@@ -124,12 +120,12 @@ public class Main {
                 layout.br(1);
 
                 // Tenta converter CPF (INTEIRO) para CPF STRING
-                loginCpf = Long.valueOf(Layout.entry("    Digite o seu CPF: ")
+                loginCpf = Long.parseLong(Layout.entry("    Digite o seu CPF: ")
                         .replace("-", "")
                         .replace(".", ""));
 
                 // SE A ENTRADA DO CPF NÃO TIVER 11 DÍGITOS
-                if(loginCpf.toString()
+                if(Long.toString(loginCpf)
                         .replace("-", "").replace(".", "").length() != 11){
 
                     // Layout
@@ -139,8 +135,7 @@ public class Main {
                     layout.limparTela();
                     layout.br(1);
                     System.out.println("Erro: O CPF inserido deve possuir 11 dígitos");
-                    // Variável de saída da estrutura de repetição NEGADO
-                    n = 0;
+
                 }
 
                 // SE A ENTRADA DO CPF TIVER 11 DÍGITOS
@@ -161,8 +156,6 @@ public class Main {
                 layout.br(1);
                 System.out.println("Erro: Digite apenas valores numéricos para a entrada do CPF");
 
-                // Valor de saída da estrutura de repetição NEGADO
-                n = 0;
             }
         }while(n != 1);
 
@@ -170,7 +163,7 @@ public class Main {
         String loginSenha = Layout.entry("    Digite sua senha: ");
 
         // Instanciação do objeto de login
-        login = new LoginBo(loginCpf.toString(), loginSenha);
+        login = new LoginBo(Long.toString(loginCpf), loginSenha);
 
         // Layout delay
         layout.sleep(1600);
@@ -201,18 +194,46 @@ public class Main {
     // Menu de cadastro
     private static void menuCadastro(){
 
+        // Declaração de variáveis
+        Boolean passa;
+        String nome;
+        String cpf;
+
+        // Instanciações
+        EntradasBo entradasBo = new EntradasBo();
+
+        // Layout de título
         layout.topLine(3);
-
         System.out.println("\n         =-=-=-=-=-=Cadastro de usuário=-=-=-=-=-=");
-
         layout.bottomLine(3);
         layout.br(1);
         layout.topLine(3);
         layout.br(1);
 
-        String nome = Layout.entry("  Digite seu nome: ");
+        // Validação de entrada do nome
+        do {
+            nome = Layout.entry("    Digite seu nome: ").toUpperCase();
+            passa = entradasBo.cadastraNomeBo(nome);
+        }while(!passa);
 
-        String cpf = Layout.entry("  Digite seu CPF: ");
+        // Retomando valor false ao passa
+        passa = false;
+
+        // Validação de entrada do CPF
+        do{
+
+            cpf = Layout.entry("    Digite seu CPF: ")
+                    .replaceAll(" ", "")
+                    .replaceAll("\\.", "")
+                    .replaceAll("-", "");
+
+            passa = entradasBo.cadastraCpfBo(cpf);
+        }while(!passa);
+
+
+        // Retomando valor false ao passa
+        passa = false;
+
         String rg = Layout.entry("  Digite seu RG: ");
         String email = Layout.entry("  Digite seu Email: ");
         String telefone = Layout.entry("  Digite seu Telefone: ");
@@ -900,7 +921,7 @@ public class Main {
     // SELEÇÃO DE CARTÕES DO CLIENTE
     public static void menuMeusCartoes(Integer tipoConta){
 
-        int n = 0, tpCartao = 0;
+        int n, tpCartao = 0;
         Map<Integer, Cartao> listar = (CartaoBo.listarCartoesDoCliente(tipoConta)); // HASHMAP COM TIPO DE CARTÕES E CTS
 
         // LAYOUT
@@ -973,7 +994,7 @@ public class Main {
     // CRIAÇÃO DE NOVO CARTÃO
     public static void menuNovoCartao(Integer tipoConta){
 
-        int n = 0;
+        int n;
 
         layout.topLine(3);
         layout.br(1);
@@ -1015,7 +1036,7 @@ public class Main {
     // MENU DO CARTÃO SELECIONADO ( PARAMS: TIPO CARTÃO 1 - DÉBITO || TIPO CARTÃO 2 - CRÉDITO)
     public static void menuCartaoSelecionado(Integer tipoConta, Integer tipoCartao){
 
-        int n = 0;
+        int n;
 
         // LAYOUT
         layout.topLine(3);

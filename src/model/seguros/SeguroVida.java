@@ -4,7 +4,7 @@ public class SeguroVida extends Apolice{
 
     // Construtor
     public SeguroVida() {
-        super(36.00f, "    Seguro de vida", true,
+        super(36.00f, "Seguro de vida", true,
                 ("""
                         I. Indenização por despesas médico-hospitalares, ou por\s
                         perda parcial ou total do funcionamento dos membros ou\s

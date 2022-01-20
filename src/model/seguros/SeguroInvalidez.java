@@ -4,7 +4,7 @@ public class SeguroInvalidez extends Apolice{
 
     // Construtor
     public SeguroInvalidez() {
-        super(26.00f, "    Seguro invalidez", true,
+        super(26.00f, "Seguro invalidez", true,
                 """
                         I. Invalidez parcial: ocorre quando há uma perda parcial\s
                         das funções. Por exemplo, uma pessoa que sofre um\s

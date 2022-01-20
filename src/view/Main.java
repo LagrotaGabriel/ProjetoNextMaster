@@ -1779,6 +1779,59 @@ public class Main {
     // MENU QUE APARECE NA TELA APÓS SELECIONAR ALGUM SEGURO
     public static void menuSeguroSelecionado(Integer tipoConta, Apolice tpSeguro){
 
+        int n = 0;
+
+        // LAYOUT TÍTULO DO SEGURO SELECIONADO
+        layout.topLine(3);
+        layout.br(1);
+        System.out.printf("                 =-=-= %s =-=-=\n", tpSeguro.getNome());
+        layout.bottomLine(3);
+        layout.br(1);
+
+        // Layout opções
+        layout.topLine(3);
+        layout.br(1);
+        System.out.println("        [1] Cancelar      [2] Ver descrição      [3] Voltar");
+        layout.bottomLine(3);
+        layout.br(1);
+
+        // ESCOLHA DO USUÁRIO
+        do {
+
+            // LAYOUT
+            layout.topLine(3);
+            layout.br(1);
+            n = Integer.parseInt(Layout.entry("    Escolha: "));
+            layout.bottomLine(3);
+            layout.br(1);
+            layout.loading(3);
+            layout.limparTela();
+
+            // Cancelar seguro
+            if(n == 1){
+                System.out.println(ApoliceBo.cancelarSeguro(tipoConta, tpSeguro));
+                menuSeguroSelecionado(tipoConta, tpSeguro);
+            }
+
+            // Ver descrição do seguro
+            else if(n == 2){
+                menuSeguroVerDescricao(tipoConta, tpSeguro);
+                layout.loading(3);
+                layout.limparTela();
+                menuSeguroSelecionado(tipoConta, tpSeguro);
+            }
+
+            // Voltar
+            else if(n == 3){
+                menuSeguros(tipoConta);
+            }
+
+        }while(n < 1 || n > 3);
+
+    }
+
+    public static void menuSeguroVerDescricao(Integer tipoConta, Apolice tpSeguro){
+
     }
 
 

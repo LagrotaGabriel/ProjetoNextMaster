@@ -1,6 +1,10 @@
 package model.cliente;
 import model.conta.Conta;
 import model.pix.Pix;
+import model.seguros.Apolice;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class Cliente {
 
@@ -23,6 +27,7 @@ public class Cliente {
         this.senha = senha;
         this.email = email;
         this.telefone = telefone;
+        this.pix = null;
     }
 
     // Getters e Setters

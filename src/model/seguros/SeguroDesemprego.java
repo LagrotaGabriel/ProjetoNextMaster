@@ -4,7 +4,7 @@ public class SeguroDesemprego extends Apolice{
 
     // Construtor
     public SeguroDesemprego() {
-        super(16.00f, "    Seguro desemprego", true,
+        super(16.00f, "Seguro desemprego", true,
                 """
                         I. Necessário trabalhar com registro CLT, com o tempo\s
                         mínimo de estabilidade de 12 meses.

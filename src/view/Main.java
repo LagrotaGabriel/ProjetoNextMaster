@@ -5,8 +5,6 @@ import model.cartao.Cartao;
 import model.cartao.TipoCartao;
 import model.conta.ContaTipo;
 import util.Layout;
-
-import java.util.Locale;
 import java.util.Map;
 public class Main {
 
@@ -29,9 +27,7 @@ public class Main {
                 "2", "São Paulo", "SP", "Lauzane", "583",
                 "Avenida Coronel Manuel Py", "02442090", "blablabla@foursys.com", "992844948", "1");
 
-        //menuLogin();
-        menuCadastro();
-
+        menuLogin();
 
     }
 
@@ -359,12 +355,19 @@ public class Main {
         layout.limparTela();
         System.out.println("Você foi cadastrado com sucesso!");
         if(Bd.contaCorrentesMap.size() > 0 && Bd.contaPoupancasMap.size() > 0){
-            System.out.println("O número gerado para sua conta corrente é: " + Bd.contaCorrentesMap.get((Bd.contaCorrentesMap.size()-1)).getConta());
-            System.out.println("O número gerado para sua conta poupança é: " + Bd.contaPoupancasMap.get((Bd.contaPoupancasMap.size()-1)).getConta());
+            System.out.println("O número gerado para sua conta corrente é: "
+                    + Bd.contaCorrentesMap.get((Bd.contaCorrentesMap.size()-1)).getConta());
+
+            System.out.println("O número gerado para sua conta poupança é: "
+                    + Bd.contaPoupancasMap.get((Bd.contaPoupancasMap.size()-1)).getConta());
+
         }else if(Bd.contaCorrentesMap.size() > 0){
-            System.out.println("O número gerado para sua conta corrente é: " + Bd.contaCorrentesMap.get((Bd.contaCorrentesMap.size()-1)).getConta());
+            System.out.println("O número gerado para sua conta corrente é: "
+                    + Bd.contaCorrentesMap.get((Bd.contaCorrentesMap.size()-1)).getConta());
+
         }else if(Bd.contaPoupancasMap.size() > 0){
-            System.out.println("O número gerado para sua conta corrente é: " + Bd.contaPoupancasMap.get((Bd.contaPoupancasMap.size()-1)).getConta());
+            System.out.println("O número gerado para sua conta corrente é: "
+                    + Bd.contaPoupancasMap.get((Bd.contaPoupancasMap.size()-1)).getConta());
         }
         menuLogin();
     }
@@ -502,7 +505,7 @@ public class Main {
 
                 // Opções do menu
                 System.out.println("      [1] Depositar      [2] Sacar          [3] Cartões");
-                System.out.println("      [4] Menu Pix       [5] Consulta       [6] Voltar");
+                System.out.println("      [4] Pix            [5] Seguros       [6] Voltar");
                 layout.bottomLine(3);
                 layout.br(1);
 
@@ -849,6 +852,27 @@ public class Main {
                 System.out.println("    Entrada incorreta!");
             }
         }while(n < 1 || n > 3);
+
+    }
+
+    // Menu Seguros
+    public static void menuSeguros(Integer tipoConta){
+
+        int n;
+
+        // Layout
+        layout.topLine(3);
+        layout.br(1);
+        System.out.println("                  =-=-= Menu Seguros=-=-=");
+        layout.bottomLine(3);
+        layout.br(1);
+
+        // Opções
+        layout.topLine(3);
+        layout.br(1);
+        System.out.println("         [1] Meus seguros   [2] Contratar   [3] Sair");
+        layout.bottomLine(3);
+        layout.br(1);
 
     }
     /* --------------------------------------- FIM - MENU PRINCIPAL ------------------------------------------- */
@@ -1658,5 +1682,18 @@ public class Main {
     }
 
     /* -------------------------------------- FIM - PARTE CARTÕES -------------------------------------------- */
+
+    /* -----------------------------------=- INÍCIO - PARTE SEGUROS ------------------------------------------ */
+
+
+
+
+
+
+
+
+
+
+    /* -------------------------------------- FIM - PARTE SEGUROS -------------------------------------------- */
 
 }

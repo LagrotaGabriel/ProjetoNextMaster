@@ -4,6 +4,7 @@ import dao.Bd;
 import model.cartao.Cartao;
 import model.cartao.TipoCartao;
 import model.conta.ContaTipo;
+import model.seguros.Apolice;
 import util.Layout;
 import java.util.Map;
 public class Main {
@@ -469,6 +470,7 @@ public class Main {
     /* --------------------------------------- FIM - MENU ACESSO --------------------------------------------- */
 
     /* ----------------------------------- INÍCIO - MENU PRINCIPAL ------------------------------------------ */
+
     // Menu Principal
     public static void menuPrincipal(String ct){
 
@@ -505,7 +507,7 @@ public class Main {
 
                 // Opções do menu
                 System.out.println("      [1] Depositar      [2] Sacar          [3] Cartões");
-                System.out.println("      [4] Pix            [5] Seguros       [6] Voltar");
+                System.out.println("      [4] Pix            [5] Seguros        [6] Voltar");
                 layout.bottomLine(3);
                 layout.br(1);
 
@@ -554,7 +556,7 @@ public class Main {
 
                 // Menu Cartões
                 else if (Integer.parseInt(n) == 5) {
-                    System.out.println("Em construção");
+                    menuSeguros(1);
                 }
 
                 // Voltar
@@ -620,7 +622,7 @@ public class Main {
 
                 // Opções do menu
                 System.out.println("      [1] Depositar      [2] Sacar          [3] Cartões");
-                System.out.println("      [4] Menu Pix       [5] Consulta       [6] Voltar");
+                System.out.println("      [4] Menu Pix       [5] Seguros        [6] Voltar");
                 layout.bottomLine(3);
                 layout.br(1);
 
@@ -669,7 +671,7 @@ public class Main {
 
                 // Menu Cartões
                 else if (Integer.parseInt(n) == 5) {
-                    System.out.println("Em construção");
+                    menuSeguros(2);
                 }
 
                 // Voltar
@@ -874,10 +876,37 @@ public class Main {
         layout.bottomLine(3);
         layout.br(1);
 
+        do {
+            layout.topLine(3);
+            layout.br(1);
+            n = Integer.parseInt(Layout.entry("    Escolha: "));
+            layout.bottomLine(3);
+            layout.br(1);
+            layout.loading(3);
+            layout.limparTela();
+            if(n > 0 && n < 4){
+                if(n == 1){
+                    menuMeusSeguros(tipoConta);
+                    layout.loading(3);
+                    layout.limparTela();
+                    menuSeguros(tipoConta);
+                }else if(n == 2){
+                    System.out.println("Em construção");
+
+                }else{
+                    menuPrincipal(String.valueOf(tipoConta));
+                }
+            }else{
+                System.out.println("    Entrada incorreta!");
+            }
+        }while(n < 1 || n > 3);
+
     }
+
     /* --------------------------------------- FIM - MENU PRINCIPAL ------------------------------------------- */
 
     /* --------------------------------------- INÍCIO - PARTE PIX --------------------------------------------- */
+
     // Menu de cadastro de Pix
     public static void menuCadastroPix(Integer contaTipo){
 
@@ -1034,9 +1063,11 @@ public class Main {
         layout.br(1);
 
     }
+
     /* ---------------------------------------- FIM - PARTE PIX ---------------------------------------------- */
 
     /* -----------------------------------=- INÍCIO - PARTE CARTÕES ------------------------------------------ */
+
 
     // SELEÇÃO DE CARTÕES DO CLIENTE
     public static void menuMeusCartoes(Integer tipoConta){
@@ -1685,9 +1716,70 @@ public class Main {
 
     /* -----------------------------------=- INÍCIO - PARTE SEGUROS ------------------------------------------ */
 
+    public static void menuMeusSeguros(Integer tipoConta){
 
+        int n, tpSeguro = 0;
 
+        Map<Integer, Apolice> listar = (ApoliceBo.listarSegurosDoCliente(tipoConta)); // HASHMAP COM SEGUROS DO CLIENTE
 
+        // LAYOUT
+        layout.topLine(3);
+        layout.br(1);
+        System.out.println("                 =-=-= Meus seguros =-=-=");
+        layout.bottomLine(3);
+        layout.br(1);
+
+        // LAYOUT
+        layout.topLine(3);
+        layout.br(1);
+
+        // SE A LISTA DE SEGUROS DO CLIENTE NÃO ESTIVER VAZIA
+        if(!listar.isEmpty()) {
+
+            // RODA A LISTA UM POR UM
+            for (Map.Entry<Integer, Apolice> entry : listar.entrySet()) {
+
+                // IMPRIME NO CONSOLE UM POR UM
+                System.out.print("    [" + entry.getKey() + "] "
+                        + entry.getValue().getNome() + " || n° ");
+
+                layout.br(1);
+
+            }
+
+            // LAYOUT
+            layout.bottomLine(3);
+            layout.br(1);
+
+            // REPETIÇÃO PARA ANULAR ENTRADAS INCORRETAS
+            do {
+                // OPÇÃO DO USUÁRIO
+                layout.topLine(3);
+                layout.br(1);
+                n = Integer.parseInt(Layout.entry("    Escolha: "));
+                layout.bottomLine(3);
+                layout.br(1);
+                layout.loading(3);
+                layout.limparTela();
+
+                menuSeguroSelecionado(tipoConta, listar.get(n));
+
+            }while(n < 1 || n > listar.size());
+
+        }
+        // SE A LISTA DE CARTÕES DO CLIENTE ESTIVER VAZIA
+        else{
+            System.out.println("    Você não tem nenhum seguro contratado no momento");
+            layout.bottomLine(3);
+            layout.br(1);
+        }
+
+    }
+
+    // MENU QUE APARECE NA TELA APÓS SELECIONAR ALGUM SEGURO
+    public static void menuSeguroSelecionado(Integer tipoConta, Apolice tpSeguro){
+
+    }
 
 
 

@@ -1748,7 +1748,7 @@ public class Main {
         layout.sleep(1000);
         System.out.println(seguroVida.getRegras());
         layout.sleep(1000);
-        System.out.println("    " + "Preço: " + Layout.convertToReais(seguroVida.getValorApolice()) + "a.a");
+        System.out.println("    " + "Preço: " + Layout.convertToReais(seguroVida.getValorApolice()) + " a.a");
         layout.sleep(1000);
 
         layout.centralLine(3);
@@ -1762,7 +1762,7 @@ public class Main {
         layout.sleep(1000);
         System.out.println(seguroInvalidez.getRegras());
         layout.sleep(1000);
-        System.out.println("    " + "Preço: " + Layout.convertToReais(seguroInvalidez.getValorApolice()) + "a.a");
+        System.out.println("    " + "Preço: " + Layout.convertToReais(seguroInvalidez.getValorApolice()) + " a.a");
         layout.sleep(1000);
 
         layout.centralLine(3);
@@ -1938,6 +1938,20 @@ public class Main {
     }
 
     public static void menuSeguroVerDescricao(Integer tipoConta, Apolice tpSeguro){
+
+        // LAYOUT TÍTULO DO SEGURO SELECIONADO
+        layout.topLine(3);
+        layout.br(1);
+        System.out.printf("                 =-=-= %s =-=-=\n", tpSeguro.getNome());
+        layout.bottomLine(3);
+        layout.br(1);
+
+        // Layout opções
+        layout.topLine(3);
+        layout.br(1);
+        System.out.println(tpSeguro.getRegras());
+        layout.bottomLine(3);
+        layout.br(1);
 
     }
 

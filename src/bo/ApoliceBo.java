@@ -126,7 +126,7 @@ public class ApoliceBo {
                                     .getSeguros().size() + 1, apolice);
                             CreditoBo.processaCompra
                                     (tipoConta, apolice.getNome(), apolice.getValorApolice()/12);
-                            return("    Você contratou o " + apolice.getNome() + " com sucesso!");
+                            return("Você contratou o " + apolice.getNome() + " com sucesso!");
 
                         }
 
@@ -139,18 +139,18 @@ public class ApoliceBo {
                         Bd.clienteBuscaContaCorrente.addSeguros(1, apolice);
                         CreditoBo.processaCompra
                                 (tipoConta, apolice.getNome(), apolice.getValorApolice()/12);
-                        return("    Você contratou o " + apolice.getNome() + " com sucesso!");
+                        return("Você contratou o " + apolice.getNome() + " com sucesso!");
 
                     }
 
                 }
 
                 // SE O CLIENTE NÃO POSSUIR LIMITE NO CARTÃO DE CRÉDITO PARA CONTRATAR O SEGURO
-                return("    Você não possui limite no cartão para contratar o seguro");
+                return("Você não possui limite no cartão para contratar o seguro");
             }
             // SE O CLIENTE NÃO POSSUIR CARTÃO DE CRÉDITO
             else {
-                return("    Só é possível contratar um seguro utilizando um cartão de crédito");
+                return("Só é possível contratar um seguro utilizando um cartão\nde crédito");
             }
         }
         // SE A CONTA FOR POUPANÇA
@@ -171,7 +171,7 @@ public class ApoliceBo {
                             // SE O SEGURO QUE VOCÊ FOR INSERIR TIVER O MESMO NOME QUE UM QUE JÁ EXISTA
                             if (apolice.getNome().equals(entry.getValue().getNome())) {
 
-                                return ("    Você já possui este seguro");
+                                return ("Você já possui este seguro");
 
                             }
 
@@ -183,7 +183,7 @@ public class ApoliceBo {
                                         .getSeguros().size() + 1, apolice);
                                 CreditoBo.processaCompra
                                         (tipoConta, apolice.getNome(), apolice.getValorApolice()/12);
-                                return("    Você contratou o " + apolice.getNome() + " com sucesso!");
+                                return("Você contratou o " + apolice.getNome() + " com sucesso!");
 
                             }
                         }
@@ -197,18 +197,18 @@ public class ApoliceBo {
                         Bd.clienteBuscaContaPoupanca.addSeguros(1, apolice);
                         CreditoBo.processaCompra
                                 (tipoConta, apolice.getNome(), apolice.getValorApolice()/12);
-                        return("    Você contratou o " + apolice.getNome() + " com sucesso!");
+                        return("Você contratou o " + apolice.getNome() + " com sucesso!");
 
                     }
 
                 }
 
                 // SE O CLIENTE NÃO POSSUIR LIMITE NO CARTÃO DE CRÉDITO PARA CONTRATAR O SEGURO
-                return("    Você não possui limite no cartão para contratar o seguro");
+                return("Você não possui limite no cartão para contratar o seguro");
             }
             // SE O CLIENTE NÃO POSSUIR CARTÃO DE CRÉDITO
             else {
-                return("    Só é possível contratar um seguro utilizando um cartão\nde crédito");
+                return("Só é possível contratar um seguro utilizando um cartão\nde crédito");
             }
         }
     }

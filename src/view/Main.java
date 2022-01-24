@@ -344,6 +344,7 @@ public class Main {
 
         /* ---------------------------------- FIM - VALIDAÇÕES DE CADASTRO ---------------------------------------- */
 
+        // LAYOUT TÍTULO
         layout.bottomLine(3);
         layout.br(1);
         layout.topLine(3);
@@ -352,16 +353,25 @@ public class Main {
         System.out.println("         [1] Corrente     [2] Poupança     [3] Ambas");
         layout.bottomLine(3);
         layout.br(1);
+
+        // LAYOUT ESCOLHA
         layout.topLine(3);
         layout.br(1);
         String tipoDeConta = Layout.entry("  Escolha: ");
         layout.bottomLine(3);
         layout.br(1);
-        CadastroBo.cadastrarUsuario(nome, cpf, rg, senha, cidade, estado, bairro, numeroRua, rua, cep, email, telefone,
-                tipoDeConta);
+
+        //CADASTRO DE USUÁRIO COM AS VARIÁVEIS DECLARADAS NO ATO DO CADASTRO
+        CadastroBo.cadastrarUsuario
+                        (nome, cpf, rg, senha, cidade, estado, bairro, numeroRua,
+                                rua, cep, email, telefone, tipoDeConta);
+
+        // INFORME DE CADASTRO
         layout.loading(3);
         layout.limparTela();
         System.out.println("Você foi cadastrado com sucesso!");
+
+        // INFORMA QUAL O NÚMERO RANDOMICO GERADO PARA AS CONTAS CORRENTE E POUPANÇA
         if(Bd.contaCorrentesMap.size() > 0 && Bd.contaPoupancasMap.size() > 0){
             System.out.println("O número gerado para sua conta corrente é: "
                     + Bd.contaCorrentesMap.get((Bd.contaCorrentesMap.size()-1)).getConta());
@@ -369,111 +379,169 @@ public class Main {
             System.out.println("O número gerado para sua conta poupança é: "
                     + Bd.contaPoupancasMap.get((Bd.contaPoupancasMap.size()-1)).getConta());
 
-        }else if(Bd.contaCorrentesMap.size() > 0){
+        }
+
+        // INFORMA QUAL O NÚMERO RANDÔMICO GERADO PARA A CONTA CORRENTE
+        else if(Bd.contaCorrentesMap.size() > 0){
             System.out.println("O número gerado para sua conta corrente é: "
                     + Bd.contaCorrentesMap.get((Bd.contaCorrentesMap.size()-1)).getConta());
 
-        }else if(Bd.contaPoupancasMap.size() > 0){
+        }
+
+        // INFORMA QUAL O NÚMERO RANDÔMICO GERADO PARA A CONTA POUPANÇA
+        else if(Bd.contaPoupancasMap.size() > 0){
             System.out.println("O número gerado para sua conta corrente é: "
                     + Bd.contaPoupancasMap.get((Bd.contaPoupancasMap.size()-1)).getConta());
         }
+
+        // ENCAMINHA O USUÁRIO PARA O MENU LOGIN
         menuLogin();
     }
 
     // Menu Contas
     public static void menuContas(){
 
-        String n = "0";
+        // VARIÁVEIS DO menuContas()
+        String n;
 
+        // LAYOUT DE TÍTULO
         layout.topLine(2);
         layout.br(1);
         System.out.println("    =-=-=-=-=-=Suas contas=-=-=-=-=-=");
 
+        // LAYOUT
         layout.bottomLine(2);
         layout.br(1);
         layout.topLine(2);
         layout.br(1);
 
-        // DUAS CONTAS
+        // SE O CLIENTE TIVER CONTA CORRENTE E CONTA POUPANÇA
         if(Bd.clienteBuscaContaCorrente != null && Bd.clienteBuscaContaPoupanca != null){
 
-            while(Integer.parseInt(n) < 1 || Integer.parseInt(n) > 3) {
-                System.out.println("    [1] Conta corrente n° " + Bd.clienteBuscaContaCorrente.getConta());
-                System.out.println("    [2] Conta poupança n° " + Bd.clienteBuscaContaPoupanca.getConta());
-                System.out.println("    [3] Logout");
+            // MENU DE OPÇÕES
+            System.out.println("    [1] Conta corrente n° " + Bd.clienteBuscaContaCorrente.getConta());
+            System.out.println("    [2] Conta poupança n° " + Bd.clienteBuscaContaPoupanca.getConta());
+            System.out.println("    [3] Logout");
+
+            do{
+
+                // LAYOUT
                 layout.bottomLine(2);
                 layout.br(1);
                 layout.topLine(2);
                 layout.br(1);
+
+                // CAMPO DE ENTRADA DO USUÁRIO
                 n = Layout.entry("    Escolha: ");
+
+                // LAYOUT
                 layout.bottomLine(2);
                 layout.br(1);
                 layout.loading(2);
                 layout.limparTela();
+
+                // SE O CLIENTE ACESSAR O SISTEMA UTILIZANDO SUA CONTA CORRENTE
                 if(n.equals("1")){
+                    // MENU PRINCIPAL ACIONADO COM CONTA DE TIPO 1 (CORRENTE)
                     menuPrincipal("1");
-                }else if(n.equals("2")){
+                }
+                // SE O CLIENTE ACESSAR O SISTEMA UTILIZANDO SUA CONTA POUPANÇA
+                else if(n.equals("2")){
+                    // MENU PRINCIPAL ACIONADO COM CONTA DE TIPO 2 (POUPANÇA)
                     menuPrincipal("2");
-                }else{
+                }
+                // SE O CLIENTE RESOLVER RETORNAR AO MENU DE ACESSO DO SISTEMA
+                else{
+                    // INSTÂNCIAS SÃO SETADAS COMO NULL
                     Bd.zerarInstancias();
                     login = null;
                     menuAcesso();
                 }
-            }
+            }while(Integer.parseInt(n) < 1 || Integer.parseInt(n) > 3);
+
         }
 
-        // CONTA POUPANÇA
+        // SE O CLIENTE TIVER SOMENTE CONTA POUPANÇA
         else if(Bd.clienteBuscaContaCorrente == null){
-            while(Integer.parseInt(n) < 1 || Integer.parseInt(n) > 2) {
-                System.out.println("    [1] Conta poupança n° " + Bd.clienteBuscaContaPoupanca.getConta());
-                System.out.println("    [2] Logout");
+
+            // MENU DE OPÇÕES
+            System.out.println("    [1] Conta poupança n° " + Bd.clienteBuscaContaPoupanca.getConta());
+            System.out.println("    [2] Logout");
+
+            do {
+
+                // LAYOUT
                 layout.bottomLine(2);
                 layout.br(1);
                 layout.topLine(2);
                 layout.br(1);
+
+                // ENTRADA DO USUÁRIO
                 n = Layout.entry("    Escolha: ");
+
+                // LAYOUT
                 layout.bottomLine(2);
                 layout.br(1);
                 layout.loading(2);
                 layout.limparTela();
+
+                // SE O CLIENTE RESOLVER ACESSAR O SISTEMA COM SUA CONTA POUPANÇA
                 if(n.equals("1")){
                     menuPrincipal("2");
-                }else{
+                }
+                // SE O CLIENTE RESOLVER RETORNAR AO MENU DE ACESSO DO SISTEMA
+                else{
+                    // ZERA AS INSTÂNCIAS DO USUÁRIO, DECLARANDO OS VALORES COMO NULL
                     login.setAtivo(false);
                     Bd.zerarInstancias();
                     login = null;
                     menuAcesso();
                 }
-            }
+            }while(Integer.parseInt(n) < 1 || Integer.parseInt(n) > 2);
 
         }
 
-        // CONTA CORRENTE
+        // SE O CLIENTE TIVER SOMENTE CONTA CORRENTE
         else {
-            while(Integer.parseInt(n) < 1 || Integer.parseInt(n) > 2) {
-                System.out.println("    [1] Conta corrente n° " + Bd.clienteBuscaContaCorrente.getConta());
-                System.out.println("    [2] Logout");
+
+            // MENU DE OPÇÕES
+            System.out.println("    [1] Conta corrente n° " + Bd.clienteBuscaContaCorrente.getConta());
+            System.out.println("    [2] Logout");
+
+             do {
+
+                 // LAYOUT
                 layout.bottomLine(2);
                 layout.br(1);
                 layout.topLine(2);
                 layout.br(1);
+
+                // ENTRADA DO USUÁRIO
                 n = Layout.entry("    Escolha: ");
+
+                // LAYOUT
                 layout.bottomLine(2);
                 layout.br(1);
                 layout.loading(2);
                 layout.limparTela();
+
+                // SE O USUÁRIO ESCOLHER ACESSAR O SISTEMA UTILIZANDO SUA CONTA CORRENTE
                 if(n.equals("1")){
                     menuPrincipal("1");
-                }else{
+                }
+                // SE O USUÁRIO ESCOLHER RETORNAR AO MENU DE ACESSO DO SISTEMA
+                else{
+                    // ZERA AS INSTÂNCIAS, DECLARANDO OS VALORES COMO NULL
                     login.setAtivo(false);
                     Bd.zerarInstancias();
                     login = null;
                     menuAcesso();
                 }
-            }
+             } while(Integer.parseInt(n) < 1 || Integer.parseInt(n) > 2);
         }
 
     }
+
     /* --------------------------------------- FIM - MENU ACESSO --------------------------------------------- */
 
     /* ----------------------------------- INÍCIO - MENU PRINCIPAL ------------------------------------------ */
@@ -481,56 +549,56 @@ public class Main {
     // Menu Principal
     public static void menuPrincipal(String ct){
 
-        String n = "0";
+        // VARIÁVEIS DO menuPrincipal()
+        String n;
 
         // Conta corrente
         if(Integer.parseInt(ct) == 1){
 
-            while(Integer.parseInt(n) < 1 || Integer.parseInt(n) > 6) {
+            do {
 
+                // LAYOUT DO TÍTULO
                 layout.topLine(3);
                 layout.br(1);
-
                 System.out.println("        =-=-=-=-=-=Conta corrente de " +
                         Bd.clienteBuscaContaCorrente.getCliente().getNome() + "=-=-=-=-=-=");
 
+                // LAYOUT
                 layout.bottomLine(3);
                 layout.br(1);
                 layout.topLine(3);
                 layout.br(1);
 
-                // Informações da conta
-                System.out.print("  ");
-                System.out.print("AG: " + Bd.clienteBuscaContaCorrente.getAgencia());
-                System.out.print(" || CT: " + Bd.clienteBuscaContaCorrente.getConta());
-                System.out.print(" || Tipo: " + Bd.clienteBuscaContaCorrente.getContaTipo());
-                // Informações do saldo
+                // INFORMAÇÕES DA CONTA DO CLIENTE
+                System.out.print("  AG: " + Bd.clienteBuscaContaCorrente.getAgencia()); // MOSTRA AGENCIA
+                System.out.print(" || CT: " + Bd.clienteBuscaContaCorrente.getConta()); // MOSTRA N° DA CONTA
+                System.out.print(" || Tipo: " + Bd.clienteBuscaContaCorrente.getContaTipo()); // MOSTRA TIPO DA CONTA
                 System.out.print(" || Saldo: ");
-                System.out.printf("R$ %.2f", Bd.clienteBuscaContaCorrente.getSaldo());
+                System.out.printf("R$ %.2f", Bd.clienteBuscaContaCorrente.getSaldo()); // MOSTRA SALDO
 
+                // LAYOUT
                 layout.br(1);
                 layout.centralLine(3);
                 layout.br(1);
 
-                // Opções do menu
+                // OPÇÕES DO MENU
                 System.out.println("      [1] Depositar      [2] Sacar          [3] Cartões");
                 System.out.println("      [4] Pix            [5] Seguros        [6] Voltar");
                 layout.bottomLine(3);
                 layout.br(1);
 
-                // Entrada do usuário
+                // ENTRADA DO USUÁRIO
                 layout.topLine(3);
                 layout.br(1);
                 n = Layout.entry("    Escolha: ");
                 layout.bottomLine(3);
                 layout.br(1);
 
+                // APÓS O USUÁRIO ENTRAR UM VALOR, MOSTRA BARRA DE CARREGAMENTO E LIMPA A TELA
                 layout.loading(3);
                 layout.limparTela();
 
-                // Direcionamento de opções
-
-                // Depósito
+                // SE O CLIENTE ESCOLHER REALIZAR UM DEPÓSITO
                 if(Integer.parseInt(n) == 1) {
                     ContaCorrenteBo.Deposito(menuDeposito());
                     layout.bottomLine(2);
@@ -540,7 +608,7 @@ public class Main {
                     n = "0";
                 }
 
-                // Saque
+                // SE O CLIENTE ESCOLHER REALIZAR UM SAQUE
                 else if (Integer.parseInt(n) == 2) {
                     System.out.println(ContaCorrenteBo.Saque(menuSaque()));
                     layout.bottomLine(2);
@@ -550,102 +618,102 @@ public class Main {
                     n = "0";
                 }
 
-                // Transferência
+                // SE O CLIENTE ESCOLHER REALIZAR UMA TRANSFERÊNCIA
                 else if (Integer.parseInt(n) == 3) {
                     menuCartoes(1);
                     n = "0";
                 }
 
-                // Menu Pix
+                // SE O CLIENTE ESCOLHER ACESSAR O MENU PIX
                 else if (Integer.parseInt(n) == 4) {
                     menuPix(1);
                 }
 
-                // Menu Cartões
+                // SE O CLIENTE ESCOLHER ACESSAR O MENU DE CARTÕES
                 else if (Integer.parseInt(n) == 5) {
                     menuSeguros(1);
                 }
 
-                // Voltar
+                // SE O CLIENTE ESCOLHER VOLTAR PARA O MENU DE SELEÇÃO DE CONTAS
                 else if (Integer.parseInt(n) == 6) {
                     menuContas();
                 }
 
-                // Entrada inválida
+                // SE O CLIENTE INSERIR ALGUM VALOR NUMÉRICO INVÁLIDO
                 else {
                     System.out.println("Entrada incorreta!");
                 }
 
-                // Desconto da taxa de manutenção
+                // DESCONTO DA TAXA DE MANUTENÇÃO DA CONTA CORRENTE
                 System.out.println("- " + Bd.clienteBuscaContaCorrente.descontarTaxa());
 
-                // Atualizando tipo de conta
+                // ATUALIZA TIPO DE CONTA PARA A QUE CORRESPONDER AO SALDO ATUAL
 
-                // CONTA COMUM
+                // SE O SALDO FOR MENOR QUE 5K CONVERTE PARA CONTA COMUM
                 if(Bd.clienteBuscaContaCorrente.getSaldo() < 5000){
                     Bd.clienteBuscaContaCorrente.setContaTipo(ContaTipo.COMUM);
                 }
-                // CONTA PREMIUM
+                // SE O SALDO FOR > QUE 5K E < QUE 10K CONVERTE PARA CONTA PREMIUM
                 else if(Bd.clienteBuscaContaCorrente.getSaldo() >= 5000 && Bd.clienteBuscaContaCorrente.getSaldo() < 10000){
                     Bd.clienteBuscaContaCorrente.setContaTipo(ContaTipo.PREMIUM);
                 }
-                // CONTA SUPER
+                // SE O SALDO FOR MAIOR QUE 10K CONVERTE PARACONTA SUPER
                 else{
                     Bd.clienteBuscaContaCorrente.setContaTipo(ContaTipo.SUPER);
                 }
 
-            }
+            }while(Integer.parseInt(n) < 1 || Integer.parseInt(n) > 6);
 
         }
 
         // Conta poupança
         else if(Integer.parseInt(ct) == 2){
 
-            while(Integer.parseInt(n) < 1 || Integer.parseInt(n) > 6) {
+            do {
 
+                // LAYOUT DO TÍTULO
                 layout.topLine(3);
                 layout.br(1);
-
                 System.out.println("        =-=-=-=-=-=Conta poupança de " +
                         Bd.clienteBuscaContaPoupanca.getCliente().getNome() + "=-=-=-=-=-=");
 
+                // LAYOUT
                 layout.bottomLine(3);
                 layout.br(1);
                 layout.topLine(3);
                 layout.br(1);
 
-                // Informações da conta
-                System.out.print("  ");
-                System.out.print("AG: " + Bd.clienteBuscaContaPoupanca.getAgencia());
-                System.out.print(" || Conta: " + Bd.clienteBuscaContaPoupanca.getConta());
-                System.out.print(" || Tipo: " + Bd.clienteBuscaContaPoupanca.getContaTipo());
+                // INFORMAÇÕES DA CONTA POUPANÇA DO CLIENTE
+                System.out.print("  AG: " + Bd.clienteBuscaContaPoupanca.getAgencia()); // MOSTRA A AGENCIA
+                System.out.print(" || Conta: " + Bd.clienteBuscaContaPoupanca.getConta()); // MOSTRA O N° DA CONTA
+                System.out.print(" || Tipo: " + Bd.clienteBuscaContaPoupanca.getContaTipo()); // MOSTRA O TIPO DA CONTA
                 // Informações do saldo
                 System.out.print(" || Saldo: ");
-                System.out.printf("R$ %.2f", Bd.clienteBuscaContaPoupanca.getSaldo());
+                System.out.printf("R$ %.2f", Bd.clienteBuscaContaPoupanca.getSaldo()); // MOSTRA O SALDO
 
+                // LAYOUT
                 layout.br(1);
                 layout.centralLine(3);
                 layout.br(1);
 
-                // Opções do menu
+                // OPÇÕES DO MENU
                 System.out.println("      [1] Depositar      [2] Sacar          [3] Cartões");
                 System.out.println("      [4] Menu Pix       [5] Seguros        [6] Voltar");
                 layout.bottomLine(3);
                 layout.br(1);
 
-                // Entrada do usuário
+                // ENTRADA DO USUÁRIO
                 layout.topLine(3);
                 layout.br(1);
                 n = Layout.entry("    Escolha: ");
                 layout.bottomLine(3);
                 layout.br(1);
 
+                // APÓS O USUÁRIO ENTRAR UM VALOR, FAZ APARECER UMA BARRINHA DE LOADING E LIMPA A TELA DO SISTEMA
                 layout.loading(3);
                 layout.limparTela();
 
-                // Direcionamento de opções
-
-                // Depósito
+                // SE O CLIENTE ESCOLHER REALIZAR UM DEPÓSITO
                 if (Integer.parseInt(n) == 1) {
                     ContaPoupancaBo.Deposito(menuDeposito());
                     layout.bottomLine(2);
@@ -655,7 +723,7 @@ public class Main {
                     n = "0";
                 }
 
-                // Saque
+                // SE O CLIENTE ESCOLHER REALIZAR UM SAQUE
                 else if (Integer.parseInt(n) == 2) {
                     System.out.println(ContaPoupancaBo.Saque(menuDeposito()));
                     layout.bottomLine(2);
@@ -665,52 +733,52 @@ public class Main {
                     n = "0";
                 }
 
-                // Transferir
+                // SE O CLIENTE ESCOLHER REALIZAR UMA TRANSFERÊNCIA
                 else if (Integer.parseInt(n) == 3) {
                     menuCartoes(1);
                     n = "0";
                 }
 
-                // Menu Pix
+                // SE O CLIENTE ESCOLHER ACESSAR O MENU PIX
                 else if (Integer.parseInt(n) == 4) {
                     menuPix(2);
                 }
 
-                // Menu Cartões
+                // SE O CLIENTE ESCOLHER ACESSAR O MENU CARTÕES
                 else if (Integer.parseInt(n) == 5) {
                     menuSeguros(2);
                 }
 
-                // Voltar
+                // SE O CLIENTE ESCOLHER VOLTAR AO MENU DE SELEÇÃO DE CONTAS
                 else if (Integer.parseInt(n) == 6) {
                     menuContas();
                 }
 
-                // Entrada incorreta
+                // SE O CLIENTE ENTRAR COM ALGUM VALOR NUMÉRICO INVÁLIDO
                 else {
                     System.out.println("Entrada incorreta!");
                 }
 
-                // Desconto da taxa de manutenção
+                // ACRESCENTA RENDIMENTO À SUA CONTA POUPANÇA
                 System.out.println("- " + Bd.clienteBuscaContaPoupanca.acrescentarRendimento());
 
-                // Atualizando tipo de conta
+                // ATUALIZA TIPO DE CONTA PARA A QUE CORRESPONDER AO SALDO ATUAL
 
-                // CONTA COMUM
+                // SE O SALDO FOR MENOR QUE 5K CONVERTE PARA CONTA COMUM
                 if(Bd.clienteBuscaContaPoupanca.getSaldo() < 5000){
                     Bd.clienteBuscaContaPoupanca.setContaTipo(ContaTipo.COMUM);
                 }
-                // CONTA PREMIUM
+                // SE O SALDO FOR > QUE 5K E < QUE 10K CONVERTE PARA CONTA PREMIUM
                 else if(Bd.clienteBuscaContaPoupanca.getSaldo() > 5000 &&
                         Bd.clienteBuscaContaPoupanca.getSaldo() < 10000){
                     Bd.clienteBuscaContaPoupanca.setContaTipo(ContaTipo.PREMIUM);
                 }
-                // CONTA SUPER
+                // SE O SALDO FOR MAIOR QUE 10K CONVERTE PARACONTA SUPER
                 else{
                     Bd.clienteBuscaContaPoupanca.setContaTipo(ContaTipo.SUPER);
                 }
 
-            }
+            } while(Integer.parseInt(n) < 1 || Integer.parseInt(n) > 6);
 
         }
 
@@ -1922,7 +1990,7 @@ public class Main {
 
             // Ver descrição do seguro
             else if(n == 2){
-                menuSeguroVerDescricao(tipoConta, tpSeguro);
+                menuSeguroVerDescricao(tpSeguro);
                 layout.loading(3);
                 layout.limparTela();
                 menuSeguroSelecionado(tipoConta, tpSeguro);
@@ -1937,7 +2005,7 @@ public class Main {
 
     }
 
-    public static void menuSeguroVerDescricao(Integer tipoConta, Apolice tpSeguro){
+    public static void menuSeguroVerDescricao(Apolice tpSeguro){
 
         // LAYOUT TÍTULO DO SEGURO SELECIONADO
         layout.topLine(3);
@@ -1954,11 +2022,6 @@ public class Main {
         layout.br(1);
 
     }
-
-
-
-
-
 
     /* -------------------------------------- FIM - PARTE SEGUROS -------------------------------------------- */
 

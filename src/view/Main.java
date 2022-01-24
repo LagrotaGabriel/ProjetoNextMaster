@@ -787,30 +787,33 @@ public class Main {
     // Menu Deposito
     public static Float menuDeposito(){
 
+        // LAYOUT DO TÍTULO
         layout.topLine(2);
         layout.br(1);
-
         System.out.println("      =-=-=-=-=-=Depósito=-=-=-=-=-=");
-
         layout.bottomLine(2);
         layout.br(1);
+
+        // ENTRADA DO USUÁRIO
         layout.topLine(2);
         layout.br(1);
         System.out.println("  [Digite 0 para sair]");
         return(Float.valueOf(Layout.entry("  Digite o valor do depósito: R$ ")));
+
 
     }
 
     // Menu Saque
     public static Float menuSaque(){
 
+        // LAYOUT DO TÍTULO
         layout.topLine(2);
         layout.br(1);
-
         System.out.println("         =-=-=-=-=-=Saque=-=-=-=-=-=");
-
         layout.bottomLine(2);
         layout.br(1);
+
+        // ENTRADA DO USUÁRIO
         layout.topLine(2);
         layout.br(1);
         System.out.println("  [Digite 0 para sair]");
@@ -821,16 +824,17 @@ public class Main {
     // Menu Pix
     public static void menuPix(Integer contaTipo){
 
-        String n = "-1";
+        // VARIÁVEIS DO MENU PIX
+        String n;
 
-        // Layout
+        // LAYOUT DO TÍTULO
         layout.topLine(3);
         layout.br(1);
         System.out.println("                   =-=-= Menu PIX=-=-=");
         layout.bottomLine(3);
         layout.br(1);
 
-        // Opções
+        // OPÇÕES DO USUÁRIO
         layout.topLine(3);
         layout.br(1);
         System.out.println("    [1] Cadastrar      [2] Apagar chave      [3] Transferir");
@@ -838,94 +842,110 @@ public class Main {
         layout.bottomLine(3);
         layout.br(1);
 
-        // Repetição
-        while(Integer.parseInt(n) < 0 || Integer.parseInt(n) > 5) {
+        // REPETE CASO A ENTRADA DO USUÁRIO SEJA UM VALOR NUMÉRICO INVÁLIDO
+        do {
 
-            // Layout
+            // ENTRADA DO USUÁRIO
             layout.topLine(3);
             layout.br(1);
             n = Layout.entry("    Escolha: ");
             layout.bottomLine(3);
             layout.br(1);
+
+            // APÓS O USUÁRIO ENTRAR UM VALOR APARECE UMA BARRA DE LOADING E LIMPA A TELA DO SISTEMA
             layout.loading(3);
             layout.limparTela();
 
-            // Cadastrar PIX
+            // SE O CLIENTE ESCOLHER ACESSAR O MENU DE CADASTRO PIX
             if(Integer.parseInt(n) == 1){
                 menuCadastroPix(contaTipo);
                 layout.loading(3);
                 layout.limparTela();
                 menuPix(contaTipo);
             }
-            // Apagar PIX
+            // SE O CLIENTE ESCOLHER ACESSAR O MENU DE APAGAR PIX
             else if(Integer.parseInt(n) == 2){
                 menuApagaPix(contaTipo);
                 layout.loading(3);
                 layout.limparTela();
                 menuPix(contaTipo);
             }
-            // Transferir PIX
+            // SE O CLIENTE ESCOLHER ACESSAR O MENU DE TRANSFERÊNCIA PIX
             else if(Integer.parseInt(n) == 3){
-
                 menuTransferePix(contaTipo);
                 layout.loading(3);
                 layout.limparTela();
                 menuPix(contaTipo);
             }
-            // Consultar PIX
+            // SE O CLIENTE ESCOLHER ACESSAR O MENU DE CONSULTA PIX
             else if(Integer.parseInt(n) == 4){
                 menuConsultaPix(contaTipo);
                 layout.loading(3);
                 layout.limparTela();
                 menuPix(contaTipo);
             }
-            // Voltar PIX
+            // SE O CLIENTE ESCOLHER VOLTAR AO MENU PRINCIPAL
             else if(Integer.parseInt(n) == 5){
                 layout.loading(3);
                 layout.limparTela();
                 menuPrincipal(contaTipo.toString());
             }
 
-        }
+        } while(Integer.parseInt(n) < 0 || Integer.parseInt(n) > 5);
     }
 
     // Menu Cartões
     public static void menuCartoes(Integer tipoConta){
 
+        // VARIÁVEIS DO menuCartoes()
         int n;
 
-        // Layout
+        // LAYOUT DO TÍTULO
         layout.topLine(3);
         layout.br(1);
         System.out.println("                  =-=-= Menu Cartões=-=-=");
         layout.bottomLine(3);
         layout.br(1);
 
-        // Opções
+        // OPÇÕES DO USUÁRIO
         layout.topLine(3);
         layout.br(1);
         System.out.println("       [1] Meus cartões   [2] Novo cartão   [3] Sair");
         layout.bottomLine(3);
         layout.br(1);
 
+        // REPETE CASO O USUÁRIO INSIRA UM VALOR NUMÉRICO INVÁLIDO
         do {
+
+            // ENTRADA DO USUÁRIO
             layout.topLine(3);
             layout.br(1);
             n = Integer.parseInt(Layout.entry("    Escolha: "));
             layout.bottomLine(3);
             layout.br(1);
+
+            // APÓS O USUÁRIO ENTRAR UM DADO, CARREGA UMA BARRINHA DE LOADING E LIMPA A TELA
             layout.loading(3);
             layout.limparTela();
+
+            // SE A ENTRADA DO USUÁRIO FOR VÁLIDA, SISTEMA DIRECIONA PARA QUAL MENU SERÁ ACESSADO
             if(n > 0 && n < 4){
+
+                // SE USUÁRIO ESCOLHER ACESSAR MENU QUE LISTA SEUS CARTÕES
                 if(n == 1){
                     menuMeusCartoes(tipoConta);
-                }else if(n == 2){
+                }
+                // SE USUÁRIO ESCOLHER ACESSAR MENU QUE CADASTRA NOVO CARTÃO
+                else if(n == 2){
                     menuNovoCartao(tipoConta);
-
-                }else{
+                }
+                // SE USUÁRIO ESCOLHER RETORNAR AO MENU PRINCIPAL
+                else{
                     menuPrincipal(String.valueOf(tipoConta));
                 }
-            }else{
+            }
+            // SE A ENTRADA DO USUÁRIO FOR INVÁLIDA RETORNA MENSAGEM DE ERRO NO CONSOLE
+            else{
                 System.out.println("    Entrada incorreta!");
             }
         }while(n < 1 || n > 3);
@@ -935,46 +955,61 @@ public class Main {
     // Menu Seguros
     public static void menuSeguros(Integer tipoConta){
 
+        // VARIÁVEIS DE menuSeguros()
         int n;
 
-        // Layout
+        // LAYOUT DO TÍTULO
         layout.topLine(3);
         layout.br(1);
         System.out.println("                  =-=-= Menu Seguros=-=-=");
         layout.bottomLine(3);
         layout.br(1);
 
-        // Opções
+        // OPÇÕES DO USUÁRIO
         layout.topLine(3);
         layout.br(1);
         System.out.println("         [1] Meus seguros   [2] Contratar   [3] Sair");
         layout.bottomLine(3);
         layout.br(1);
 
+        // REPETE SE USUÁRIO INSERIR VALOR NUMÉRICO INVÁLIDO
         do {
+
+            // ESCOLHA DO USUÁRIO
             layout.topLine(3);
             layout.br(1);
             n = Integer.parseInt(Layout.entry("    Escolha: "));
             layout.bottomLine(3);
             layout.br(1);
+
+            // AO USUÁRIO INSERIR VALOR, CARREGA UMA BARRINHA E LIMPA A TELA
             layout.loading(3);
             layout.limparTela();
+
+            // SE O VALOR INSERIDO PELO USUÁRIO FOR VÁLIDO, USUÁRIO É LIBERADO PARA O MENU ESCOLHIDO
             if(n > 0 && n < 4){
+
+                // SE USUÁRIO ESCOLHER ACESSAR MENU QUE LISTA SEUS SEGUROS
                 if(n == 1){
                     menuMeusSeguros(tipoConta);
                     layout.loading(3);
                     layout.limparTela();
                     menuSeguros(tipoConta);
-                }else if(n == 2){
+                }
+                // SE USUÁRIO ESCOLHER ACESSAR MENU DE CONTRATAÇÃO DE SEGUROS
+                else if(n == 2){
                     menuContratarSeguros(tipoConta);
                     layout.loading(3);
                     layout.limparTela();
                     menuSeguros(tipoConta);
-
-                }else{
+                }
+                // SE USUÁRIO ESCOLHER RETORNAR AO MENU PRINCIPAL DO SISTEMA
+                else{
                     menuPrincipal(String.valueOf(tipoConta));
                 }
-            }else{
+            }
+            // SE O VALOR INSERIDO PELO USUÁRIO FOR INVÁLIDO, SISTEMA IRÁ RETORNAR MENSAGEM DE ERRO NO CONSOLE
+            else{
                 System.out.println("    Entrada incorreta!");
             }
         }while(n < 1 || n > 3);

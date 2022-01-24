@@ -418,6 +418,14 @@ public class CreditoBo {
                                     Layout.convertToReais(Bd.clienteBuscaContaCorrente.getSaldo())));
                         }
 
+                        // SE O CLIENTE NÃO TIVER SALDO SUFICIENTE
+                        else{
+
+                            return("Você não tem saldo suficiente.\nSeu saldo atual é: " +
+                                    Layout.convertToReais(Bd.clienteBuscaContaCorrente.getSaldo()));
+
+                        }
+
                     }
 
                     // SE O USUÁRIO ESCOLHER VOLTAR PARA O MENU
@@ -514,6 +522,14 @@ public class CreditoBo {
                             return(("Você pagou a sua fatura com sucesso.\nSeu saldo atual é: " +
                                     Layout.convertToReais(Bd.clienteBuscaContaPoupanca.getSaldo())));
                         }
+
+                        // SE O CLIENTE NÃO TIVER SALDO SUFICIENTE
+                        else {
+
+                            return ("Você não tem saldo suficiente.\nSeu saldo atual é: " +
+                                    Layout.convertToReais(Bd.clienteBuscaContaPoupanca.getSaldo()));
+                        }
+
                     }
 
                     // SE O USUÁRIO ESCOLHER VOLTAR PARA O MENU

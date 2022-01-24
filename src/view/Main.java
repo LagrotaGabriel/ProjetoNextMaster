@@ -5,6 +5,9 @@ import model.cartao.Cartao;
 import model.cartao.TipoCartao;
 import model.conta.ContaTipo;
 import model.seguros.Apolice;
+import model.seguros.SeguroDesemprego;
+import model.seguros.SeguroInvalidez;
+import model.seguros.SeguroVida;
 import util.Layout;
 import java.util.Map;
 public class Main {
@@ -12,6 +15,9 @@ public class Main {
     // Instâncias
     public static Layout layout = new Layout(5, 5);
     public static LoginBo login = new LoginBo("", "");
+    public static SeguroVida seguroVida = new SeguroVida();
+    public static SeguroInvalidez seguroInvalidez = new SeguroInvalidez();
+    public static SeguroDesemprego seguroDesemprego = new SeguroDesemprego();
 
     // Método main
     public static void main(String[] args) {
@@ -28,6 +34,7 @@ public class Main {
                 "2", "São Paulo", "SP", "Lauzane", "583",
                 "Avenida Coronel Manuel Py", "02442090", "blablabla@foursys.com", "992844948", "1");
 
+        //menuCadastro();
         menuLogin();
 
     }
@@ -891,7 +898,10 @@ public class Main {
                     layout.limparTela();
                     menuSeguros(tipoConta);
                 }else if(n == 2){
-                    System.out.println("Em construção");
+                    menuContratarSeguros(tipoConta);
+                    layout.loading(3);
+                    layout.limparTela();
+                    menuSeguros(tipoConta);
 
                 }else{
                     menuPrincipal(String.valueOf(tipoConta));
@@ -1716,6 +1726,103 @@ public class Main {
 
     /* -----------------------------------=- INÍCIO - PARTE SEGUROS ------------------------------------------ */
 
+    public static void menuContratarSeguros(Integer tipoConta){
+
+        int n;
+
+        // Layout
+        layout.topLine(3);
+        layout.br(1);
+        System.out.println("                  =-=-= Menu Seguros=-=-=");
+        layout.bottomLine(3);
+        layout.br(1);
+
+        // Seguros e suas regras
+
+        // Seguro de vida
+        layout.topLine(3);
+        layout.br(1);
+        layout.sleep(1000);
+        System.out.println("    " + seguroVida.getNome());
+        layout.br(1);
+        layout.sleep(1000);
+        System.out.println(seguroVida.getRegras());
+        layout.sleep(1000);
+        System.out.println("    " + "Preço: " + Layout.convertToReais(seguroVida.getValorApolice()) + "a.a");
+        layout.sleep(1000);
+
+        layout.centralLine(3);
+        layout.br(1);
+        layout.sleep(1000);
+
+        // Seguro Invalidez
+        layout.sleep(1000);
+        System.out.println("    " + seguroInvalidez.getNome());
+        layout.br(1);
+        layout.sleep(1000);
+        System.out.println(seguroInvalidez.getRegras());
+        layout.sleep(1000);
+        System.out.println("    " + "Preço: " + Layout.convertToReais(seguroInvalidez.getValorApolice()) + "a.a");
+        layout.sleep(1000);
+
+        layout.centralLine(3);
+        layout.br(1);
+        layout.sleep(1000);
+
+        // Seguro Desemprego
+        layout.sleep(1000);
+        System.out.println("    " + seguroDesemprego.getNome());
+        layout.br(1);
+        layout.sleep(1000);
+        System.out.println(seguroDesemprego.getRegras());
+        layout.sleep(1000);
+        System.out.println("    " + "Preço: " + Layout.convertToReais(seguroDesemprego.getValorApolice()) + " a.a");
+        layout.sleep(1000);
+
+        layout.bottomLine(3);
+        layout.br(1);
+        layout.sleep(1000);
+
+        // Opções
+        layout.topLine(3);
+        layout.br(1);
+        System.out.println("         [1] Seguro de vida       [2] Seguro Invalidez   ");
+        System.out.println("         [3] Seguro Desemprego    [4] Voltar");
+        layout.bottomLine(3);
+        layout.br(1);
+
+        do {
+            layout.topLine(3);
+            layout.br(1);
+            n = Integer.parseInt(Layout.entry("    Escolha: "));
+            layout.bottomLine(3);
+            layout.br(1);
+            layout.loading(3);
+            layout.limparTela();
+            if(n > 0 && n < 5){
+                if(n == 1){
+                    System.out.println(ApoliceBo.contratarSeguro(tipoConta, seguroVida));
+                    menuSeguros(tipoConta);
+                }
+                else if(n == 2){
+                    System.out.println(ApoliceBo.contratarSeguro(tipoConta, seguroInvalidez));
+                    menuSeguros(tipoConta);
+
+                }
+                else if(n == 3){
+                    System.out.println(ApoliceBo.contratarSeguro(tipoConta, seguroDesemprego));
+                    menuSeguros(tipoConta);
+                }
+                else{
+                    menuSeguros(tipoConta);
+                }
+            }else{
+                System.out.println("    Entrada incorreta!");
+            }
+        }while(n < 1 || n > 4);
+
+    }
+
     public static void menuMeusSeguros(Integer tipoConta){
 
         int n, tpSeguro = 0;
@@ -1741,7 +1848,7 @@ public class Main {
 
                 // IMPRIME NO CONSOLE UM POR UM
                 System.out.print("    [" + entry.getKey() + "] "
-                        + entry.getValue().getNome() + " || n° ");
+                        + entry.getValue().getNome());
 
                 layout.br(1);
 
@@ -1791,7 +1898,7 @@ public class Main {
         // Layout opções
         layout.topLine(3);
         layout.br(1);
-        System.out.println("        [1] Cancelar      [2] Ver descrição      [3] Voltar");
+        System.out.println("      [1] Cancelar      [2] Ver descrição      [3] Voltar");
         layout.bottomLine(3);
         layout.br(1);
 
@@ -1810,7 +1917,7 @@ public class Main {
             // Cancelar seguro
             if(n == 1){
                 System.out.println(ApoliceBo.cancelarSeguro(tipoConta, tpSeguro));
-                menuSeguroSelecionado(tipoConta, tpSeguro);
+                menuSeguros(tipoConta);
             }
 
             // Ver descrição do seguro

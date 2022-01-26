@@ -59,13 +59,12 @@ public class LoginBo {
 
         // SE BOOLEANO ativo FOR TRUE
         if(isAtivo()){
-            return("    [Acesso concedido]");
+            return("[Acesso concedido]");
         }
         // SE BOOLEANO ativo FOR FALSE
         else{
-            return("    [Acesso negado]");
+            return("[Acesso negado]");
         }
-
     }
 
     // SETA O CLIENTE ACESSANDO O SISTEMA

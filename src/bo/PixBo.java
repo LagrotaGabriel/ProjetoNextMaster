@@ -1,14 +1,18 @@
 package bo;
 
+// IMPORTAÇÕES
 import dao.Bd;
 import model.pix.Pix;
-
 import java.util.HashMap;
 import java.util.Map;
 
 public class PixBo {
 
-    // Transferir
+    /* MÉTODO DE TRANSFERÊNCIA VIA PIX
+    *  PARAMS:
+    *  transfChave -> CHAVE DE TRANSFERÊNCIA PARA QUAL O USUÁRIO QUER ENVIAR DINHEIRO
+    *  transfValor -> VALOR QUE O USUÁRIO QUER TRANSFERIR
+    *  tipoConta   -> QUAL O TIPO DE CONTA QUE O USUÁRIO ESTÁ USANDO ATUALMENTE */
     public static String transferir(String transfChave, Float transfValor, Integer tipoConta){
 
         Bd.buscarChavePix(transfChave);
@@ -99,14 +103,13 @@ public class PixBo {
         return("Retornando ao menu PIX");
     }
 
-    // Buscar chaves pix do cliente
+    // RETORNA TODAS AS CHAVES PIX QUE O CLIENTE LOGADO POSSUI
     public static Map<Integer, String> consultarChavesPixCliente(Integer tipoConta, Boolean printa){
 
+        // DECLARAÇÃO DE VARIÁVEIS
         int cont = 1;
         boolean temChave = true;
         Map<Integer, String> chavesOpc = new HashMap<>();
-
-        //String[] chavesOpc = new String[3];
 
         // SE A CONTA FOR CORRENTE
         if(tipoConta == 1){
@@ -136,23 +139,38 @@ public class PixBo {
             else{
                 // SE AS CHAVES PIX DA CONTA CORRENTE E POUPANÇA RETORNAREM ALGO
                 if (!Bd.clienteBuscaContaCorrente.getChavesPix().isEmpty() || !Bd.clienteBuscaContaPoupanca.getChavesPix().isEmpty()) {
-
                     // PASSANDO NO HASHMAP DE CHAVES PIX CONTAS CORRENTES
                     try {
+                        // BUSCA NA CONTA CORRENTE DO CLIENTE POR ALGUM CHAVE PIX
                         for (Pix i : Bd.clienteBuscaContaCorrente.getChavesPix()) {
+
+                            // SE PARÂMETRO DE PRINTA FOR TRUE ELE VAI PRINTAR NA TELA
                             if(printa) {
-                                System.out.println("    [" + cont + "] " + " Chave " + i.getTipoChavePix() + ": " + i.getConteudoChave() + " - CC - " + i.getTipoChavePix());
+                                // EXIBE NA TELA NO SEGUINTE MODELO: [ORDEM] TIPO DA CHAVE PIX: CONTEÚDO DA CHAVE PIX
+                                System.out.println("    [" + cont + "] " + " Chave "
+                                        + i.getTipoChavePix()
+                                        + ": " + i.getConteudoChave()
+                                        + " - CC - " + i.getTipoChavePix());
                             }
+                            // INSERE NO ARRAYLIST CHAVES OPC O ITEM ENCONTRADO
                             chavesOpc.put(cont, i.getConteudoChave());
                             cont++;
                         }
                     }catch(Exception ignored){}
 
+                    // PASSANDO NO HASHMAP DE CHAVES PIX CONTAS CORRENTES
                     try {
+                        // BUSCA NA CONTA CORRENTE DO CLIENTE POR ALGUM CHAVE PIX
                         for (Pix i : Bd.clienteBuscaContaPoupanca.getChavesPix()) {
+                            // SE PARÂMETRO DE PRINTA FOR TRUE ELE VAI PRINTAR NA TELA
                             if(printa) {
-                                System.out.println("    [" + cont + "] " + " Chave " + i.getTipoChavePix() + ": " + i.getConteudoChave() + " - CP - " + i.getTipoChavePix());
+                                // EXIBE NA TELA NO SEGUINTE MODELO: [ORDEM] TIPO DA CHAVE PIX: CONTEÚDO DA CHAVE PIX
+                                System.out.println("    [" + cont + "] "
+                                        + " Chave " + i.getTipoChavePix()
+                                        + ": " + i.getConteudoChave()
+                                        + " - CP - " + i.getTipoChavePix());
                             }
+                            // INSERE NO ARRAYLIST CHAVES OPC O ITEM ENCONTRADO
                             chavesOpc.put(cont, i.getConteudoChave());
                             cont++;
                         }
@@ -181,9 +199,12 @@ public class PixBo {
                 if (!Bd.clienteBuscaContaPoupanca.getChavesPix().isEmpty()) {
                     // PASSANDO NO HASHMAP DE CHAVES PIX CONTAS POUPANCAS
                     for (Pix i : Bd.clienteBuscaContaPoupanca.getChavesPix()) {
+                        // SE PARÂMETRO DE PRINTA FOR TRUE ELE VAI PRINTAR NA TELA
                         if(printa) {
+                            // EXIBE NA TELA NO SEGUINTE MODELO: [ORDEM] TIPO DA CHAVE PIX: CONTEÚDO DA CHAVE PIX
                             System.out.println("    [" + cont + "] " + "Chave " + i.getTipoChavePix() + ": " + i.getConteudoChave()  + " - CP - " + i.getTipoChavePix());
                         }
+                        // INSERE NO ARRAYLIST CHAVES OPC O ITEM ENCONTRADO
                         chavesOpc.put(cont, i.getConteudoChave());
                         cont++;
                     }
@@ -206,9 +227,12 @@ public class PixBo {
                     // PASSANDO NO HASHMAP DE CHAVES PIX CONTAS CORRENTES
                     try {
                         for (Pix i : Bd.clienteBuscaContaCorrente.getChavesPix()) {
+                            // SE PARÂMETRO DE PRINTA FOR TRUE ELE VAI PRINTAR NA TELA
                             if(printa) {
+                                // EXIBE NA TELA NO SEGUINTE MODELO: [ORDEM] TIPO DA CHAVE PIX: CONTEÚDO DA CHAVE PIX
                                 System.out.println("    [" + cont + "] " + "Chave " + i.getTipoChavePix() + ": " + i.getConteudoChave() + " - CC - " + i.getTipoChavePix());
                             }
+                            // INSERE NO ARRAYLIST CHAVES OPC O ITEM ENCONTRADO
                             chavesOpc.put(cont, i.getConteudoChave());
                             cont++;
                         }
@@ -217,9 +241,12 @@ public class PixBo {
                     // PASSANDO NO HASHMAP DE CHAVES PIX CONTAS POUPANÇAS
                     try {
                         for (Pix i : Bd.clienteBuscaContaPoupanca.getChavesPix()) {
+                            // SE PARÂMETRO DE PRINTA FOR TRUE ELE VAI PRINTAR NA TELA
                             if(printa) {
+                                // EXIBE NA TELA NO SEGUINTE MODELO: [ORDEM] TIPO DA CHAVE PIX: CONTEÚDO DA CHAVE PIX
                                 System.out.println("    [" + cont + "] " + "Chave " + i.getTipoChavePix() + ": " + i.getConteudoChave() + " - CP - " + i.getTipoChavePix());
                             }
+                            // INSERE NO ARRAYLIST CHAVES OPC O ITEM ENCONTRADO
                             chavesOpc.put(cont, i.getConteudoChave());
                             cont++;
                         }

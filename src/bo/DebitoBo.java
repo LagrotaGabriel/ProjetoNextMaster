@@ -1,4 +1,6 @@
 package bo;
+
+// IMPORTAÇÕES
 import dao.Bd;
 import model.cartao.TipoCartao;
 import model.cartao.Transacao;
@@ -19,6 +21,8 @@ public class DebitoBo {
 
         // VERIFICANDO TIPO DA CONTA PARA DEFINIR O LIMITE
         float limite = 0;
+
+        // SE A CONTA DO USUÁRIO FOR UMA CONTA COMUM
         if(Bd.clienteBuscaContaCorrente.getContaTipo().equals(ContaTipo.COMUM)){
             limite = 1000.00f;
         }else if(Bd.clienteBuscaContaCorrente.getContaTipo().equals(ContaTipo.PREMIUM)){
@@ -29,6 +33,20 @@ public class DebitoBo {
 
         // SE A CONTA FOR UMA CONTA CORRENTE
         if(tipoConta == 1) {
+
+            // SE A CONTA DO USUÁRIO FOR UMA CONTA COMUM
+            if(Bd.clienteBuscaContaCorrente.getContaTipo().equals(ContaTipo.COMUM)){
+                limite = 1000.00f;
+            }
+            // SE A CONTA DO USUÁRIO FOR UMA CONTA PREMIUM
+            else if(Bd.clienteBuscaContaCorrente.getContaTipo().equals(ContaTipo.PREMIUM)){
+                limite = 5000.00f;
+            }
+            // SE A CONTA DO USUÁRIO FOR UMA CONTA SUPER
+            else if(Bd.clienteBuscaContaCorrente.getContaTipo().equals(ContaTipo.SUPER)){
+                limite = 10000.00f;
+            }
+
             // SE O CLIENTE AINDA NÃO TIVER CARTÕES DE DÉBITO CADASTRADOS
             if(Bd.clienteBuscaContaCorrente.cartoesDebitoCliente.isEmpty()){
                 // MÉTODO DE INSERÇÃO DO CARTÃO NOS DBS
@@ -43,6 +61,19 @@ public class DebitoBo {
         }
         // SE A CONTA FOR UMA CONTA POUPANÇA
         else{
+            // SE A CONTA DO USUÁRIO FOR UMA CONTA COMUM
+            if(Bd.clienteBuscaContaPoupanca.getContaTipo().equals(ContaTipo.COMUM)){
+                limite = 1000.00f;
+            }
+            // SE A CONTA DO USUÁRIO FOR UMA CONTA PREMIUM
+            else if(Bd.clienteBuscaContaPoupanca.getContaTipo().equals(ContaTipo.PREMIUM)){
+                limite = 5000.00f;
+            }
+            // SE A CONTA DO USUÁRIO FOR UMA CONTA SUPER
+            else if(Bd.clienteBuscaContaPoupanca.getContaTipo().equals(ContaTipo.SUPER)){
+                limite = 10000.00f;
+            }
+
             // SE O CLIENTE AINDA NÃO TIVER CARTÕES DE DÉBITO CADASTRADOS
             if(Bd.clienteBuscaContaPoupanca.cartoesDebitoCliente.isEmpty()){
                 // MÉTODO DE INSERÇÃO DO CARTÃO NOS DBS
@@ -55,7 +86,6 @@ public class DebitoBo {
                 return ("Você já possui um cartão de débito cadastrado");
             }
         }
-
     }
 
     // ATIVAR/DESATIVAR CARTÃO
@@ -178,6 +208,7 @@ public class DebitoBo {
     // EXTRATO
     public static void retornaExtrato(Integer tipoConta){
 
+        // DECLARAÇÃO DE VARIÁVEIS
         Float soma = 0.00f;
 
         // SE A CONTA É CORRENTE
@@ -185,6 +216,7 @@ public class DebitoBo {
             // SE TIVER PELO MENOS UM ITEM NO EXTRATO
             if (!Debito.extrato.isEmpty()) {
 
+                // TÍTULO DO retornaExtrato()
                 Main.layout.topLine(3);
                 Main.layout.br(1);
                 System.out.println("             EXTRATO DO CARTÃO DE DÉBITO "
@@ -192,15 +224,18 @@ public class DebitoBo {
                 Main.layout.bottomLine(3);
                 Main.layout.br(1);
 
+                // LAYOUT
                 Main.layout.topLine(3);
                 Main.layout.br(1);
 
+                // PERCORRE TODAS AS COMPRAS JÁ REALIZADAS NO CARTÃO DE DÉBITO
                 for (Map.Entry<Integer, Transacao> entry : Debito.extrato.entrySet()) {
 
+                    // INSTANCIAÇÃO DO CALENDÁRIO
                     Calendar cal = Calendar.getInstance();
                     cal.setTime(entry.getValue().getDataCompra());
 
-
+                    // PRINTA ITENS NO SEGUINTE FORMADO: [ORDEM] NOME || DD/MM/YYYY || HH:MM:SS
                     System.out.println("    [" + entry.getKey() + "] "
                             + entry.getValue().getDescricao() + " || "
                             + cal.get(Calendar.DAY_OF_MONTH) + "/"
@@ -210,14 +245,18 @@ public class DebitoBo {
                             + cal.get(Calendar.MINUTE) + "hrs || "
                             + Layout.convertToReais(entry.getValue().getValor()));
 
+                    // SOMA O VALOR DOS ITENS EXIBIDOS
                     soma += entry.getValue().getValor();
                 }
 
+                // LAYOUT
                 Main.layout.centralLine(3);
                 Main.layout.br(1);
 
+                // EXIBE O TOTAL DE TODOS OS ITENS LISTADOS
                 System.out.println("    Total: " + Layout.convertToReais(soma));
 
+                // LAYOUT
                 Main.layout.bottomLine(3);
                 Main.layout.br(1);
 
@@ -235,6 +274,7 @@ public class DebitoBo {
             // SE TIVER PELO MENOS UM ITEM NO EXTRATO
             if (!Debito.extrato.isEmpty()) {
 
+                // TÍTULO DO retornaExtrato()
                 Main.layout.topLine(3);
                 Main.layout.br(1);
                 System.out.println("EXTRATO DO CARTÃO DE DÉBITO "
@@ -242,15 +282,18 @@ public class DebitoBo {
                 Main.layout.bottomLine(3);
                 Main.layout.br(1);
 
+                // LAYOUT
                 Main.layout.topLine(3);
                 Main.layout.br(1);
 
+                // PERCORRE TODAS AS COMPRAS JÁ REALIZADAS NO CARTÃO DE DÉBITO
                 for (Map.Entry<Integer, Transacao> entry : Debito.extrato.entrySet()) {
 
+                    // INSTANCIAÇÃO DO CALENDÁRIO
                     Calendar cal = Calendar.getInstance();
                     cal.setTime(entry.getValue().getDataCompra());
 
-
+                    // PRINTA ITENS NO SEGUINTE FORMADO: [ORDEM] NOME || DD/MM/YYYY || HH:MM:SS
                     System.out.println("    [" + entry.getKey() + "] "
                             + entry.getValue().getDescricao() + " || "
                             + cal.get(Calendar.DAY_OF_MONTH) + "/"
@@ -260,29 +303,27 @@ public class DebitoBo {
                             + cal.get(Calendar.MINUTE) + "hrs || "
                             + Layout.convertToReais(entry.getValue().getValor()));
 
+                    // SOMA O VALOR DOS ITENS EXIBIDOS
                     soma += entry.getValue().getValor();
+
                 }
 
+                // LAYOUT
                 Main.layout.centralLine(3);
                 Main.layout.br(1);
 
+                // EXIBE A SOMA DO VALOR DO ITENS LISTADOS
                 System.out.println("Total: " + Layout.convertToReais(soma));
 
+                // LAYOUT
                 Main.layout.bottomLine(3);
                 Main.layout.br(1);
-
             }
 
             // SE NÃO TIVER NADA NO EXTRATO
             else{
                 System.out.println(("Não existem transações realizadas neste cartão."));
             }
-
         }
-
-
-
-
-
     }
 }

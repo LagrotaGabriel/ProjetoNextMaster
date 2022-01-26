@@ -1,4 +1,6 @@
 package view;
+
+// IMPORTAÇÕES
 import bo.*;
 import dao.Bd;
 import model.cartao.Cartao;
@@ -12,14 +14,14 @@ import util.Layout;
 import java.util.Map;
 public class Main {
 
-    // Instâncias
+    // INSTANCIAÇÃO DE CLASSES
     public static Layout layout = new Layout(1, 1);
     public static LoginBo login = new LoginBo("", "");
     public static SeguroVida seguroVida = new SeguroVida();
     public static SeguroInvalidez seguroInvalidez = new SeguroInvalidez();
     public static SeguroDesemprego seguroDesemprego = new SeguroDesemprego();
 
-    // Método main
+    // MÉTODO MAIN
     public static void main(String[] args) {
 
         CadastroBo.cadastrarUsuario("Gabriel", "47153427821", "558468263",
@@ -40,7 +42,7 @@ public class Main {
     }
 
     /* -------------------------------------- INÍCIO - MENU ACESSO --------------------------------------------- */
-    // Menu de acesso
+    // MENU DE ACESSO
     private static void menuAcesso() {
 
         // Declaração de variáveis
@@ -103,7 +105,7 @@ public class Main {
         }while(choice < 1 || choice > 3);
     }
 
-    // Menu de login
+    // MENU DE LOGIN
     private static void menuLogin(){
 
         // Inicialização de variáveis
@@ -197,7 +199,7 @@ public class Main {
 
     }
 
-    // Menu de cadastro
+    // MENU DE CADASTRO
     private static void menuCadastro(){
 
         // Declaração de variáveis
@@ -398,7 +400,7 @@ public class Main {
         menuLogin();
     }
 
-    // Menu Contas
+    // MENU CONTAS
     public static void menuContas(){
 
         // VARIÁVEIS DO menuContas()
@@ -546,7 +548,7 @@ public class Main {
 
     /* ----------------------------------- INÍCIO - MENU PRINCIPAL ------------------------------------------ */
 
-    // Menu Principal
+    // MENU PRINCIPAL
     public static void menuPrincipal(String ct){
 
         // VARIÁVEIS DO menuPrincipal()
@@ -784,7 +786,7 @@ public class Main {
 
     }
 
-    // Menu Deposito
+    // MENU DEPOSITO
     public static Float menuDeposito(){
 
         // LAYOUT DO TÍTULO
@@ -803,7 +805,7 @@ public class Main {
 
     }
 
-    // Menu Saque
+    // MENU SAQUE
     public static Float menuSaque(){
 
         // LAYOUT DO TÍTULO
@@ -821,7 +823,7 @@ public class Main {
 
     }
 
-    // Menu Pix
+    // MENU PIX
     public static void menuPix(Integer contaTipo){
 
         // VARIÁVEIS DO MENU PIX
@@ -894,7 +896,7 @@ public class Main {
         } while(Integer.parseInt(n) < 0 || Integer.parseInt(n) > 5);
     }
 
-    // Menu Cartões
+    // MENU CARTÕES
     public static void menuCartoes(Integer tipoConta){
 
         // VARIÁVEIS DO menuCartoes()
@@ -952,7 +954,7 @@ public class Main {
 
     }
 
-    // Menu Seguros
+    // MENU SEGUROS
     public static void menuSeguros(Integer tipoConta){
 
         // VARIÁVEIS DE menuSeguros()
@@ -1020,7 +1022,7 @@ public class Main {
 
     /* --------------------------------------- INÍCIO - PARTE PIX --------------------------------------------- */
 
-    // Menu de cadastro de Pix
+    // MENU DE CADASTRO DE PIX
     public static void menuCadastroPix(Integer contaTipo){
 
         // VARIÁVEIS
@@ -1103,7 +1105,7 @@ public class Main {
         }while(Integer.parseInt(n) < 0 || Integer.parseInt(n) > 4);
     }
 
-    // Menu Apaga PIX
+    // MENU APAGA PIX
     public static void menuApagaPix(Integer contaTipo){
 
         // LAYOUT DO TÍTULO
@@ -1140,7 +1142,7 @@ public class Main {
 
     }
 
-    // Menu Transfere PIX
+    // MENU TRANSFERE PIX
     public static void menuTransferePix(Integer contaTipo){
 
         // LAYOUT DO TÍTULO
@@ -1173,7 +1175,7 @@ public class Main {
 
     }
 
-    // Menu Consulta PIX
+    // MENU CONSULTA PIX
     public static void menuConsultaPix(Integer contaTipo){
 
         // LAYOUT DO TÍTULO

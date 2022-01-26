@@ -1,4 +1,6 @@
 package bo;
+
+// IMPORTAÇÕES
 import dao.Bd;
 import model.cartao.TipoCartao;
 import model.cartao.Transacao;
@@ -6,31 +8,38 @@ import model.cartao.credito.Credito;
 import model.conta.ContaTipo;
 import util.Layout;
 import view.Main;
-
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Map;
 
 public class CreditoBo {
 
+    // DECLARAÇÃO DE VARIÁVEIS
     public static Credito credito;
 
     // FAZ A VALIDAÇÃO DE INSERÇÃO DE CARTÃO DE CRÉDITO
     public static String validaInsercaoCredito(Integer tipoConta){
 
 
-        // VERIFICANDO TIPO DA CONTA PARA DEFINIR O LIMITE
+        // DECLARAÇÃO DE VARIÁVEIS
         float limite = 0;
-        if(Bd.clienteBuscaContaCorrente.getContaTipo().equals(ContaTipo.COMUM)){
-            limite = 1000.00f;
-        }else if(Bd.clienteBuscaContaCorrente.getContaTipo().equals(ContaTipo.PREMIUM)){
-            limite = 5000.00f;
-        }else if(Bd.clienteBuscaContaCorrente.getContaTipo().equals(ContaTipo.SUPER)){
-            limite = 10000.00f;
-        }
 
         // SE A CONTA FOR UMA CONTA CORRENTE
         if(tipoConta == 1) {
+
+            // SE A CONTA DO USUÁRIO FOR DO TIPO COMUM
+            if(Bd.clienteBuscaContaCorrente.getContaTipo().equals(ContaTipo.COMUM)){
+                limite = 1000.00f;
+            }
+            // SE A CONTA DO USUÁRIO FOR DO TIPO PREMIUM
+            else if(Bd.clienteBuscaContaCorrente.getContaTipo().equals(ContaTipo.PREMIUM)){
+                limite = 5000.00f;
+            }
+            // SE A CONTA DO USUÁRIO FOR DO TIPO SUPER
+            else if(Bd.clienteBuscaContaCorrente.getContaTipo().equals(ContaTipo.SUPER)){
+                limite = 10000.00f;
+            }
+
             // SE O CLIENTE AINDA NÃO TIVER CARTÕES DE CRÉDITO CADASTRADOS
             if(Bd.clienteBuscaContaCorrente.cartoesCreditoCliente.isEmpty()){
                 // MÉTODO DE INSERÇÃO DO CARTÃO NOS DBS
@@ -45,6 +54,20 @@ public class CreditoBo {
         }
         // SE A CONTA FOR UMA CONTA POUPANÇA
         else{
+
+            // SE A CONTA DO USUÁRIO FOR DO TIPO COMUM
+            if(Bd.clienteBuscaContaPoupanca.getContaTipo().equals(ContaTipo.COMUM)){
+                limite = 1000.00f;
+            }
+            // SE A CONTA DO USUÁRIO FOR DO TIPO PREMIUM
+            else if(Bd.clienteBuscaContaPoupanca.getContaTipo().equals(ContaTipo.PREMIUM)){
+                limite = 5000.00f;
+            }
+            // SE A CONTA DO USUÁRIO FOR DO TIPO SUPER
+            else if(Bd.clienteBuscaContaPoupanca.getContaTipo().equals(ContaTipo.SUPER)){
+                limite = 10000.00f;
+            }
+
             // SE O CLIENTE AINDA NÃO TIVER CARTÕES DE CRÉDITO CADASTRADOS
             if(Bd.clienteBuscaContaPoupanca.cartoesCreditoCliente.isEmpty()){
                 // MÉTODO DE INSERÇÃO DO CARTÃO NOS DBS
@@ -64,23 +87,19 @@ public class CreditoBo {
 
         // SE A CONTA FOR CORRENTE
         if(tipoConta == 1){
-
             // SE FOR PRA ATIVAR
             if(status){
                 Bd.clienteBuscaContaCorrente.getCartoesCreditoCliente().get(0).setAtivo(true);
                 return("Cartão de crédito ativado com sucesso");
-
             }
             // SE FOR PRA DESATIVAR
             else{
                 Bd.clienteBuscaContaCorrente.getCartoesCreditoCliente().get(0).setAtivo(false);
                 return("Cartão de crédito desativado com sucesso");
             }
-
         }
         // SE A CONTA FOR POUPANÇA
         else{
-
             // SE FOR PRA ATIVAR
             if(status){
                 Bd.clienteBuscaContaPoupanca.getCartoesCreditoCliente().get(0).setAtivo(true);
@@ -91,9 +110,7 @@ public class CreditoBo {
                 Bd.clienteBuscaContaPoupanca.getCartoesCreditoCliente().get(0).setAtivo(false);
                 return("Cartão de crédito desativado com sucesso");
             }
-
         }
-
     }
 
     // COMPRAR
@@ -131,7 +148,7 @@ public class CreditoBo {
                         .get(0)
                         .getLimite().atualizarLimite();
 
-                    // INSTANCIANDO OBJETO TRANSAÇÃO
+                // INSTANCIANDO OBJETO TRANSAÇÃO
                 Transacao transacao = new Transacao(date, nomeItem, valorItem,
                         Bd.clienteBuscaContaCorrente
                                 .getCliente(),
@@ -139,9 +156,10 @@ public class CreditoBo {
                         Bd.clienteBuscaContaCorrente
                                 .getCartoesCreditoCliente().get(0));
 
-                    // ADICIONANDO TRANSAÇÃO AO BD
+                // ADICIONANDO TRANSAÇÃO AO BD
                 Credito.salvarTransacao(transacao);
 
+                // RETORNA INFORMAÇÕES SOBRE A COMPRA
                 return("Compra no valor de " + Layout.convertToReais(valorItem) + " realizada com sucesso. " +
                             "\nSeu limite atual: " + Layout.convertToReais(Bd.clienteBuscaContaCorrente
                         .getCartoesCreditoCliente()
@@ -153,6 +171,7 @@ public class CreditoBo {
             }
             // SE VALOR NÃO SE ADEQUA AO LIMITE DE TRANSAÇÃO
             else{
+                // RETORNA INFORMAÇÕES SOBRE A FALHA NA COMPRA
                 return("Não foi possível realizar a compra.\nO valor excede seu limite disponível ("
                         + Layout.convertToReais(Bd.clienteBuscaContaCorrente
                         .getCartoesCreditoCliente()
@@ -189,6 +208,7 @@ public class CreditoBo {
                 // ADICIONANDO TRANSAÇÃO AO BD
                 Credito.salvarTransacao(transacao);
 
+                // RETORNA INFORMAÇÕES SOBRE A COMPRA
                 return("Compra no valor de " + Layout.convertToReais(valorItem) + " realizada com sucesso. " +
                         "\nSeu limite atual: " + Layout.convertToReais(Bd.clienteBuscaContaPoupanca
                         .getCartoesCreditoCliente().get(0)
@@ -199,6 +219,7 @@ public class CreditoBo {
 
             // SE VALOR NÃO SE ADEQUA AO LIMITE DE TRANSAÇÃO
             else{
+                // RETORNA INFORMAÇÕES SOBRE FALHA NA COMPRA
                 return("Não foi possível realizar a compra.\nO valor excede seu limite disponível ("
                         + Layout.convertToReais(Bd.clienteBuscaContaPoupanca
                         .getCartoesCreditoCliente()
@@ -210,38 +231,44 @@ public class CreditoBo {
         return("");
     }
 
-    // FATURA
+    // EXIBE A FATURA
     public static void retornaFatura(Integer tipoConta){
 
+        // DECLARAÇÃO DE VARIÁVEIS
         Float soma = 0.00f;
 
-        // SE A CONTA É CORRENTE
+        // SE A CONTA LOGADA FOR CORRENTE
         if(tipoConta == 1) {
+
             // SE TIVER PELO MENOS UM ITEM NA FATURA
             if (!Credito.fatura.isEmpty()) {
 
+                // LAYOUT
                 Main.layout.topLine(3);
                 Main.layout.br(1);
 
-                // TÍTULO
+                // TÍTULO DO retornaFatura
                 System.out.println("             FATURA DO CARTÃO DE CRÉDITO "
                         + Bd.clienteBuscaContaCorrente
                         .getCartoesCreditoCliente()
                         .get(0)
                         .getNumeroCartao());
 
+                // LAYOUT
                 Main.layout.bottomLine(3);
                 Main.layout.br(1);
-
                 Main.layout.topLine(3);
                 Main.layout.br(1);
 
-                // RODANDO NO FOR OS ITENS DA FATURA DO CLIENTE
+                // RODANDO NO for OS ITENS DA FATURA DO CLIENTE
                 for (Map.Entry<Integer, Transacao> entry : Credito.fatura.entrySet()) {
 
+                    // INSTANCIAÇÃO DA CLASSE Calendar
                     Calendar cal = Calendar.getInstance();
                     cal.setTime(entry.getValue().getDataCompra());
 
+                    // EXIBE NA TELA DO USUÁRIO OS DETALHES DA COMPRA NO SEGUINTE MODELO:
+                    // [ORDEM] NOME DO ITEM || DD/MM/YYYY || HH:MM:SS
                     System.out.println("    [" + entry.getKey() + "] "
                             + entry.getValue().getDescricao() + " || "
                             + cal.get(Calendar.DAY_OF_MONTH) + "/"
@@ -251,22 +278,28 @@ public class CreditoBo {
                             + cal.get(Calendar.MINUTE) + "hrs || "
                             + Layout.convertToReais(entry.getValue().getValor()));
 
+                    // REALIZA SOMA DOS ITENS DO for
                     soma += entry.getValue().getValor();
                 }
 
+                // LAYOUT
                 Main.layout.centralLine(3);
                 Main.layout.br(1);
 
+                // EXIBE A SOMA DOS ITENS LISTADOS
                 System.out.println("    Total: " + Layout.convertToReais(soma));
 
+                // LAYOUT
                 Main.layout.bottomLine(3);
                 Main.layout.br(1);
+                Main.layout.sleep(1000);
 
             }
 
             // SE NÃO TIVER NADA NA FATURA
             else{
                 System.out.println(("Não existem transações realizadas neste cartão."));
+                Main.layout.sleep(1000);
             }
 
         }
@@ -276,28 +309,32 @@ public class CreditoBo {
             // SE TIVER PELO MENOS UM ITEM NA FATURA
             if (!Credito.fatura.isEmpty()) {
 
+                // LAYOUT
                 Main.layout.topLine(3);
                 Main.layout.br(1);
 
-                // TÍTULO
+                // TÍTULO DO retornaFatura
                 System.out.println("             FATURA DO CARTÃO DE CRÉDITO "
                         + Bd.clienteBuscaContaPoupanca
                         .getCartoesCreditoCliente()
                         .get(0)
                         .getNumeroCartao());
 
+                //LAYOUT
                 Main.layout.bottomLine(3);
                 Main.layout.br(1);
-
                 Main.layout.topLine(3);
                 Main.layout.br(1);
 
                 // RODANDO NO FOR OS ITENS DA FATURA DO CLIENTE
                 for (Map.Entry<Integer, Transacao> entry : Credito.fatura.entrySet()) {
 
+                    // INSTANCIAÇÃO DA CLASSE Calendar
                     Calendar cal = Calendar.getInstance();
                     cal.setTime(entry.getValue().getDataCompra());
 
+                    // EXIBE NA TELA DO USUÁRIO OS DETALHES DA COMPRA NO SEGUINTE MODELO:
+                    // [ORDEM] NOME DO ITEM || DD/MM/YYYY || HH:MM:SS
                     System.out.println("    [" + entry.getKey() + "] "
                             + entry.getValue().getDescricao() + " || "
                             + cal.get(Calendar.DAY_OF_MONTH) + "/"
@@ -307,24 +344,27 @@ public class CreditoBo {
                             + cal.get(Calendar.MINUTE) + "hrs || "
                             + Layout.convertToReais(entry.getValue().getValor()));
 
+                    // REALIZA A SOMA DOS ITENS LISTADOS
                     soma += entry.getValue().getValor();
                 }
 
+                // LAYOUT
                 Main.layout.centralLine(3);
                 Main.layout.br(1);
 
+                // EXIBE A SOMA DOS ITENS LISTADOS
                 System.out.println("    Total: " + Layout.convertToReais(soma));
 
+                // LAYOUT
                 Main.layout.bottomLine(3);
                 Main.layout.br(1);
-
+                Main.layout.sleep(1000);
             }
-
             // SE NÃO TIVER NADA NA FATURA
             else{
                 System.out.println(("Não existem transações realizadas neste cartão."));
+                Main.layout.sleep(1000);
             }
-
         }
 
 
@@ -336,6 +376,7 @@ public class CreditoBo {
     // PAGAR FATURA
     public static String pagarFatura(Integer tipoConta){
 
+        // DECLARAÇÃO DE VARIÁVEIS
         int n = 0 ;
 
         // SE A CONTA É UMA CONTA CORRENTE
@@ -347,30 +388,24 @@ public class CreditoBo {
                 // EXIBE A FATURA
                 retornaFatura(tipoConta);
 
-                // LAYOUT
+                // OPÇÕES DO USUÁRIO
                 Main.layout.topLine(3);
                 Main.layout.br(1);
-
                 System.out.println("        [1] Pagar    [2] Voltar");
-
                 Main.layout.bottomLine(3);
                 Main.layout.br(1);
 
-                // REPETIDOR PARA EVITAR ERROS DE ENTRADA DO USUÁRIO
+                // REPETIDOR PARA EVITAR ERROS DE ENTRADA NUMÉRICA DO USUÁRIO
                 do{
 
-                    // LAYOUT
+                    // ESCOLHA DO USUÁRIO
                     Main.layout.topLine(3);
                     Main.layout.br(1);
-
-                    // OPÇÕES
                     n = Integer.parseInt(Layout.entry("    Escolha: "));
-
-                    // LAYOUT
                     Main.layout.bottomLine(3);
                     Main.layout.br(1);
 
-                    // CARREGA E LIMPA A TELA
+                    // CARREGA BARRA DE LOADING E LIMPA A TELA
                     Main.layout.loading(3);
                     Main.layout.limparTela();
 
@@ -414,18 +449,18 @@ public class CreditoBo {
                                     .getLimite()
                                     .atualizarTotal();
 
+                            // RETORNA MENSAGEM DE SUCESSO
                             return(("Você pagou a sua fatura com sucesso.\nSeu saldo atual é: " +
                                     Layout.convertToReais(Bd.clienteBuscaContaCorrente.getSaldo())));
                         }
 
                         // SE O CLIENTE NÃO TIVER SALDO SUFICIENTE
                         else{
-
+                            // RETORNA MENSAGEM DE FALHA
                             return("Você não tem saldo suficiente.\nSeu saldo atual é: " +
                                     Layout.convertToReais(Bd.clienteBuscaContaCorrente.getSaldo()));
 
                         }
-
                     }
 
                     // SE O USUÁRIO ESCOLHER VOLTAR PARA O MENU
@@ -452,30 +487,24 @@ public class CreditoBo {
                 // EXIBE A FATURA
                 retornaFatura(tipoConta);
 
-                // LAYOUT
+                // OPÇÕES DO USUÁRIO
                 Main.layout.topLine(3);
                 Main.layout.br(1);
-
                 System.out.println("        [1] Pagar    [2] Voltar");
-
                 Main.layout.bottomLine(3);
                 Main.layout.br(1);
 
-                // REPETIDOR PARA EVITAR ERROS DE ENTRADA DO USUÁRIO
+                // REPETIDOR PARA EVITAR ERROS DE ENTRADA NUMÉRICA DO USUÁRIO
                 do{
 
-                    // LAYOUT
+                    // ESCOLHAS DO USUÁRIO
                     Main.layout.topLine(3);
                     Main.layout.br(1);
-
-                    // OPÇÕES
                     n = Integer.parseInt(Layout.entry("    Escolha: "));
-
-                    // LAYOUT
                     Main.layout.bottomLine(3);
                     Main.layout.br(1);
 
-                    // CARREGA E LIMPA A TELA
+                    // CARREGA BARRA DE LOADING E LIMPA A TELA
                     Main.layout.loading(3);
                     Main.layout.limparTela();
 
@@ -519,6 +548,7 @@ public class CreditoBo {
                                     .getLimite()
                                     .atualizarTotal();
 
+                            //RETORNA MENSAGEM DE SUCESSO
                             return(("Você pagou a sua fatura com sucesso.\nSeu saldo atual é: " +
                                     Layout.convertToReais(Bd.clienteBuscaContaPoupanca.getSaldo())));
                         }
@@ -526,6 +556,7 @@ public class CreditoBo {
                         // SE O CLIENTE NÃO TIVER SALDO SUFICIENTE
                         else {
 
+                            // RETORNA MENSAGEM DE ERRO
                             return ("Você não tem saldo suficiente.\nSeu saldo atual é: " +
                                     Layout.convertToReais(Bd.clienteBuscaContaPoupanca.getSaldo()));
                         }

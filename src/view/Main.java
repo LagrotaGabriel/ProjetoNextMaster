@@ -13,7 +13,7 @@ import java.util.Map;
 public class Main {
 
     // Instâncias
-    public static Layout layout = new Layout(5, 5);
+    public static Layout layout = new Layout(1, 1);
     public static LoginBo login = new LoginBo("", "");
     public static SeguroVida seguroVida = new SeguroVida();
     public static SeguroInvalidez seguroInvalidez = new SeguroInvalidez();
@@ -1023,16 +1023,17 @@ public class Main {
     // Menu de cadastro de Pix
     public static void menuCadastroPix(Integer contaTipo){
 
-        String n = "-1";
+        // VARIÁVEIS
+        String n;
 
-        // Interface
+        // LAYOUT TÍTULO
         layout.topLine(3);
         layout.br(1);
         System.out.println("              =-=-= Menu cadastro PIX=-=-=");
         layout.bottomLine(3);
         layout.br(1);
 
-        // Opções
+        // LAYOUT OPÇÕES
         layout.topLine(3);
         layout.br(1);
         System.out.println("        [1] CPF      [2] Email      [3] Telefone");
@@ -1040,8 +1041,8 @@ public class Main {
         layout.bottomLine(3);
         layout.br(1);
 
-        // Repetição
-        while(Integer.parseInt(n) < 0 || Integer.parseInt(n) > 4) {
+        // SE O USUÁRIO INSERIR UMA ENTRADA NUMÉRICA INVÁLIDA
+        do {
 
             // Layout
             layout.topLine(3);
@@ -1098,30 +1099,39 @@ public class Main {
                 layout.limparTela();
                 menuPix(contaTipo);
             }
-        }
 
+        }while(Integer.parseInt(n) < 0 || Integer.parseInt(n) > 4);
     }
 
     // Menu Apaga PIX
     public static void menuApagaPix(Integer contaTipo){
 
-        // Interface
+        // LAYOUT DO TÍTULO
         layout.topLine(3);
         layout.br(1);
         System.out.println("                =-=-= Deletar chave PIX=-=-=");
         layout.bottomLine(3);
         layout.br(1);
 
+        // SE O MÉTODO DE CONSULTAR PIX DO CLIENTE DETECTAR QUE O CLIENTE TEM UM PIX, ELE SEGUE EM FRENTE
         if(PixBo.consultarChavesPixCliente(contaTipo, true) != null) {
 
+            // ESCOLHA DO USUÁRIO
             layout.topLine(3);
             layout.br(1);
             String n = Layout.entry("    Escolha: ");
             layout.bottomLine(3);
             layout.br(1);
+
+            // SE A CONTA DO CLIENTE É CONTA CORRENTE
             if (contaTipo == 1) {
+                // INVOCA MÉTODO DE APAGAR PIX DE ACORDO COM ESCOLHA DO USUÁRIO PRINTANDO O RETORNO DO MÉTODO
                 System.out.println(Bd.pixDelete(1, Integer.parseInt(n)));
-            } else {
+            }
+
+            // SE A CONTA DO CLIENTE É CONTA POUPANÇA
+            else {
+                // INVOCA MÉTODO DE APAGAR PIX DE ACORDO COM ESCOLHA DO USUÁRIO PRINTANDO O RETORNO DO MÉTODO
                 System.out.println(Bd.pixDelete(2, Integer.parseInt(n)));
             }
         }
@@ -1133,7 +1143,7 @@ public class Main {
     // Menu Transfere PIX
     public static void menuTransferePix(Integer contaTipo){
 
-        // Interface
+        // LAYOUT DO TÍTULO
         layout.topLine(3);
         layout.br(1);
         System.out.println("              =-=-= Transferência via PIX =-=-=");
@@ -1142,19 +1152,22 @@ public class Main {
         layout.topLine(3);
         layout.br(1);
 
-        // Entrada
+        // ENTRADAS DO USUÁRIO
         String transfChave = Layout.entry("    Chave de transferência: ");
         Float transfValor = Float.parseFloat(Layout.entry("    Valor da transferência: R$ "));
 
+        // LAYOUT
         layout.bottomLine(3);
         layout.br(1);
 
+        // INVOCA MÉTODO DE TRANSFERÊNCIA VIA PIX E PRINTA SEU RETORNO COM BASE NAS ENTRADAS DE CHAVE E VALOR DO USUÁRIO
         layout.topLine(3);
         layout.br(1);
         System.out.println(PixBo.transferir(transfChave, transfValor, contaTipo));
         layout.bottomLine(3);
         layout.br(1);
 
+        // CARREGA BARRA DE LOADING E LIMPA A TELA
         layout.loading(3);
         layout.limparTela();
 
@@ -1163,12 +1176,14 @@ public class Main {
     // Menu Consulta PIX
     public static void menuConsultaPix(Integer contaTipo){
 
-        // Interface
+        // LAYOUT DO TÍTULO
         layout.topLine(3);
         layout.br(1);
         System.out.println("              =-=-= Menu consulta PIX=-=-=");
         layout.bottomLine(3);
         layout.br(1);
+
+        // CONSULTA AS CHAVES PIX DO CLIENTE ATUAL
         layout.topLine(3);
         layout.br(1);
         PixBo.consultarChavesPixCliente(contaTipo, true);
@@ -1185,10 +1200,11 @@ public class Main {
     // SELEÇÃO DE CARTÕES DO CLIENTE
     public static void menuMeusCartoes(Integer tipoConta){
 
+        // DECLARAÇÃO DE VARIÁVEIS
         int n, tpCartao = 0;
         Map<Integer, Cartao> listar = (CartaoBo.listarCartoesDoCliente(tipoConta)); // HASHMAP COM TIPO DE CARTÕES E CTS
 
-        // LAYOUT
+        // LAYOUT DO TÍTULO
         layout.topLine(3);
         layout.br(1);
         System.out.println("                 =-=-= Meus Cartões =-=-=");
@@ -1204,17 +1220,20 @@ public class Main {
 
             // RODA A LISTA UM POR UM E IMPRIME NA TELA
             for (Map.Entry<Integer, Cartao> entry : listar.entrySet()) {
-                //                           NÚMERO DA KEY                   CARTÃO DO CLIENTE
+
+                // PRINTA NESSA ORDEM: [ORDEM] CRÉDITO/DÉBITO || N° NÚMERO DO CARTÃO || ATIVO/INATIVO
                 System.out.print("    [" + entry.getKey() + "] "
                         + entry.getValue().getTipoCartao() + " || n° "
                         + entry.getValue().getNumeroCartao() + " || "
                         + "Status: ");
+                        // SE O CARTÃO ESTIVER ATIVO PRINTA ATIVO
                         if(entry.getValue().isAtivo()){
-                            System.out.print("ATIVO");
-                        }else{
-                            System.out.print("INATIVO");
+                            System.out.println("ATIVO");
                         }
-                layout.br(1);
+                        // SE O CARTÃO NÃO ESTIVER ATIVO, PRINTA INATIVO
+                        else{
+                            System.out.println("INATIVO");
+                        }
             }
 
             // LAYOUT
@@ -1229,17 +1248,22 @@ public class Main {
                 n = Integer.parseInt(Layout.entry("    Escolha: "));
                 layout.bottomLine(3);
                 layout.br(1);
+
+                // CARREGA BARRA DE LOADING E LIMPA A TELA
                 layout.loading(3);
                 layout.limparTela();
 
-                // INVOCAR MÉTODO DE SELECIONAR CARTÃO
+                // SE O CARTÃO FOR DE DÉBITO, ELE É TIPO 1
                 if(listar.get(n).getTipoCartao().equals(TipoCartao.DEBITO)){
                     tpCartao = 1;
                 }
+                // SE O CARTÃO FOR DE CRÉDITO, ELE É TIPO 2
                 else if(listar.get(n).getTipoCartao().equals(TipoCartao.CREDITO)){
                     tpCartao = 2;
                 }
 
+                /* -> INVOCA O MENU DE OPÇÕES DO CARTÃO SELECIONADO, PASSANDO COMO PARÂMETROS OS TIPOS DA CONTA E O TIPO
+                   -> DO CARTÃO                                                                                       */
                 menuCartaoSelecionado(tipoConta, tpCartao);
 
             }while(n < 1 || n > listar.size());
@@ -1248,8 +1272,12 @@ public class Main {
         // SE A LISTA DE CARTÕES DO CLIENTE ESTIVER VAZIA
         else{
             System.out.println("    Você não tem nenhum cartão cadastrado no momento");
+
+            // CARREGA BARRA DE LOADING E LIMPA A TELA
             layout.loading(3);
             layout.limparTela();
+
+            // RETORNA AO MENU DOS CARTÕES
             menuCartoes(tipoConta);
         }
 
@@ -1258,40 +1286,52 @@ public class Main {
     // CRIAÇÃO DE NOVO CARTÃO
     public static void menuNovoCartao(Integer tipoConta){
 
+        // DECLARAÇÃO DE VARIÁVEIS
         int n;
 
+        // LAYOUT DO TÍTULO
         layout.topLine(3);
         layout.br(1);
         System.out.println("               =-=-= Cadastrar novo cartão =-=-=");
         layout.bottomLine(3);
         layout.br(1);
 
+        // OPÇÕES DO CLIENTE
         layout.topLine(3);
         layout.br(1);
         System.out.println("            [1] Débito   [2] Crédito   [3] Sair");
         layout.bottomLine(3);
         layout.br(1);
 
+        // REPETIDOR PARA ANULAR ENTRADAS NUMÉRICAS INCORRETAS
         do {
 
+            // ESCOLHA DO CLIENTE
             layout.topLine(3);
             layout.br(1);
             n = Integer.parseInt(Layout.entry("    Escolha: "));
             layout.bottomLine(3);
             layout.br(1);
+
+            // CARREGA BARRA DE LOADING E LIMPA A TELA
             layout.loading(3);
             layout.limparTela();
 
+            // SE O USUÁRIO DIGITAR ALGUM VALOR NUMÉRICO MENOR DO QUE 1 E MAIOR DO QUE 3
             if(n < 1 || n > 3){
                 System.out.println("Entrada inválida");
             }
+            // SE O USUÁRIO ESCOLHER CRIAR UM CARTÃO DE DÉBITO
             else if(n == 1){
                 System.out.println(CartaoBo.validaInserirCartoesDebito(tipoConta));
             }
+            // SE O USUÁRIO ESCOLHER CRIAR UM CARTÃO DE CRÉDITO
             else if(n == 2){
                 System.out.println(CartaoBo.validaInserirCartoesCredito(tipoConta));
-            }else{
-                menuMeusCartoes(tipoConta);
+            }
+            // SE O USUÁRIO ESCOLHER RETORNAR AO MENU DOS CARTÕES
+            else{
+                menuCartoes(tipoConta);
             }
         }while(n < 1 || n > 3);
         menuCartoes(tipoConta);
@@ -1300,6 +1340,7 @@ public class Main {
     // MENU DO CARTÃO SELECIONADO ( PARAMS: TIPO CARTÃO 1 - DÉBITO || TIPO CARTÃO 2 - CRÉDITO)
     public static void menuCartaoSelecionado(Integer tipoConta, Integer tipoCartao){
 
+        // DECLARAÇÃO DE VARIÁVEIS
         int n;
 
         // LAYOUT
@@ -1330,6 +1371,7 @@ public class Main {
                 // LAYOUT INFORMAÇÕES DO CARTÃO DE DÉBITO CC
                 System.out.print("    Numero: " + Bd.clienteBuscaContaCorrente.getCartoesDebitoCliente().get(0).getNumeroCartao());
                 System.out.print("  ||  Bandeira: " + Bd.clienteBuscaContaCorrente.getCartoesDebitoCliente().get(0).getBandeira());
+
                 // SE O CARTÃO DE DÉBITO CC ESTIVER ATIVADO
                 if(Bd.clienteBuscaContaCorrente.getCartoesDebitoCliente().get(0).isAtivo()) {
                     System.out.println("  ||  Status: ATIVO");
@@ -1339,19 +1381,21 @@ public class Main {
                     // OPÇÕES
                     System.out.println("     [1] Desativar   [2] Comprar   [3] Extrato   [4] Sair");
 
-                    // Layout
+                    // layout
                     layout.bottomLine(3);
                     layout.br(1);
 
-                    // ESCOLHA DO USUÁRIO
+                    // REPETIDOR PARA ANULAR ENTRADAS NUMÉRICAS INCORRETAS
                     do {
 
-                        // LAYOUT
+                        // ESCOLHA DO USUÁRIO
                         layout.topLine(3);
                         layout.br(1);
                         n = Integer.parseInt(Layout.entry("    Escolha: "));
                         layout.bottomLine(3);
                         layout.br(1);
+
+                        // CARREGA BARRA DE LOADING E LIMPA A TELA
                         layout.loading(3);
                         layout.limparTela();
 
@@ -1389,22 +1433,24 @@ public class Main {
                     layout.centralLine(3);
                     layout.br(1);
 
-                    // OPÇÕES
+                    // OPÇÕES DO USUÁRIO
                     System.out.println("       [1] Ativar   [2] Sair");
 
-                    // Layout
+                    // LAYOUT
                     layout.bottomLine(3);
                     layout.br(1);
 
-                    // ESCOLHA DO USUÁRIO
+                    // REPETIDOR PARA ANULAR ENTRADAS NUMÉRICAS INVÁLIDAS
                     do {
 
-                        // LAYOUT
+                        // ESCOLHAS DO USUÁRIO
                         layout.topLine(3);
                         layout.br(1);
                         n = Integer.parseInt(Layout.entry("    Escolha: "));
                         layout.bottomLine(3);
                         layout.br(1);
+
+                        // CARREGA BARRA DE LOADING EL IMPA A TELA
                         layout.loading(3);
                         layout.limparTela();
 
@@ -1432,9 +1478,20 @@ public class Main {
                 layout.br(1);
 
                 // LAYOUT INFORMAÇÕES DO CARTÃO DE DÉBITO CP
-                System.out.print("    Numero: " + Bd.clienteBuscaContaPoupanca.getCartoesDebitoCliente().get(0).getNumeroCartao());
-                System.out.print("  ||  Bandeira: " + Bd.clienteBuscaContaPoupanca.getCartoesDebitoCliente().get(0).getBandeira());
-                System.out.print("  ||  Limite: " + Layout.convertToReais(Bd.clienteBuscaContaPoupanca.getCartoesDebitoCliente().get(0).getLimiteTransacao()));
+                System.out.print("    Numero: " + Bd.clienteBuscaContaPoupanca
+                        .getCartoesDebitoCliente()
+                        .get(0)
+                        .getNumeroCartao());
+
+                System.out.print("  ||  Bandeira: " + Bd.clienteBuscaContaPoupanca
+                        .getCartoesDebitoCliente()
+                        .get(0)
+                        .getBandeira());
+
+                System.out.print("  ||  Limite: " + Layout.convertToReais(Bd.clienteBuscaContaPoupanca
+                        .getCartoesDebitoCliente()
+                        .get(0)
+                        .getLimiteTransacao()));
 
                 // SE O CARTÃO DE DÉBITO DA CP ESTIVER ATIVADO
                 if(Bd.clienteBuscaContaPoupanca.getCartoesDebitoCliente().get(0).isAtivo()) {
@@ -1442,22 +1499,24 @@ public class Main {
                     layout.centralLine(3);
                     layout.br(1);
 
-                    // OPÇÕES
+                    // OPÇÕES DO USUÁRIO
                     System.out.println("       [1] Desativar   [2] Comprar   [3] Extrato   [4] Sair");
 
-                    // Layout
+                    // LAYOUT
                     layout.bottomLine(3);
                     layout.br(1);
 
-                    // ESCOLHA DO USUÁRIO
+                    // REPETIDOR PARA ANULAR ENTRADAS NUMÉRICAS INVÁLIDAS
                     do {
 
-                        // LAYOUT
+                        // ESCOLHA DO USUÁRIO
                         layout.topLine(3);
                         layout.br(1);
                         n = Integer.parseInt(Layout.entry("    Escolha: "));
                         layout.bottomLine(3);
                         layout.br(1);
+
+                        // CARREGA BARRA DE LOADING E LIMPA A TELA
                         layout.loading(3);
                         layout.limparTela();
 
@@ -1495,14 +1554,14 @@ public class Main {
                     layout.centralLine(3);
                     layout.br(1);
 
-                    // OPÇÕES
+                    // ESCOLHA DO USUÁRIO
                     System.out.println("       [1] Ativar   [2] Sair");
 
-                    // Layout
+                    // LAYOUT
                     layout.bottomLine(3);
                     layout.br(1);
 
-                    // ESCOLHA DO USUÁRIO
+                    // REPETIDOR PARA ANULAR ENTRADAS NUMÉRICAS INVÁLIDAS
                     do {
 
                         // LAYOUT
@@ -1540,17 +1599,18 @@ public class Main {
                 layout.topLine(3);
                 layout.br(1);
 
-                // LAYOUT INFORMAÇÕES DO CARTÃO DE CRÉDITO CC
-
+                // INFORMAÇÕES DO CARTÃO DE CRÉDITO CC
                 System.out.print("    Limite total: " + Layout.convertToReais(Bd.clienteBuscaContaCorrente
                         .getCartoesCreditoCliente().get(0).getLimite().getLimiteTotal()));
 
                 System.out.println("  ||  Disponível: " + Layout.convertToReais(Bd.clienteBuscaContaCorrente
                         .getCartoesCreditoCliente().get(0).getLimite().getLimiteDisponivel()));
 
+                // LAYOUT
                 layout.centralLine(3);
                 layout.br(1);
 
+                // INFORMAÇÕES DO CARTÃO DE CRÉDITO CC
                 System.out.print("    Numero: " + Bd.clienteBuscaContaCorrente.getCartoesCreditoCliente().get(0)
                         .getNumeroCartao());
 
@@ -1560,30 +1620,34 @@ public class Main {
                 // SE O CARTÃO DE CRÉDITO CC ESTIVER ATIVADO
                 if(Bd.clienteBuscaContaCorrente.getCartoesCreditoCliente().get(0).isAtivo()) {
 
+                    // PRINTA STATUS ATIVO
                     System.out.println("  ||  Status: ATIVO");
                     layout.bottomLine(3);
                     layout.br(1);
 
+                    // LAYOUT
                     layout.topLine(3);
                     layout.br(1);
 
-                    // OPÇÕES
+                    // OPÇÕES DO USUÁRIO
                     System.out.println("     [1] Desativar       [2] Comprar     [3] Ver Fatura");
                     System.out.println("     [4] Pagar fatura    [5] Sair");
 
-                    // Layout
+                    // LAYOUT
                     layout.bottomLine(3);
                     layout.br(1);
 
-                    // ESCOLHA DO USUÁRIO
+                    // REPETIDOR PARA ANULAR ENTRADAS NUMÉRICAS INVÁLIDAS
                     do {
 
-                        // LAYOUT
+                        // ESCOLHA DO USUÁRIO
                         layout.topLine(3);
                         layout.br(1);
                         n = Integer.parseInt(Layout.entry("    Escolha: "));
                         layout.bottomLine(3);
                         layout.br(1);
+
+                        // CARREGA BARRA DE LOADING E LIMPA A TELA
                         layout.loading(3);
                         layout.limparTela();
 
@@ -1627,25 +1691,28 @@ public class Main {
                     layout.bottomLine(3);
                     layout.br(1);
 
+                    // LAYOUT
                     layout.topLine(3);
                     layout.br(1);
 
-                    // OPÇÕES
+                    // OPÇÕES DO USUÁRIO
                     System.out.println("       [1] Ativar   [2] Sair");
 
-                    // Layout
+                    // LAYOUT
                     layout.bottomLine(3);
                     layout.br(1);
 
-                    // ESCOLHA DO USUÁRIO
+                    // REPETIDOR PARA ANULAR ENTRADAS NUMÉRICAS INVÁLIDAS
                     do {
 
-                        // LAYOUT
+                        // ESCOLHA DO USUÁRIO
                         layout.topLine(3);
                         layout.br(1);
                         n = Integer.parseInt(Layout.entry("    Escolha: "));
                         layout.bottomLine(3);
                         layout.br(1);
+
+                        // CARREGA BARRA DE LOADING E LIMPA A TELA
                         layout.loading(3);
                         layout.limparTela();
 
@@ -1671,16 +1738,18 @@ public class Main {
                 layout.topLine(3);
                 layout.br(1);
 
-                // LAYOUT INFORMAÇÕES DO CARTÃO DE CRÉDITO CP
+                // EXIBE INFORMAÇÕES DO CARTÃO DE CRÉDITO CP
                 System.out.print("    Limite total: " + Layout.convertToReais(Bd.clienteBuscaContaPoupanca
                         .getCartoesCreditoCliente().get(0).getLimite().getLimiteTotal()));
 
                 System.out.println("  ||  Disponível: " + Layout.convertToReais(Bd.clienteBuscaContaPoupanca
                         .getCartoesCreditoCliente().get(0).getLimite().getLimiteDisponivel()));
 
+                // LAYOUT
                 layout.centralLine(3);
                 layout.br(1);
 
+                // EXIBE INFORMAÇÕES DO CARTÃO DE CRÉDITO CP
                 System.out.print("    Numero: " + Bd.clienteBuscaContaPoupanca
                         .getCartoesCreditoCliente().get(0).getNumeroCartao());
 
@@ -1694,6 +1763,7 @@ public class Main {
                     layout.bottomLine(3);
                     layout.br(1);
 
+                    // LAYOUT
                     layout.topLine(3);
                     layout.br(1);
 
@@ -1701,19 +1771,21 @@ public class Main {
                     System.out.println("     [1] Desativar       [2] Comprar     [3] Ver Fatura");
                     System.out.println("     [4] Pagar fatura    [5] Sair");
 
-                    // Layout
+                    // LAYOUT
                     layout.bottomLine(3);
                     layout.br(1);
 
-                    // ESCOLHA DO USUÁRIO
+                    // REPETIDOR PARA ANULAR ENTRADAS NUMÉRICAS INCORRETAS
                     do {
 
-                        // LAYOUT
+                        // ESCOLHA DO USUÁRIO
                         layout.topLine(3);
                         layout.br(1);
                         n = Integer.parseInt(Layout.entry("    Escolha: "));
                         layout.bottomLine(3);
                         layout.br(1);
+
+                        // CARREGA BARRA DE LOADING E LIMPA A TELA
                         layout.loading(3);
                         layout.limparTela();
 
@@ -1757,17 +1829,18 @@ public class Main {
                     layout.bottomLine(3);
                     layout.br(1);
 
+                    // LAYOUT
                     layout.topLine(3);
                     layout.br(1);
 
-                    // OPÇÕES
+                    // OPÇÕES DO USUÁRIO
                     System.out.println("       [1] Ativar   [2] Sair");
 
-                    // Layout
+                    // LAYOUT
                     layout.bottomLine(3);
                     layout.br(1);
 
-                    // ESCOLHA DO USUÁRIO
+                    // REPETIDOR PARA ANULAR ENTRADAS NUMÉRICAS INCORRETAS
                     do {
 
                         // LAYOUT
@@ -1776,6 +1849,8 @@ public class Main {
                         n = Integer.parseInt(Layout.entry("    Escolha: "));
                         layout.bottomLine(3);
                         layout.br(1);
+
+                        // CARREGA BARRA DE LOADING E LIMPA A TELA
                         layout.loading(3);
                         layout.limparTela();
 
@@ -1801,18 +1876,21 @@ public class Main {
     // MENU DE COMPRA DOS CARTÕES
     public static void menuCartaoCompra(Integer tipoConta, Integer tipoCartao){
 
+        // TÍTULO DO MENU COMPRA
         layout.topLine(3);
         layout.br(1);
         System.out.println("                 =-=-= Inserir Compra =-=-=");
         layout.bottomLine(3);
         layout.br(1);
 
+        // ENTRADAS DO USUÁRIO
         layout.topLine(3);
         layout.br(1);
         String nomeProduto = Layout.entry("    Digite o nome do produto: ");
         Float valorProduto = Float.parseFloat(Layout.entry("    Digite o valor do produto: R$ "));
         layout.bottomLine(3);
         layout.br(1);
+
 
         // SE O CARTÃO DA COMPRA FOR DE DÉBITO
         if(tipoCartao == 1) {
@@ -1827,22 +1905,24 @@ public class Main {
 
     /* -------------------------------------- FIM - PARTE CARTÕES -------------------------------------------- */
 
-    /* -----------------------------------=- INÍCIO - PARTE SEGUROS ------------------------------------------ */
+    /* ------------------------------------- INÍCIO - PARTE SEGUROS ------------------------------------------ */
 
+    // MENU DE CONTRATAÇÃO DE SEGUROS
     public static void menuContratarSeguros(Integer tipoConta){
 
+        // DECLARAÇÃO DE VARIÁVEIS
         int n;
 
-        // Layout
+        // TÍTULO DO menuContratarSeguros
         layout.topLine(3);
         layout.br(1);
         System.out.println("                  =-=-= Menu Seguros=-=-=");
         layout.bottomLine(3);
         layout.br(1);
 
-        // Seguros e suas regras
+        // SEGUROS E SUAS REGRAS -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
-        // Seguro de vida
+        // SEGURO DE VIDA
         layout.topLine(3);
         layout.br(1);
         layout.sleep(1000);
@@ -1858,7 +1938,7 @@ public class Main {
         layout.br(1);
         layout.sleep(1000);
 
-        // Seguro Invalidez
+        // SEGURO INVALIDEZ
         layout.sleep(1000);
         System.out.println("    " + seguroInvalidez.getNome());
         layout.br(1);
@@ -1872,7 +1952,7 @@ public class Main {
         layout.br(1);
         layout.sleep(1000);
 
-        // Seguro Desemprego
+        // SEGURO DESEMPREGO
         layout.sleep(1000);
         System.out.println("    " + seguroDesemprego.getNome());
         layout.br(1);
@@ -1886,7 +1966,7 @@ public class Main {
         layout.br(1);
         layout.sleep(1000);
 
-        // Opções
+        // OPÇÕES DO USUÁRIO
         layout.topLine(3);
         layout.br(1);
         System.out.println("         [1] Seguro de vida       [2] Seguro Invalidez   ");
@@ -1894,45 +1974,59 @@ public class Main {
         layout.bottomLine(3);
         layout.br(1);
 
+        // REPETIDOR PARA ANULAR ENTRADAS INVÁLIDAS DO USUÁRIO
         do {
+
+            // ESCOLHA DO USUÁRIO
             layout.topLine(3);
             layout.br(1);
             n = Integer.parseInt(Layout.entry("    Escolha: "));
             layout.bottomLine(3);
             layout.br(1);
+
+            // CARREGA BARRA DE LOADING E LIMPA A TELA
             layout.loading(3);
             layout.limparTela();
+
+            // SE O USUÁRIO DIGITAR UM VALOR MAIOR QUE 0 E MENOR QUE 5
             if(n > 0 && n < 5){
+
+                //SE O USUÁRIO ESCOLHER CONTRATAR UM SEGURO DE VIDA
                 if(n == 1){
                     System.out.println(ApoliceBo.contratarSeguro(tipoConta, seguroVida));
                     menuSeguros(tipoConta);
                 }
+                // SE O USUÁRIO ESCOLHER CONTRATAR UM SEGURO INVALIDEZ
                 else if(n == 2){
                     System.out.println(ApoliceBo.contratarSeguro(tipoConta, seguroInvalidez));
                     menuSeguros(tipoConta);
-
                 }
+                // SE O USUÁRIO ESCOLHER CONTRATAR UM SEGURO DESEMPREGO
                 else if(n == 3){
                     System.out.println(ApoliceBo.contratarSeguro(tipoConta, seguroDesemprego));
                     menuSeguros(tipoConta);
                 }
+                // SE O USUÁRIO ESCOLHER VOLTAR PARA O MENU DE SEGUROS
                 else{
                     menuSeguros(tipoConta);
                 }
-            }else{
+            }
+            // SE O USUÁRIO DIGITAR ALGUM VALOR <= 0 OU >= 5
+            else{
                 System.out.println("    Entrada incorreta!");
             }
         }while(n < 1 || n > 4);
 
     }
 
+    // MENU EM QUE OS SEGUROS DO CLIENTE APARECEM NA TELA
     public static void menuMeusSeguros(Integer tipoConta){
 
+        // DECLARAÇÃO DE VARIÁVEIS
         int n, tpSeguro = 0;
-
         Map<Integer, Apolice> listar = (ApoliceBo.listarSegurosDoCliente(tipoConta)); // HASHMAP COM SEGUROS DO CLIENTE
 
-        // LAYOUT
+        // TÍTULO DO menuMeusSeguros
         layout.topLine(3);
         layout.br(1);
         System.out.println("                 =-=-= Meus seguros =-=-=");
@@ -1949,29 +2043,29 @@ public class Main {
             // RODA A LISTA UM POR UM
             for (Map.Entry<Integer, Apolice> entry : listar.entrySet()) {
 
-                // IMPRIME NO CONSOLE UM POR UM
-                System.out.print("    [" + entry.getKey() + "] "
-                        + entry.getValue().getNome());
-
-                layout.br(1);
-
+                //   -> IMPRIME NO CONSOLE UM POR UM NO SEGUINTE MODELO: [ ORDEM ] NOME DO SEGURO
+                System.out.println("    [" + entry.getKey() + "] " + entry.getValue().getNome());
             }
 
             // LAYOUT
             layout.bottomLine(3);
             layout.br(1);
 
-            // REPETIÇÃO PARA ANULAR ENTRADAS INCORRETAS
+            // REPETIÇÃO PARA ANULAR ENTRADAS NUMÉRICAS INCORRETAS
             do {
-                // OPÇÃO DO USUÁRIO
+
+                // ESCOLHA DO USUÁRIO
                 layout.topLine(3);
                 layout.br(1);
                 n = Integer.parseInt(Layout.entry("    Escolha: "));
                 layout.bottomLine(3);
                 layout.br(1);
+
+                // CARREGA BARRA DE LOADING E LIMPA A TELA
                 layout.loading(3);
                 layout.limparTela();
 
+                // INVOCA MENU DE OPÇÕES DO SEGURO SELECIONADO PELO CLIENTE
                 menuSeguroSelecionado(tipoConta, listar.get(n));
 
             }while(n < 1 || n > listar.size());
@@ -1989,6 +2083,7 @@ public class Main {
     // MENU QUE APARECE NA TELA APÓS SELECIONAR ALGUM SEGURO
     public static void menuSeguroSelecionado(Integer tipoConta, Apolice tpSeguro){
 
+        // DECLARAÇÃO DE VARIÁVEIS
         int n = 0;
 
         // LAYOUT TÍTULO DO SEGURO SELECIONADO
@@ -2005,33 +2100,33 @@ public class Main {
         layout.bottomLine(3);
         layout.br(1);
 
-        // ESCOLHA DO USUÁRIO
+        // REPETIDOR PARA ANULAR ENTRADAS NUMÉRICAS INCORRETAS
         do {
 
-            // LAYOUT
+            // ESCOLHA DO USUÁRIO
             layout.topLine(3);
             layout.br(1);
             n = Integer.parseInt(Layout.entry("    Escolha: "));
             layout.bottomLine(3);
             layout.br(1);
+
+            // CARREGA BARRA DE LOADING E LIMPA A TELA
             layout.loading(3);
             layout.limparTela();
 
-            // Cancelar seguro
+            // CANCELAR O SEGURO
             if(n == 1){
                 System.out.println(ApoliceBo.cancelarSeguro(tipoConta, tpSeguro));
                 menuSeguros(tipoConta);
             }
-
-            // Ver descrição do seguro
+            // VER A DESCRIÇÃO DO SEGURO
             else if(n == 2){
                 menuSeguroVerDescricao(tpSeguro);
                 layout.loading(3);
                 layout.limparTela();
                 menuSeguroSelecionado(tipoConta, tpSeguro);
             }
-
-            // Voltar
+            // VOLTA AO MENU DE SEGUROS
             else if(n == 3){
                 menuSeguros(tipoConta);
             }
@@ -2040,6 +2135,7 @@ public class Main {
 
     }
 
+    // MENU ONDE VOCÊ PODE VER A DESCRIÇÃO DO SEGURO SELECIONADO PELO USUÁRIO
     public static void menuSeguroVerDescricao(Apolice tpSeguro){
 
         // LAYOUT TÍTULO DO SEGURO SELECIONADO
@@ -2049,7 +2145,7 @@ public class Main {
         layout.bottomLine(3);
         layout.br(1);
 
-        // Layout opções
+        // EXIBE AS REGRAS DO SEGURO DO USUÁRIO
         layout.topLine(3);
         layout.br(1);
         System.out.println(tpSeguro.getRegras());

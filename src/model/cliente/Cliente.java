@@ -6,14 +6,14 @@ import model.pix.Pix;
 public class Cliente {
 
     // ATRIBUTOS
-    private String nome;
-    private String cpf;
+    private final String nome;
+    private final String cpf;
     private String rg;
     private Endereco endereco;
-    private String senha;
+    private final String senha;
     private Pix pix;
-    private String email;
-    private String telefone;
+    private final String email;
+    private final String telefone;
 
     // CONSTRUTOR
     public Cliente(String nome, String cpf, String rg, Endereco endereco, String senha, String email, String telefone){

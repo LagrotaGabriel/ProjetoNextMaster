@@ -9,12 +9,12 @@ public abstract class Cartao {
 
     // ATRIBUTOS
     private String idCartao;
-    private String numeroCartao;
-    private String bandeira;
+    private final String numeroCartao;
+    private final String bandeira;
     private String senha;
     private Boolean ativo;
     private Cliente cliente;
-    private TipoCartao tipoCartao;
+    private final TipoCartao tipoCartao;
 
     // CONSTRUTOR
     public Cartao(Cliente cliente, TipoCartao tipoCartao) {

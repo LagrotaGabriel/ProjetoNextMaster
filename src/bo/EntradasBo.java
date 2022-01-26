@@ -3,6 +3,8 @@ import view.Main;
 
 public class EntradasBo {
 
+    // ------------------------------ INICIO DAS VALIDAÇÕES DE CADASTRO ------------------------------ //
+
     // Faz a validação do nome do CADASTRO do cliente
     public Boolean cadastraNomeBo(String nome){
 
@@ -352,6 +354,34 @@ public class EntradasBo {
             System.out.println("*** Erro: Digite apenas números em CEP");
             Main.layout.centralLine(3);
             Main.layout.br(1);
+            return(false);
+        }
+    }
+
+    // ------------------------------ FIM DAS VALIDAÇÕES DE CADASTRO ------------------------------ //
+
+    // FAZ A VALIDAÇÃO DE VALOR NUMÉRICO
+    public Boolean validacaoMenuNumerico(String valorInserido, Integer primeiroItem, Integer ultimoItem){
+
+        // TENTA VALIDAR A ENTRADA DO USUÁRIO
+        try{
+
+            // TENTA CONVERTER A ENTRADA DO USUÁRIO PARA VALOR INTEIRO
+            int valorInseridoConvertido = Integer.parseInt(valorInserido);
+            // SE A ENTRADA DO USUÁRIO NÃO CORRESPONDER COM OS VALORES EXIBIDOS NO MENU
+            if(valorInseridoConvertido < primeiroItem || valorInseridoConvertido > ultimoItem){
+                System.out.println("*** Erro: Escolha deve estar entre ["+primeiroItem+"-"+ultimoItem+"]");
+                return(false);
+            }
+
+            // SE ESTIVER TUDO OK COM A ENTRADA DO USUÁRIO
+            else{
+                return(true);
+            }
+        }
+        // SE A ENTRADA DO USUÁRIO FOR NÃO NUMÉRICA
+        catch (Exception e){
+            System.out.println("*** Erro: Digite apenas valores numéricos");
             return(false);
         }
     }

@@ -2025,7 +2025,7 @@ public class Main {
     public static void menuMeusSeguros(Integer tipoConta){
 
         // DECLARAÇÃO DE VARIÁVEIS
-        int n, tpSeguro = 0;
+        int n;
         Map<Integer, Apolice> listar = (ApoliceBo.listarSegurosDoCliente(tipoConta)); // HASHMAP COM SEGUROS DO CLIENTE
 
         // TÍTULO DO menuMeusSeguros
@@ -2086,7 +2086,7 @@ public class Main {
     public static void menuSeguroSelecionado(Integer tipoConta, Apolice tpSeguro){
 
         // DECLARAÇÃO DE VARIÁVEIS
-        int n = 0;
+        int n;
 
         // LAYOUT TÍTULO DO SEGURO SELECIONADO
         layout.topLine(3);

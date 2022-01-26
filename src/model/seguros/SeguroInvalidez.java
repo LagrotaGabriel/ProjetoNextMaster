@@ -2,7 +2,7 @@ package model.seguros;
 
 public class SeguroInvalidez extends Apolice{
 
-    // Construtor
+    // CONSTRUTOR
     public SeguroInvalidez() {
         super(26.00f, "Seguro invalidez", true,
                 """

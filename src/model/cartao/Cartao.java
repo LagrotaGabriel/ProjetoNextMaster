@@ -1,51 +1,40 @@
 package model.cartao;
-import model.cliente.*;
 
+// IMPORTAÇÕES
+import model.cliente.*;
 import java.util.Random;
 import java.util.UUID;
 
 public abstract class Cartao {
 
-    // Atributos
-    protected String idCartao;
-    protected String numeroCartao;
-    protected String bandeira;
-    protected String senha;
-    protected Boolean ativo;
-    protected Cliente cliente;
-    protected TipoCartao tipoCartao;
+    // ATRIBUTOS
+    private String idCartao;
+    private String numeroCartao;
+    private String bandeira;
+    private String senha;
+    private Boolean ativo;
+    private Cliente cliente;
+    private TipoCartao tipoCartao;
 
-    Integer randomNumeroCartao = new Random().nextInt(111111,999999);
-    Integer randomNumeroSenha = new Random().nextInt(1111, 9999);
-
+    // CONSTRUTOR
     public Cartao(Cliente cliente, TipoCartao tipoCartao) {
         this.idCartao = UUID.randomUUID().toString();
-        this.numeroCartao = randomNumeroCartao.toString();
-        this.senha = randomNumeroSenha.toString();
+        int randomNumeroCartao = new Random().nextInt(111111, 999999);
+        this.numeroCartao = Integer.toString(randomNumeroCartao);
+        int randomNumeroSenha = new Random().nextInt(1111, 9999);
+        this.senha = Integer.toString(randomNumeroSenha);
         this.bandeira = "VISA";
         this.ativo = true;
         this.cliente = cliente;
         this.tipoCartao = tipoCartao;
     }
 
-    // Getters e Setters
+    // GETTERS E SETTERS
     public String getNumeroCartao() {
         return numeroCartao;
     }
-    public void setNumeroCartao(String numeroCartao) {
-        this.numeroCartao = numeroCartao;
-    }
     public String getBandeira() {
         return bandeira;
-    }
-    public void setBandeira(String codigoDeSeguranca) {
-        this.bandeira = codigoDeSeguranca;
-    }
-    public String getSenha() {
-        return senha;
-    }
-    public void setSenha(String senha) {
-        this.senha = senha;
     }
     public Boolean isAtivo() {
         return ativo;
@@ -59,16 +48,7 @@ public abstract class Cartao {
     public void setCliente(Cliente cliente) {
         this.cliente = cliente;
     }
-    public String getIdCartao() {
-        return idCartao;
-    }
-    public void setIdCartao(String idCartao) {
-        this.idCartao = idCartao;
-    }
     public TipoCartao getTipoCartao() {
         return tipoCartao;
-    }
-    public void setTipoCartao(TipoCartao tipoCartao) {
-        this.tipoCartao = tipoCartao;
     }
 }

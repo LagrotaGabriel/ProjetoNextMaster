@@ -1,5 +1,4 @@
 package bo;
-import util.Layout;
 import view.Main;
 
 public class EntradasBo {
@@ -141,7 +140,7 @@ public class EntradasBo {
     public Boolean cadastraTelefoneBo(String telefone){
 
         // Atribuição de variáveis
-        Long telefoneConvertido = 0L;
+        long telefoneConvertido = 0L;
 
         // Tenta converter a string telefone pra long através da variável telefoneConvertido
         try {
@@ -188,7 +187,7 @@ public class EntradasBo {
     // Faz a validação da SENHA do CADASTRO do cliente
     public Boolean cadastraSenhaBo(String senha){
 
-        Integer senhaConvertida = 0;
+        int senhaConvertida = 0;
 
         // Valida se a senha é numérica ou não
         try{
@@ -298,7 +297,7 @@ public class EntradasBo {
     public Boolean cadastraNumeroRuaBo(String numeroRua){
 
         // Declaração de variável
-        Integer numeroRuaConvertido = 0;
+        int numeroRuaConvertido = 0;
 
         // Caso numero da rua seja composto apenas por números
         try{

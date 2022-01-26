@@ -1,20 +1,22 @@
 package model.cartao;
+
+// IMPORTAÇÕES
 import model.cliente.Cliente;
 import model.conta.Conta;
-import java.util.ArrayList;
 import java.util.Date;
 
+// CLASSE TRANSAÇÃO
 public class Transacao {
 
-    // Atributos
-    private Date dataCompra;
-    private String descricao;
+    // ATRIBUTOS
+    private final Date dataCompra;
+    private final String descricao;
     private Float valor;
     private Cartao cartao;
     private Conta contaPagante;
     private Cliente clientePagante;
 
-    // Construtor
+    // CONSTRUTOR
     public Transacao(Date dataCompra, String descricao, Float valor, Cliente clientePagante, Conta contaPagante, Cartao cartao) {
         this.dataCompra = dataCompra;
         this.descricao = descricao;
@@ -24,18 +26,12 @@ public class Transacao {
         this.contaPagante = contaPagante;
     }
 
-    // Getters e Setters
+    // GETTERS E SETTERS
     public Date getDataCompra() {
         return dataCompra;
     }
-    public void setDataCompra(Date dataCompra) {
-        this.dataCompra = dataCompra;
-    }
     public String getDescricao() {
         return descricao;
-    }
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
     }
     public Float getValor() {
         return valor;

@@ -257,6 +257,7 @@ public class Bd {
                             // SE O VALOR DE ENTRADA BATER COM ALGUM PIX CADASTRADO
                             if (entry3.getConteudoChave().equals(entrada)) {
                                 contaCorrenteTransf = entry2.getValue();
+                                break;
                             }
                         }
                     }
@@ -270,6 +271,7 @@ public class Bd {
                             // SE O VALOR DE ENTRADA BATER COM ALGUM PIX CADASTRADO
                             if (Objects.equals(entry3.getConteudoChave(), entrada)) {
                                 contaPoupancaTransf = entry2.getValue();
+                                break;
                             }
                         }
                     }
@@ -386,63 +388,5 @@ public class Bd {
         }
     }
 
-    // Busca cartões de DÉBITO do cliente
-    public static Debito buscaCartoesDebitoCliente(Integer tipoConta){
-
-        Debito existente = null;
-
-        // CONTA CORRENTE
-        if(tipoConta == 1) {
-
-            // BUSCA OS VALORES DENTRO DOS CARTÕES DE DÉBITO GLOBAIS
-            for (Debito key : cartoesDebitoMap.values()) {
-                // SE ALGUM O CLIENTE DE CARTÃO DE CRÉDITO DO DB GLOBAL FOR IGUAL AO CLIENTE ATUAL
-                if (key.getCliente() == clienteBuscaContaCorrente.getCliente()) {
-                    existente = key;
-                }
-            }
-        }
-        // CONTA POUPANÇA
-        else if(tipoConta == 2){
-            // BUSCA OS VALORES DENTRO DOS CARTÕES DE DÉBITO GLOBAIS
-            for (Debito key : cartoesDebitoMap.values()) {
-                // SE ALGUM O CLIENTE DE CARTÃO DE CRÉDITO DO DB GLOBAL FOR IGUAL AO CLIENTE ATUAL
-                if (key.getCliente() == clienteBuscaContaPoupanca.getCliente()) {
-                    existente = key;
-                }
-            }
-        }
-
-        return(existente);
-
-    }
-
-    // Busca cartões de CRÉDITO do cliente
-    public static Credito buscaCartoesCreditoCliente(Integer tipoConta){
-
-        Credito existente = null;
-
-        // CONTA CORRENTE
-        if(tipoConta == 1) {
-            for (Credito key : cartoesCreditoMap.values()) {
-                System.out.println(key);
-                if (key.getCliente() == clienteBuscaContaCorrente.getCliente()) {
-                    existente = key;
-                }
-            }
-        }
-        // CONTA POUPANÇA
-        else if(tipoConta == 2){
-            for (Credito key : cartoesCreditoMap.values()) {
-                System.out.println(key);
-                if (key.getCliente() == clienteBuscaContaPoupanca.getCliente()) {
-                    existente = key;
-                }
-            }
-        }
-
-        return(existente);
-
-    }
 
 }

@@ -1,14 +1,11 @@
 package model.cliente;
-import model.conta.Conta;
-import model.pix.Pix;
-import model.seguros.Apolice;
 
-import java.util.HashMap;
-import java.util.Map;
+// IMPORTAÇÕES
+import model.pix.Pix;
 
 public class Cliente {
 
-    // Atributos
+    // ATRIBUTOS
     private String nome;
     private String cpf;
     private String rg;
@@ -18,7 +15,7 @@ public class Cliente {
     private String email;
     private String telefone;
 
-    // Construtor
+    // CONSTRUTOR
     public Cliente(String nome, String cpf, String rg, Endereco endereco, String senha, String email, String telefone){
         this.nome = nome;
         this.cpf = cpf;
@@ -30,7 +27,7 @@ public class Cliente {
         this.pix = null;
     }
 
-    // Getters e Setters
+    // GETTERS E SETTERS
     public String getNome() {
         return nome;
     }
@@ -46,38 +43,4 @@ public class Cliente {
     public String getTelefone() {
         return telefone;
     }
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
-    }
-    public String getRg() {
-        return rg;
-    }
-    public void setRg(String rg) {
-        this.rg = rg;
-    }
-    public Endereco getEndereco() {
-        return endereco;
-    }
-    public void setEndereco(Endereco endereco) {
-        this.endereco = endereco;
-    }
-    public void setSenha(String senha) {
-        this.senha = senha;
-    }
-    public Pix getPix() {
-        return pix;
-    }
-    public void setPix(Pix pix) {
-        this.pix = pix;
-    }
-    public void setEmail(String email) {
-        this.email = email;
-    }
-    public void setTelefone(String telefone) {
-        this.telefone = telefone;
-    }
-
 }

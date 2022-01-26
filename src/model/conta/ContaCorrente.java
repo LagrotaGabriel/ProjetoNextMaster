@@ -1,19 +1,15 @@
 package model.conta;
 
+// IMPORTAÇÕES
 import model.cartao.Cartao;
-import model.cartao.credito.Credito;
-import model.cartao.debito.Debito;
 import model.cliente.Cliente;
-
-import java.util.ArrayList;
 
 public class ContaCorrente extends Conta{
 
-    // Atributos
+    // ATRIBUTOS
     private Float taxaManutencao;
-    private Float limiteCredito;
 
-    // Construtor
+    // CONSTRUTOR
     public ContaCorrente(Cliente cliente, Integer agencia, Integer conta, Float saldo, Float taxaManutencao) {
 
         super(cliente);
@@ -25,8 +21,7 @@ public class ContaCorrente extends Conta{
 
     }
 
-    // Getters e Setters
-    @Override
+    // GETTERS E SETTERS
     public Integer getAgencia() {
         return agencia;
     }
@@ -54,29 +49,20 @@ public class ContaCorrente extends Conta{
     public void setContaTipo(ContaTipo contaTipo) {
         this.contaTipo = contaTipo;
     }
-    public Float getTaxaManutencao() {
-        return taxaManutencao;
-    }
-    public void setTaxaManutencao(Float taxaManutencao) {
-        this.taxaManutencao = taxaManutencao;
-    }
-    public Float getLimiteCredito() {
-        return limiteCredito;
-    }
-    public void setLimiteCredito(Float limiteCredito) {
-        this.limiteCredito = limiteCredito;
-    }
 
-
-
-    // Descontar taxa
+    // DESCONTAR TAXA DE MANUTENÇÃO DA CONTA
     public String descontarTaxa(){
-
+        // SE O SALDO DA CONTA É MAIOR QUE 0
         if(getSaldo() > 0) {
+            // CALCULA O DESCONTO DA TAXA DE 0.45
             Float descontoTaxa = (getSaldo() / 100) * 0.45f;
+            // SUBTRAI A TAXA DO SALDO
             setSaldo(getSaldo() - descontoTaxa);
+            // RETORNA VALOR DO DESCONTO
             return ("Foi descontada a taxa de 0.45% (R$ " + descontoTaxa + ")");
-        }else{
+        }
+        // SE NÃO HOUVER DINHEIRO NA CONTA
+        else{
             return("Não foi cobrada taxa de manutenção da sua conta");
         }
     }

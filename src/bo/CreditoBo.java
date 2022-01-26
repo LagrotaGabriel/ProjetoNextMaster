@@ -377,7 +377,7 @@ public class CreditoBo {
     public static String pagarFatura(Integer tipoConta){
 
         // DECLARAÇÃO DE VARIÁVEIS
-        int n = 0 ;
+        int n;
 
         // SE A CONTA É UMA CONTA CORRENTE
         if(tipoConta == 1){

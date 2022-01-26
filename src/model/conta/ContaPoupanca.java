@@ -1,16 +1,7 @@
 package model.conta;
-import model.cartao.Cartao;
-import model.cartao.credito.Credito;
-import model.cartao.debito.Debito;
 import model.cliente.Cliente;
 
-import java.util.ArrayList;
-
 public class ContaPoupanca extends Conta{
-
-    // Atributos
-    private Float rendimentoMensal;
-    private Float limiteDiario;
 
     // Construtor
     public ContaPoupanca(Cliente cliente, Integer agencia, Integer conta, Float saldo){
@@ -23,25 +14,13 @@ public class ContaPoupanca extends Conta{
 
     }
 
-    // Getters e Setters
-    public Float getRendimentoMensal() {
-        return rendimentoMensal;
-    }
-    public void setRendimentoMensal(Float rendimentoMensal) {
-        this.rendimentoMensal = rendimentoMensal;
-    }
-    public Float getLimiteDiario() {
-        return limiteDiario;
-    }
-    public void setLimiteDiario(Float limiteDiario) {
-        this.limiteDiario = limiteDiario;
-    }
-
+    // MÉTODO QUE ACRESCENTA RENDIMENTO NA CONTA POUPANÇA DO CLIENTE
     public String acrescentarRendimento(){
-
+        // CALCULA O RENDIMENTO DE 0.03%
         Float rendimento = (getSaldo()/100)*0.03f;
+        // ADICIONA VALOR AO SALDO
         setSaldo(getSaldo() + rendimento);
+        // RETORNA VALOR DE RENDIMENTO ADICIONADO
         return ("Foi adicionado o rendimento de 0.03% (R$ " + rendimento + ")");
-
     }
 }

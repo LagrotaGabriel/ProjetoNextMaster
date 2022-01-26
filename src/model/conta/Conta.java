@@ -1,18 +1,20 @@
 package model.conta;
+
+// IMPORTAÇÕES
 import model.cartao.Cartao;
 import model.cartao.credito.Credito;
 import model.cartao.debito.Debito;
 import model.cliente.Cliente;
 import model.pix.Pix;
 import model.seguros.Apolice;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+// CLASSE CONTA
 public abstract class Conta {
 
-    // Atributos
+    // ATRIBUTOS
     protected Integer agencia;
     protected Integer conta;
     protected Cartao cartao;
@@ -22,13 +24,12 @@ public abstract class Conta {
     public ArrayList<Pix> chavesPix = new ArrayList<>();
     public ArrayList<Debito> cartoesDebitoCliente = new ArrayList<>();
     public ArrayList<Credito> cartoesCreditoCliente = new ArrayList<>();
-    private Map<Integer, Apolice> seguros = new HashMap<>();
-
+    private final Map<Integer, Apolice> seguros = new HashMap<>();
     public Conta(Cliente cliente) {
         this.cliente = cliente;
     }
 
-    // Getters e Setters
+    // GETTERS E SETTERS
     public Integer getAgencia() {
         return agencia;
     }
@@ -56,19 +57,11 @@ public abstract class Conta {
     public ArrayList<Pix> getChavesPix() {
         return chavesPix;
     }
-
     public ArrayList<Debito> getCartoesDebitoCliente(){
         return(cartoesDebitoCliente);
     }
-    public void addCartoesDebitoCliente(Debito cartaoDebito){
-        cartoesDebitoCliente.add(cartaoDebito);
-    }
-
     public ArrayList<Credito> getCartoesCreditoCliente(){
         return(cartoesCreditoCliente);
-    }
-    public void addCartoesCreditoCliente(Credito cartaoCredito){
-        cartoesCreditoCliente.add(cartaoCredito);
     }
     public Map<Integer, Apolice> getSeguros(){
         return seguros;

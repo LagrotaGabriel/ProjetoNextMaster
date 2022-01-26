@@ -1,19 +1,23 @@
 package model.pix;
+
+// IMPORTAÇÕES
 import model.cliente.Cliente;
 
 public class Pix {
 
+    // DECLARAÇÃO DE ATRIBUTOS
     private Cliente cliente;
     private final String conteudoChave;
     private final TipoChavePix tipoChavePix;
 
+    // CONSTRUTOR
     public Pix(Cliente cliente, String conteudoChave, TipoChavePix tipoChavePix){
         this.cliente = cliente;
         this.conteudoChave = conteudoChave;
         this.tipoChavePix = tipoChavePix;
     }
 
-    // Setters and Getters
+    // GETTERS E SETTERS
     public String getConteudoChave() {
         return conteudoChave;
     }

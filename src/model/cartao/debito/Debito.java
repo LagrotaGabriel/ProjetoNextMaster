@@ -1,36 +1,32 @@
 package model.cartao.debito;
+
+// IMPORTAÇÕES
 import model.cartao.Cartao;
 import model.cartao.TipoCartao;
 import model.cartao.Transacao;
-import model.cartao.credito.Limite;
 import model.cliente.Cliente;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 public class Debito extends Cartao {
 
-    // Atributos
-    private float limiteTransacao;
+    // ATRIBUTOS
+    private final float limiteTransacao;
     public static Map<Integer, Transacao> extrato = new HashMap<>();
 
-    // Construtor
+    // CONSTRUTOR
     public Debito(Cliente cliente, float limite, TipoCartao tipoCartao) {
         super(cliente, tipoCartao);
         this.limiteTransacao = limite;
     }
 
-    // Getters e setters
+    // GETTERS AND SETTERS
     public float getLimiteTransacao() {
         return limiteTransacao;
     }
-    public void setLimiteTransacao(float limiteTransacao) {
-        this.limiteTransacao = limiteTransacao;
-    }
 
-    // Adicionar ao extrato
+    // SALVAR TRANSAÇÃO
     public static void salvarTransacao(Transacao transacao){
-
         // ID AUTOINCREMENT
         int pos;
         if(extrato.size() == 0){
@@ -42,7 +38,6 @@ public class Debito extends Cartao {
 
         // ADICIONAR AO BD INTERNO DO CARTÃO
         extrato.put(pos, transacao);
-
     }
 
 

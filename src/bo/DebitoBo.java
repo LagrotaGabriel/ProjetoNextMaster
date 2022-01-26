@@ -14,8 +14,6 @@ import java.util.Map;
 
 public class DebitoBo {
 
-    public static Debito debito;
-
     // FAZ A VALIDAÇÃO DE INSERÇÃO DE CARTÃO DE DÉBITO
     public static String validaInsercaoDebito(Integer tipoConta){
 

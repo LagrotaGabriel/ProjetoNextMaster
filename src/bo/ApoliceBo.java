@@ -65,7 +65,7 @@ public class ApoliceBo {
     public static String cancelarSeguro(Integer tipoConta, Apolice tpSeguro){
 
         // DECLARAÇÃO DE VARIÁVEIS
-        Boolean cancelado = false;
+        boolean cancelado = false;
 
         // SE A CONTA FOR CORRENTE
         if(tipoConta == 1) {

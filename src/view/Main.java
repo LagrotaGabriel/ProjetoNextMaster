@@ -1928,7 +1928,8 @@ public class Main {
     public static void menuContratarSeguros(Integer tipoConta){
 
         // DECLARAÇÃO DE VARIÁVEIS
-        int n;
+        String n;
+        boolean passa;
 
         // TÍTULO DO menuContratarSeguros
         layout.topLine(3);
@@ -1997,7 +1998,9 @@ public class Main {
             // ESCOLHA DO USUÁRIO
             layout.topLine(3);
             layout.br(1);
-            n = Integer.parseInt(Layout.entry("    Escolha: "));
+            n = Layout.entry("    Escolha: ");
+            passa = entradasBo.validacaoMenuNumerico(n, 1, 4);
+
             layout.bottomLine(3);
             layout.br(1);
 
@@ -2005,34 +2008,27 @@ public class Main {
             layout.loading(3);
             layout.limparTela();
 
-            // SE O USUÁRIO DIGITAR UM VALOR MAIOR QUE 0 E MENOR QUE 5
-            if(n > 0 && n < 5){
-
+            switch (n) {
                 //SE O USUÁRIO ESCOLHER CONTRATAR UM SEGURO DE VIDA
-                if(n == 1){
+                case "1" -> {
                     System.out.println(ApoliceBo.contratarSeguro(tipoConta, seguroVida));
                     menuSeguros(tipoConta);
                 }
                 // SE O USUÁRIO ESCOLHER CONTRATAR UM SEGURO INVALIDEZ
-                else if(n == 2){
+                case "2" -> {
                     System.out.println(ApoliceBo.contratarSeguro(tipoConta, seguroInvalidez));
                     menuSeguros(tipoConta);
                 }
                 // SE O USUÁRIO ESCOLHER CONTRATAR UM SEGURO DESEMPREGO
-                else if(n == 3){
+                case "3" -> {
                     System.out.println(ApoliceBo.contratarSeguro(tipoConta, seguroDesemprego));
                     menuSeguros(tipoConta);
                 }
                 // SE O USUÁRIO ESCOLHER VOLTAR PARA O MENU DE SEGUROS
-                else{
-                    menuSeguros(tipoConta);
-                }
+                default -> menuSeguros(tipoConta);
             }
-            // SE O USUÁRIO DIGITAR ALGUM VALOR <= 0 OU >= 5
-            else{
-                System.out.println("    Entrada incorreta!");
-            }
-        }while(n < 1 || n > 4);
+
+        }while(!passa);
 
     }
 
@@ -2040,7 +2036,8 @@ public class Main {
     public static void menuMeusSeguros(Integer tipoConta){
 
         // DECLARAÇÃO DE VARIÁVEIS
-        int n;
+        String n;
+        boolean passa;
         Map<Integer, Apolice> listar = (ApoliceBo.listarSegurosDoCliente(tipoConta)); // HASHMAP COM SEGUROS DO CLIENTE
 
         // TÍTULO DO menuMeusSeguros
@@ -2074,7 +2071,8 @@ public class Main {
                 // ESCOLHA DO USUÁRIO
                 layout.topLine(3);
                 layout.br(1);
-                n = Integer.parseInt(Layout.entry("    Escolha: "));
+                n = Layout.entry("    Escolha: ");
+                passa = entradasBo.validacaoMenuNumerico(n, 1, listar.size());
                 layout.bottomLine(3);
                 layout.br(1);
 
@@ -2083,9 +2081,9 @@ public class Main {
                 layout.limparTela();
 
                 // INVOCA MENU DE OPÇÕES DO SEGURO SELECIONADO PELO CLIENTE
-                menuSeguroSelecionado(tipoConta, listar.get(n));
+                menuSeguroSelecionado(tipoConta, listar.get(Integer.parseInt(n)));
 
-            }while(n < 1 || n > listar.size());
+            }while(!passa);
 
         }
         // SE A LISTA DE CARTÕES DO CLIENTE ESTIVER VAZIA
@@ -2101,7 +2099,8 @@ public class Main {
     public static void menuSeguroSelecionado(Integer tipoConta, Apolice tpSeguro){
 
         // DECLARAÇÃO DE VARIÁVEIS
-        int n;
+        String n;
+        boolean passa;
 
         // LAYOUT TÍTULO DO SEGURO SELECIONADO
         layout.topLine(3);
@@ -2123,7 +2122,8 @@ public class Main {
             // ESCOLHA DO USUÁRIO
             layout.topLine(3);
             layout.br(1);
-            n = Integer.parseInt(Layout.entry("    Escolha: "));
+            n = Layout.entry("    Escolha: ");
+            passa = entradasBo.validacaoMenuNumerico(n, 1, 3);
             layout.bottomLine(3);
             layout.br(1);
 
@@ -2131,24 +2131,24 @@ public class Main {
             layout.loading(3);
             layout.limparTela();
 
-            // CANCELAR O SEGURO
-            if(n == 1){
-                System.out.println(ApoliceBo.cancelarSeguro(tipoConta, tpSeguro));
-                menuSeguros(tipoConta);
-            }
-            // VER A DESCRIÇÃO DO SEGURO
-            else if(n == 2){
-                menuSeguroVerDescricao(tpSeguro);
-                layout.loading(3);
-                layout.limparTela();
-                menuSeguroSelecionado(tipoConta, tpSeguro);
-            }
-            // VOLTA AO MENU DE SEGUROS
-            else if(n == 3){
-                menuSeguros(tipoConta);
+            switch (n) {
+                // CANCELAR O SEGURO
+                case "1" -> {
+                    System.out.println(ApoliceBo.cancelarSeguro(tipoConta, tpSeguro));
+                    menuSeguros(tipoConta);
+                }
+                // VER A DESCRIÇÃO DO SEGURO
+                case "2" -> {
+                    menuSeguroVerDescricao(tpSeguro);
+                    layout.loading(3);
+                    layout.limparTela();
+                    menuSeguroSelecionado(tipoConta, tpSeguro);
+                }
+                // VOLTA AO MENU DE SEGUROS
+                case "3" -> menuSeguros(tipoConta);
             }
 
-        }while(n < 1 || n > 3);
+        }while(!passa);
 
     }
 
@@ -2172,5 +2172,4 @@ public class Main {
     }
 
     /* -------------------------------------- FIM - PARTE SEGUROS -------------------------------------------- */
-
 }

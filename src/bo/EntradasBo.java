@@ -1,4 +1,6 @@
 package bo;
+import dao.Bd;
+import util.Layout;
 import view.Main;
 
 public class EntradasBo {
@@ -360,7 +362,7 @@ public class EntradasBo {
 
     // ------------------------------ FIM DAS VALIDAÇÕES DE CADASTRO ------------------------------ //
 
-    // FAZ A VALIDAÇÃO DE VALOR NUMÉRICO
+    // FAZ A VALIDAÇÃO DE ENTRADA DE MENU
     public Boolean validacaoMenuNumerico(String valorInserido, Integer primeiroItem, Integer ultimoItem){
 
         // TENTA VALIDAR A ENTRADA DO USUÁRIO
@@ -386,4 +388,89 @@ public class EntradasBo {
         }
     }
 
+    // FAZ A VALIDAÇÃO DE VALOR PIX
+    public Boolean validacaoValorPix(String valor, Integer contaTipo){
+
+        // TENTA VALIDAR O VALOR DA TRANSFERÊNCIA
+        try {
+            // TENTA CONVERTER O VALOR INSERIDO PARA FLOAT
+            float valorConvertido = Float.parseFloat(valor);
+
+            // SE O VALOR DEPOSITADO FOR NEGATIVO
+            if(valorConvertido < 0){
+                Main.layout.centralLine(3);
+                Main.layout.br(1);
+                System.out.println("*** Erro: O valor da transferência não pode\n    ser negativo");
+                Main.layout.centralLine(3);
+                Main.layout.br(1);
+                return false;
+            }
+            // SE O VALOR DA TRANSFERÊNCIA FOR 0
+            else if(valorConvertido == 0){
+                Main.layout.centralLine(3);
+                Main.layout.br(1);
+                System.out.println("*** Erro: O valor da transferência não pode\n    ser 0");
+                Main.layout.centralLine(3);
+                Main.layout.br(1);
+                return false;
+            }
+            // SE O VALOR DA TRANSFERÊNCIA NÃO FOR NEGATIVO
+            else{
+                return true;
+            }
+        }
+
+        // SE O VALOR DO DEPÓSITO TIVER ALGUM CARACTER NÃO NUMÉRICO
+        catch(Exception e){
+            Main.layout.centralLine(3);
+            Main.layout.br(1);
+            System.out.println("*** Erro: O valor inserido precisa ser\n    exclusivamente numérico");
+            Main.layout.centralLine(3);
+            Main.layout.br(1);
+            return false;
+        }
+    }
+
+    // FAZ A VALIDAÇÃO DE VALOR DE COMPRA DO CARTÃO
+    public Boolean validacaoValor(String valor, Integer contaTipo){
+
+        // TENTA VALIDAR O VALOR
+        try {
+            // TENTA CONVERTER O VALOR INSERIDO PARA FLOAT
+            float valorConvertido = Float.parseFloat(valor);
+
+            // SE O VALOR FOR NEGATIVO
+            if(valorConvertido < 0){
+                Main.layout.centralLine(3);
+                Main.layout.br(1);
+                System.out.println("*** Erro: O valor não pode ser negativo");
+                Main.layout.centralLine(3);
+                Main.layout.br(1);
+                return false;
+            }
+            // SE O VALOR FOR 0
+            else if(valorConvertido == 0){
+                Main.layout.centralLine(3);
+                Main.layout.br(1);
+                System.out.println("*** Erro: O valor não pode ser 0");
+                Main.layout.centralLine(3);
+                Main.layout.br(1);
+                return false;
+            }
+            // SE O VALOR NÃO FOR NEGATIVO
+            else{
+                return true;
+            }
+        }
+
+        // SE O VALOR TIVER ALGUM CARACTER NÃO NUMÉRICO
+        catch(Exception e){
+            Main.layout.centralLine(3);
+            Main.layout.br(1);
+            System.out.println("*** Erro: O valor inserido precisa ser exclusivamente numérico");
+            Main.layout.centralLine(3);
+            Main.layout.br(1);
+            return false;
+        }
+    }
 }

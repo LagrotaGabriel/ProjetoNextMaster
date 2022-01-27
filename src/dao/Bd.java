@@ -281,7 +281,7 @@ public class Bd {
     }
 
     // Apagar chaves pix do cliente
-    public static String pixDelete(Integer tipoConta, Integer entrada) {
+    public static void pixDelete(Integer tipoConta, Integer entrada) {
 
         String valor = "";
 
@@ -317,9 +317,6 @@ public class Bd {
             } catch (Exception ignored) {
             }
             pixsMap.remove(entrada);
-            return ("    Chave removida com sucesso");
-        } else {
-            return ("");
         }
 
     }

@@ -1,5 +1,6 @@
 package model.conta;
 import model.cliente.Cliente;
+import util.Layout;
 
 public class ContaPoupanca extends Conta{
 
@@ -21,6 +22,6 @@ public class ContaPoupanca extends Conta{
         // ADICIONA VALOR AO SALDO
         setSaldo(getSaldo() + rendimento);
         // RETORNA VALOR DE RENDIMENTO ADICIONADO
-        return ("Foi adicionado o rendimento de 0.03% (R$ " + rendimento + ")");
+        return ("Foi adicionado o rendimento de 0.03% (" + Layout.convertToReais(rendimento) + ")");
     }
 }

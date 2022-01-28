@@ -27,7 +27,7 @@ public class ContaPoupancaBo{
                     // SE O VALOR DO SAQUE FOR MAIOR DO QUE O SALDO DO CLIENTE
                     if(valorConvertido > Bd.clienteBuscaContaPoupanca.getSaldo()){
                         System.out.println("* Erro: Saque não autorizado.\n"
-                                + "  Seu saldo é: R$" + Layout.convertToReais(Bd.clienteBuscaContaPoupanca.getSaldo()));
+                                + "  Seu saldo é: " + Layout.convertToReais(Bd.clienteBuscaContaPoupanca.getSaldo()));
                         return false;
                     }
                     // SE O VALOR DO SAQUE FOR MENOR OU IGUAL AO SALDO DO CLIENTE

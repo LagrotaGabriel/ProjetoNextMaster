@@ -3,20 +3,16 @@ package view;
 // IMPORTAÇÕES
 import bo.*;
 import dao.Bd;
-import model.cartao.Cartao;
-import model.cartao.TipoCartao;
-import model.conta.ContaTipo;
-import model.seguros.Apolice;
-import model.seguros.SeguroDesemprego;
-import model.seguros.SeguroInvalidez;
-import model.seguros.SeguroVida;
-import util.Layout;
+import model.cartao.*;
+import model.conta.*;
+import model.seguros.*;
+import util.*;
 import java.util.Map;
 
 public class Main {
 
     // INSTANCIAÇÃO DE CLASSES
-    public static Layout layout = new Layout(1, 1);
+    public static Layout layout = new Layout(10, 15);
     public static LoginBo login = new LoginBo("", "");
     public static SeguroVida seguroVida = new SeguroVida();
     public static SeguroInvalidez seguroInvalidez = new SeguroInvalidez();
@@ -25,23 +21,11 @@ public class Main {
 
     // MÉTODO MAIN
     public static void main(String[] args) {
-
         CadastroBo.cadastrarUsuario("Gabriel", "47153427821", "558468263",
                 "1", "São Paulo", "SP", "Lauzane", "583",
                 "Avenida Coronel Manuel Py", "02442090", "gabriellagrota23@gmail.com", "979815415", "3");
-
-        CadastroBo.cadastrarUsuario("Henrique", "123456789012", "558468263",
-                "1", "São Paulo", "SP", "Lauzane", "583",
-                "Avenida Coronel Manuel Py", "02442090", "email@gmail.com", "961329075", "2");
-
-        CadastroBo.cadastrarUsuario("Afonso", "210987654321", "558468263",
-                "2", "São Paulo", "SP", "Lauzane", "583",
-                "Avenida Coronel Manuel Py", "02442090", "blablabla@foursys.com", "992844948", "1");
-
-        //menuCadastro();
         menuLogin();
         //menuAcesso();
-
     }
 
     /* -------------------------------------- INÍCIO - MENU ACESSO --------------------------------------------- */
@@ -90,7 +74,7 @@ public class Main {
 
         // Inicialização de variáveis
         boolean passa;
-        String loginCpf;
+        String loginCpf, loginSenha = "";
 
         // Layout do título
         layout.topLine(3);
@@ -99,24 +83,28 @@ public class Main {
         layout.br(1);
 
         do {
-                // LAYOUT
-                layout.topLine(3);
-                layout.br(1);
 
-                // ENTRADA DO USUÁRIO
-                loginCpf = Layout.entry("    Digite o seu CPF: ")
-                        .replace("-", "")
-                        .replace(".", "");
-                passa = entradasBo.cadastraCpfBo(loginCpf);
+            // LAYOUT
+            layout.topLine(3);
+            layout.br(1);
+
+            // ENTRADA DO USUÁRIO
+            loginCpf = Layout.entry("    Digite o seu CPF: ")
+                    .replace("-", "")
+                    .replace(".", "");
+            passa = entradasBo.cadastraCpfBo(loginCpf);
+
+            if(passa) {
+                // Entrada da SENHA
+                loginSenha = Layout.entry("    Digite sua senha: ");
+            }
+
+            // LAYOUT
+            layout.bottomLine(3);
+            layout.br(1);
 
         }while(!passa);
 
-        // Entrada da SENHA
-        String loginSenha = Layout.entry("    Digite sua senha: ");
-
-        // LAYOUT
-        layout.bottomLine(3);
-        layout.br(1);
         layout.loading(3);
         layout.limparTela();
         layout.br(1);
@@ -308,9 +296,8 @@ public class Main {
         } while(!passa);
 
         //CADASTRO DE USUÁRIO COM AS VARIÁVEIS DECLARADAS NO ATO DO CADASTRO
-        CadastroBo.cadastrarUsuario
-                        (nome, cpf, rg, senha, cidade, estado, bairro, numeroRua,
-                                rua, cep, email, telefone, tipoDeConta);
+        CadastroBo.cadastrarUsuario(nome, cpf, rg, senha, cidade, estado, bairro, numeroRua,
+                rua, cep, email, telefone, tipoDeConta);
 
         // INFORME DE CADASTRO
         layout.loading(3);
@@ -518,6 +505,24 @@ public class Main {
 
             do {
 
+                // DESCONTO DA TAXA DE MANUTENÇÃO DA CONTA CORRENTE
+                System.out.println("- " + Bd.clienteBuscaContaCorrente.descontarTaxa());
+
+                // ATUALIZA TIPO DE CONTA PARA A QUE CORRESPONDER AO SALDO ATUAL
+
+                // SE O SALDO FOR MENOR QUE 5K CONVERTE PARA CONTA COMUM
+                if(Bd.clienteBuscaContaCorrente.getSaldo() < 5000){
+                    Bd.clienteBuscaContaCorrente.setContaTipo(ContaTipo.COMUM);
+                }
+                // SE O SALDO FOR > QUE 5K E < QUE 10K CONVERTE PARA CONTA PREMIUM
+                else if(Bd.clienteBuscaContaCorrente.getSaldo() >= 5000 && Bd.clienteBuscaContaCorrente.getSaldo() < 10000){
+                    Bd.clienteBuscaContaCorrente.setContaTipo(ContaTipo.PREMIUM);
+                }
+                // SE O SALDO FOR MAIOR QUE 10K CONVERTE PARACONTA SUPER
+                else{
+                    Bd.clienteBuscaContaCorrente.setContaTipo(ContaTipo.SUPER);
+                }
+
                 // LAYOUT DO TÍTULO
                 layout.topLine(3);
                 layout.br(1);
@@ -535,7 +540,7 @@ public class Main {
                 System.out.print(" || CT: " + Bd.clienteBuscaContaCorrente.getConta()); // MOSTRA N° DA CONTA
                 System.out.print(" || Tipo: " + Bd.clienteBuscaContaCorrente.getContaTipo()); // MOSTRA TIPO DA CONTA
                 System.out.print(" || Saldo: ");
-                System.out.printf("R$ %.2f", Bd.clienteBuscaContaCorrente.getSaldo()); // MOSTRA SALDO
+                System.out.print(Layout.convertToReais(Bd.clienteBuscaContaCorrente.getSaldo())); // MOSTRA SALDO
 
                 // LAYOUT
                 layout.br(1);
@@ -572,33 +577,13 @@ public class Main {
                         menuPrincipal(ct);
                     }
                     // SE O CLIENTE ESCOLHER REALIZAR UMA TRANSFERÊNCIA
-                    case "3" -> {
-                        menuCartoes(1);
-                    }
+                    case "3" -> menuCartoes(1);
                     // SE O CLIENTE ESCOLHER ACESSAR O MENU PIX
                     case "4" -> menuPix(1);
                     // SE O CLIENTE ESCOLHER ACESSAR O MENU DE CARTÕES
                     case "5" -> menuSeguros(1);
                     // SE O CLIENTE ESCOLHER VOLTAR PARA O MENU DE SELEÇÃO DE CONTAS
                     case "6" -> menuContas();
-                }
-
-                // DESCONTO DA TAXA DE MANUTENÇÃO DA CONTA CORRENTE
-                System.out.println("- " + Bd.clienteBuscaContaCorrente.descontarTaxa());
-
-                // ATUALIZA TIPO DE CONTA PARA A QUE CORRESPONDER AO SALDO ATUAL
-
-                // SE O SALDO FOR MENOR QUE 5K CONVERTE PARA CONTA COMUM
-                if(Bd.clienteBuscaContaCorrente.getSaldo() < 5000){
-                    Bd.clienteBuscaContaCorrente.setContaTipo(ContaTipo.COMUM);
-                }
-                // SE O SALDO FOR > QUE 5K E < QUE 10K CONVERTE PARA CONTA PREMIUM
-                else if(Bd.clienteBuscaContaCorrente.getSaldo() >= 5000 && Bd.clienteBuscaContaCorrente.getSaldo() < 10000){
-                    Bd.clienteBuscaContaCorrente.setContaTipo(ContaTipo.PREMIUM);
-                }
-                // SE O SALDO FOR MAIOR QUE 10K CONVERTE PARACONTA SUPER
-                else{
-                    Bd.clienteBuscaContaCorrente.setContaTipo(ContaTipo.SUPER);
                 }
 
             }while(!passa);
@@ -609,6 +594,25 @@ public class Main {
         else if(Integer.parseInt(ct) == 2){
 
             do {
+
+                // ACRESCENTA RENDIMENTO À SUA CONTA POUPANÇA
+                System.out.println("- " + Bd.clienteBuscaContaPoupanca.acrescentarRendimento());
+
+                // ATUALIZA TIPO DE CONTA PARA A QUE CORRESPONDER AO SALDO ATUAL
+
+                // SE O SALDO FOR MENOR QUE 5K CONVERTE PARA CONTA COMUM
+                if(Bd.clienteBuscaContaPoupanca.getSaldo() < 5000){
+                    Bd.clienteBuscaContaPoupanca.setContaTipo(ContaTipo.COMUM);
+                }
+                // SE O SALDO FOR > QUE 5K E < QUE 10K CONVERTE PARA CONTA PREMIUM
+                else if(Bd.clienteBuscaContaPoupanca.getSaldo() > 5000 &&
+                        Bd.clienteBuscaContaPoupanca.getSaldo() < 10000){
+                    Bd.clienteBuscaContaPoupanca.setContaTipo(ContaTipo.PREMIUM);
+                }
+                // SE O SALDO FOR MAIOR QUE 10K CONVERTE PARACONTA SUPER
+                else{
+                    Bd.clienteBuscaContaPoupanca.setContaTipo(ContaTipo.SUPER);
+                }
 
                 // LAYOUT DO TÍTULO
                 layout.topLine(3);
@@ -628,7 +632,7 @@ public class Main {
                 System.out.print(" || Tipo: " + Bd.clienteBuscaContaPoupanca.getContaTipo()); // MOSTRA O TIPO DA CONTA
                 // Informações do saldo
                 System.out.print(" || Saldo: ");
-                System.out.printf("R$ %.2f", Bd.clienteBuscaContaPoupanca.getSaldo()); // MOSTRA O SALDO
+                System.out.print(Layout.convertToReais(Bd.clienteBuscaContaPoupanca.getSaldo())); // MOSTRA O SALDO
 
                 // LAYOUT
                 layout.br(1);
@@ -665,35 +669,13 @@ public class Main {
                         menuPrincipal(ct);
                     }
                     // SE O CLIENTE ESCOLHER REALIZAR UMA TRANSFERÊNCIA
-                    case "3" -> {
-                        menuCartoes(1);
-                        n = "0";
-                    }
+                    case "3" -> menuCartoes(1);
                     // SE O CLIENTE ESCOLHER ACESSAR O MENU PIX
                     case "4" -> menuPix(2);
                     // SE O CLIENTE ESCOLHER ACESSAR O MENU CARTÕES
                     case "5" -> menuSeguros(2);
                     // SE O CLIENTE ESCOLHER VOLTAR AO MENU DE SELEÇÃO DE CONTAS
                     case "6" -> menuContas();
-                }
-
-                // ACRESCENTA RENDIMENTO À SUA CONTA POUPANÇA
-                System.out.println("- " + Bd.clienteBuscaContaPoupanca.acrescentarRendimento());
-
-                // ATUALIZA TIPO DE CONTA PARA A QUE CORRESPONDER AO SALDO ATUAL
-
-                // SE O SALDO FOR MENOR QUE 5K CONVERTE PARA CONTA COMUM
-                if(Bd.clienteBuscaContaPoupanca.getSaldo() < 5000){
-                    Bd.clienteBuscaContaPoupanca.setContaTipo(ContaTipo.COMUM);
-                }
-                // SE O SALDO FOR > QUE 5K E < QUE 10K CONVERTE PARA CONTA PREMIUM
-                else if(Bd.clienteBuscaContaPoupanca.getSaldo() > 5000 &&
-                        Bd.clienteBuscaContaPoupanca.getSaldo() < 10000){
-                    Bd.clienteBuscaContaPoupanca.setContaTipo(ContaTipo.PREMIUM);
-                }
-                // SE O SALDO FOR MAIOR QUE 10K CONVERTE PARACONTA SUPER
-                else{
-                    Bd.clienteBuscaContaPoupanca.setContaTipo(ContaTipo.SUPER);
                 }
 
             } while(!passa);
@@ -722,11 +704,13 @@ public class Main {
 
             // SE A CONTA DO USUÁRIO FOR CORRENTE
             if (tipoConta == 1) {
-                passa = ContaCorrenteBo.Deposito(Layout.entry("  Digite o valor do depósito: R$ "));
+                passa = ContaCorrenteBo.Deposito(Layout.entry("  Digite o valor do depósito: R$ ")
+                        .replace(",", "."));
             }
             // SE A CONTA DO USUÁRIO FOR POUPANÇA
             else if (tipoConta == 2) {
-                passa = ContaPoupancaBo.Deposito(Layout.entry("  Digite o valor do depósito: R$ "));
+                passa = ContaPoupancaBo.Deposito(Layout.entry("  Digite o valor do depósito: R$ ")
+                        .replace(",", "."));
             }
             // SÓ PRA IDE NÃO RECLAMAR
             else{
@@ -767,11 +751,13 @@ public class Main {
 
             // SE A CONTA DO USUÁRIO FOR CORRENTE
             if (tipoConta == 1) {
-                passa = ContaCorrenteBo.Saque(Layout.entry("  Digite o valor do saque: R$ "));
+                passa = ContaCorrenteBo.Saque(Layout.entry("  Digite o valor do saque: R$ ")
+                        .replace(",", "."));
             }
             // SE A CONTA DO USUÁRIO FOR POUPANÇA
             else if (tipoConta == 2) {
-                passa = ContaPoupancaBo.Saque(Layout.entry("  Digite o valor do saque: R$ "));
+                passa = ContaPoupancaBo.Saque(Layout.entry("  Digite o valor do saque: R$ ")
+                        .replace(",", "."));
             }
             // SÓ PRA IDE NÃO RECLAMAR
             else{
@@ -824,23 +810,21 @@ public class Main {
             layout.bottomLine(3);
             layout.br(1);
 
-            // APÓS O USUÁRIO ENTRAR UM VALOR APARECE UMA BARRA DE LOADING E LIMPA A TELA DO SISTEMA
-            layout.loading(3);
-            layout.limparTela();
+            if(passa) {
+                // APÓS O USUÁRIO ENTRAR UM VALOR APARECE UMA BARRA DE LOADING E LIMPA A TELA DO SISTEMA
+                layout.loading(3);
+                layout.limparTela();
+            }
 
             switch (n) {
                 // SE O CLIENTE ESCOLHER ACESSAR O MENU DE CADASTRO PIX
                 case "1" -> {
                     menuCadastroPix(contaTipo);
-                    layout.loading(3);
-                    layout.limparTela();
                     menuPix(contaTipo);
                 }
                 // SE O CLIENTE ESCOLHER ACESSAR O MENU DE APAGAR PIX
                 case "2" -> {
                     menuApagaPix(contaTipo);
-                    layout.loading(3);
-                    layout.limparTela();
                     menuPix(contaTipo);
                 }
                 // SE O CLIENTE ESCOLHER ACESSAR O MENU DE TRANSFERÊNCIA PIX
@@ -902,21 +886,19 @@ public class Main {
             layout.bottomLine(3);
             layout.br(1);
 
-            // APÓS O USUÁRIO ENTRAR UM DADO, CARREGA UMA BARRINHA DE LOADING E LIMPA A TELA
-            layout.loading(3);
-            layout.limparTela();
+            if(passa) {
+                // APÓS O USUÁRIO ENTRAR UM DADO, CARREGA UMA BARRINHA DE LOADING E LIMPA A TELA
+                layout.loading(3);
+                layout.limparTela();
+            }
 
-            // SE USUÁRIO ESCOLHER ACESSAR MENU QUE LISTA SEUS CARTÕES
-            if(n.equals("1")){
-                menuMeusCartoes(tipoConta);
-            }
-            // SE USUÁRIO ESCOLHER ACESSAR MENU QUE CADASTRA NOVO CARTÃO
-            else if(n.equals("2")){
-                menuNovoCartao(tipoConta);
-            }
-            // SE USUÁRIO ESCOLHER RETORNAR AO MENU PRINCIPAL
-            else{
-                menuPrincipal(String.valueOf(tipoConta));
+            switch (n) {
+                // SE USUÁRIO ESCOLHER ACESSAR MENU QUE LISTA SEUS CARTÕES
+                case "1" -> menuMeusCartoes(tipoConta);
+                // SE USUÁRIO ESCOLHER ACESSAR MENU QUE CADASTRA NOVO CARTÃO
+                case "2" -> menuNovoCartao(tipoConta);
+                // SE USUÁRIO ESCOLHER RETORNAR AO MENU PRINCIPAL
+                case "3" -> menuPrincipal(String.valueOf(tipoConta));
             }
 
         }while(!passa);
@@ -952,12 +934,16 @@ public class Main {
             layout.br(1);
             n = Layout.entry("    Escolha: ");
             passa = entradasBo.validacaoMenuNumerico(n, 1, 3);
+
             layout.bottomLine(3);
             layout.br(1);
 
-            // AO USUÁRIO INSERIR VALOR, CARREGA UMA BARRINHA E LIMPA A TELA
-            layout.loading(3);
-            layout.limparTela();
+            if(passa) {
+                // AO USUÁRIO INSERIR VALOR, CARREGA UMA BARRINHA E LIMPA A TELA
+                layout.loading(3);
+                layout.limparTela();
+            }
+
             // SE USUÁRIO ESCOLHER ACESSAR MENU QUE LISTA SEUS SEGUROS
             if(n.equals("1")){
                 menuMeusSeguros(tipoConta);
@@ -1020,6 +1006,12 @@ public class Main {
             layout.bottomLine(3);
             layout.br(1);
 
+            if(passa) {
+                // CARREGA BARRA DE LOADING E LIMPA A TELA
+                layout.loading(3);
+                layout.limparTela();
+            }
+
             switch (n) {
                 // CPF
                 case "1":
@@ -1055,9 +1047,7 @@ public class Main {
                     }
                     break;
                 // VOLTAR
-                default:
-                    layout.loading(3);
-                    layout.limparTela();
+                case "4":
                     menuPix(contaTipo);
                     break;
             }
@@ -1102,6 +1092,12 @@ public class Main {
                 layout.bottomLine(3);
                 layout.br(1);
 
+                if(passa) {
+                    // CARREGA BARRA DE LOADING E LIMPA A TELA
+                    layout.loading(3);
+                    layout.limparTela();
+                }
+
             } while(!passa);
 
             // SE A CONTA DO CLIENTE É CONTA CORRENTE
@@ -1123,7 +1119,7 @@ public class Main {
     // MENU TRANSFERE PIX
     public static void menuTransferePix(Integer contaTipo){
 
-        String n, transfValor;
+        String transfChave, transfValor;
         boolean passa;
 
         // LAYOUT DO TÍTULO
@@ -1132,23 +1128,33 @@ public class Main {
         System.out.println("              =-=-= Transferência via PIX =-=-=");
         layout.bottomLine(3);
         layout.br(1);
-        layout.topLine(3);
-        layout.br(1);
-
-        // ENTRADA DO USUÁRIO (CHAVE PIX)
-        String transfChave = Layout.entry("    Chave de transferência: ");
 
         // ENTRADA DO USUÁRIO (TRANSFVALOR)
         do {
 
-            transfValor = Layout.entry("    Valor da transferência: R$ ");
+
+            layout.topLine(3);
+            layout.br(1);
+
+            // ENTRADA DO USUÁRIO (CHAVE PIX)
+            transfChave = Layout.entry("    Chave de transferência: ");
+
+            transfValor = Layout.entry("    Valor da transferência: R$ ")
+                    .replace(",", ".");
+
             passa = entradasBo.validacaoValorPix(transfValor, contaTipo);
 
-        }while(!passa);
+            // LAYOUT
+            layout.bottomLine(3);
+            layout.br(1);
 
-        // LAYOUT
-        layout.bottomLine(3);
-        layout.br(1);
+            if(passa) {
+                // CARREGA BARRA DE LOADING E LIMPA A TELA
+                layout.loading(3);
+                layout.limparTela();
+            }
+
+        }while(!passa);
 
         // INVOCA MÉTODO DE TRANSFERÊNCIA VIA PIX E PRINTA SEU RETORNO COM BASE NAS ENTRADAS DE CHAVE E VALOR DO USUÁRIO
         layout.topLine(3);
@@ -1159,9 +1165,7 @@ public class Main {
         layout.bottomLine(3);
         layout.br(1);
 
-        // CARREGA BARRA DE LOADING E LIMPA A TELA
-        layout.loading(3);
-        layout.limparTela();
+
 
     }
 
@@ -1187,7 +1191,6 @@ public class Main {
     /* ---------------------------------------- FIM - PARTE PIX ---------------------------------------------- */
 
     /* -----------------------------------=- INÍCIO - PARTE CARTÕES ------------------------------------------ */
-
 
     // SELEÇÃO DE CARTÕES DO CLIENTE
     public static void menuMeusCartoes(Integer tipoConta){
@@ -1246,24 +1249,28 @@ public class Main {
                 layout.bottomLine(3);
                 layout.br(1);
 
-                // CARREGA BARRA DE LOADING E LIMPA A TELA
-                layout.loading(3);
-                layout.limparTela();
+                if(passa) {
+                    // CARREGA BARRA DE LOADING E LIMPA A TELA
+                    layout.loading(3);
+                    layout.limparTela();
+                }
 
-                // SE O CARTÃO FOR DE DÉBITO, ELE É TIPO 1
-                if(listar.get(Integer.parseInt(n)).getTipoCartao().equals(TipoCartao.DEBITO)){
-                    tpCartao = 1;
+                if(passa) {
+                    // SE O CARTÃO FOR DE DÉBITO, ELE É TIPO 1
+                    if (listar.get(Integer.parseInt(n)).getTipoCartao().equals(TipoCartao.DEBITO)) {
+                        tpCartao = 1;
+                    }
+                    // SE O CARTÃO FOR DE CRÉDITO, ELE É TIPO 2
+                    else if (listar.get(Integer.parseInt(n)).getTipoCartao().equals(TipoCartao.CREDITO)) {
+                        tpCartao = 2;
+                    }
                 }
-                // SE O CARTÃO FOR DE CRÉDITO, ELE É TIPO 2
-                else if(listar.get(Integer.parseInt(n)).getTipoCartao().equals(TipoCartao.CREDITO)){
-                    tpCartao = 2;
-                }
+            }while(!passa);
 
                 /* -> INVOCA O MENU DE OPÇÕES DO CARTÃO SELECIONADO, PASSANDO COMO PARÂMETROS OS TIPOS DA CONTA E O TIPO
                    -> DO CARTÃO                                                                                       */
                 menuCartaoSelecionado(tipoConta, tpCartao);
 
-            }while(!passa);
 
         }
         // SE A LISTA DE CARTÕES DO CLIENTE ESTIVER VAZIA
@@ -1314,9 +1321,11 @@ public class Main {
             layout.bottomLine(3);
             layout.br(1);
 
-            // CARREGA BARRA DE LOADING E LIMPA A TELA
-            layout.loading(3);
-            layout.limparTela();
+            if(passa) {
+                // CARREGA BARRA DE LOADING E LIMPA A TELA
+                layout.loading(3);
+                layout.limparTela();
+            }
 
             switch (n) {
                 // SE O USUÁRIO ESCOLHER CRIAR UM CARTÃO DE DÉBITO
@@ -1394,32 +1403,34 @@ public class Main {
                         layout.bottomLine(3);
                         layout.br(1);
 
-                        // CARREGA BARRA DE LOADING E LIMPA A TELA
-                        layout.loading(3);
-                        layout.limparTela();
+                        if(passa) {
+                            // CARREGA BARRA DE LOADING E LIMPA A TELA
+                            layout.loading(3);
+                            layout.limparTela();
+                        }
 
-                        // DESATIVAR CARTÃO DE DÉBITO CC
-                        if(n.equals("1")){
-                            System.out.println(DebitoBo.ativaOuDesativaCartao(tipoConta, false));
-                            menuCartaoSelecionado(tipoConta, tipoCartao);
-                        }
-                        // COMPRAR COM O CARTÃO DE DÉBITO CC
-                        else if(n.equals("2")){
-                            menuCartaoCompra(tipoConta, tipoCartao);
-                            layout.loading(3);
-                            layout.limparTela();
-                            menuCartaoSelecionado(1, 1);
-                        }
-                        // SOLICITAR EXTRATO DO CARTÃO DE DÉBITO CC
-                        else if(n.equals("3")){
-                            DebitoBo.retornaExtrato(tipoConta);
-                            layout.loading(3);
-                            layout.limparTela();
-                            menuCartaoSelecionado(1, 1);
-                        }
-                        // SAIR DO MENU DO CARTÃO DE DÉBITO CC
-                        else if(n.equals("4")){
-                            menuCartoes(tipoConta);
+                        switch (n) {
+                            // DESATIVAR CARTÃO DE DÉBITO CC
+                            case "1" -> {
+                                System.out.println(DebitoBo.ativaOuDesativaCartao(tipoConta, false));
+                                menuCartaoSelecionado(tipoConta, tipoCartao);
+                            }
+                            // COMPRAR COM O CARTÃO DE DÉBITO CC
+                            case "2" -> {
+                                menuCartaoCompra(tipoConta, tipoCartao);
+                                layout.loading(3);
+                                layout.limparTela();
+                                menuCartaoSelecionado(1, 1);
+                            }
+                            // SOLICITAR EXTRATO DO CARTÃO DE DÉBITO CC
+                            case "3" -> {
+                                DebitoBo.retornaExtrato(tipoConta);
+                                layout.loading(3);
+                                layout.limparTela();
+                                menuCartaoSelecionado(1, 1);
+                            }
+                            // SAIR DO MENU DO CARTÃO DE DÉBITO CC
+                            case "4" -> menuCartoes(tipoConta);
                         }
 
                     }while(!passa);
@@ -1451,9 +1462,11 @@ public class Main {
                         layout.bottomLine(3);
                         layout.br(1);
 
-                        // CARREGA BARRA DE LOADING EL IMPA A TELA
-                        layout.loading(3);
-                        layout.limparTela();
+                        if(passa) {
+                            // CARREGA BARRA DE LOADING E LIMPA A TELA
+                            layout.loading(3);
+                            layout.limparTela();
+                        }
 
                         // ATIVAR CARTÃO DE DÉBITO CC
                         if(n.equals("1")){
@@ -1517,32 +1530,35 @@ public class Main {
                         layout.bottomLine(3);
                         layout.br(1);
 
-                        // CARREGA BARRA DE LOADING E LIMPA A TELA
-                        layout.loading(3);
-                        layout.limparTela();
+                        if(passa) {
+                            // CARREGA BARRA DE LOADING E LIMPA A TELA
+                            layout.loading(3);
+                            layout.limparTela();
+                        }
 
-                        // DESATIVAR CARTÃO DE DÉBITO CP
-                        if(n.equals("1")){
-                            System.out.println(DebitoBo.ativaOuDesativaCartao(tipoConta, false));
-                            menuCartaoSelecionado(tipoConta, tipoCartao);
-                        }
-                        // COMPRAR COM O CARTÃO DE DÉBITO CP
-                        else if(n.equals("2")){
-                            menuCartaoCompra(tipoConta, tipoCartao);
-                            layout.loading(3);
-                            layout.limparTela();
-                            menuCartaoSelecionado(2, 1);
-                        }
-                        // SOLICITAR EXTRATO DO CARTÃO DE DÉBITO CP
-                        else if(n.equals("3")){
-                            DebitoBo.retornaExtrato(tipoConta);
-                            layout.loading(3);
-                            layout.limparTela();
-                            menuCartaoSelecionado(2, 1);
-                        }
-                        // SAIR DO MENU DO CARTÃO DE DÉBITO CP
-                        else if(n.equals("4")){
-                            menuCartoes(tipoConta);
+
+                        switch (n) {
+                            // DESATIVAR CARTÃO DE DÉBITO CP
+                            case "1" -> {
+                                System.out.println(DebitoBo.ativaOuDesativaCartao(tipoConta, false));
+                                menuCartaoSelecionado(tipoConta, tipoCartao);
+                            }
+                            // COMPRAR COM O CARTÃO DE DÉBITO CP
+                            case "2" -> {
+                                menuCartaoCompra(tipoConta, tipoCartao);
+                                layout.loading(3);
+                                layout.limparTela();
+                                menuCartaoSelecionado(2, 1);
+                            }
+                            // SOLICITAR EXTRATO DO CARTÃO DE DÉBITO CP
+                            case "3" -> {
+                                DebitoBo.retornaExtrato(tipoConta);
+                                layout.loading(3);
+                                layout.limparTela();
+                                menuCartaoSelecionado(2, 1);
+                            }
+                            // SAIR DO MENU DO CARTÃO DE DÉBITO CP
+                            case "4" -> menuCartoes(tipoConta);
                         }
 
                     }while(!passa);
@@ -1574,8 +1590,12 @@ public class Main {
                         // LAYOUT
                         layout.bottomLine(3);
                         layout.br(1);
-                        layout.loading(3);
-                        layout.limparTela();
+
+                        if(passa) {
+                            // CARREGA BARRA DE LOADING E LIMPA A TELA
+                            layout.loading(3);
+                            layout.limparTela();
+                        }
 
                         // ATIVAR CARTÃO DE DÉBITO CP
                         if(n.equals("1")){
@@ -1651,39 +1671,41 @@ public class Main {
                         layout.bottomLine(3);
                         layout.br(1);
 
-                        // CARREGA BARRA DE LOADING E LIMPA A TELA
-                        layout.loading(3);
-                        layout.limparTela();
+                        if(passa) {
+                            // CARREGA BARRA DE LOADING E LIMPA A TELA
+                            layout.loading(3);
+                            layout.limparTela();
+                        }
 
-                        // DESATIVAR CARTÃO DE CRÉDITO CC
-                        if(n.equals("1")){
-                            System.out.println(CreditoBo.ativaOuDesativaCartao(tipoConta, false));
-                            menuCartaoSelecionado(tipoConta, tipoCartao);
-                        }
-                        // COMPRAR COM O CARTÃO DE CRÉDITO CC
-                        else if(n.equals("2")){
-                            menuCartaoCompra(tipoConta, tipoCartao);
-                            layout.loading(3);
-                            layout.limparTela();
-                            menuCartaoSelecionado(1, 2);
-                        }
-                        // VER FATURA DO CARTÃO DE CRÉDITO CC
-                        else if(n.equals("3")){
-                            CreditoBo.retornaFatura(tipoConta);
-                            layout.loading(3);
-                            layout.limparTela();
-                            menuCartaoSelecionado(1, 2);
-                        }
-                        // PAGAR FATURA DO CARTÃO DE CRÉDITO CC
-                        else if(n.equals("4")){
-                            System.out.println(CreditoBo.pagarFatura(tipoConta));
-                            layout.loading(3);
-                            layout.limparTela();
-                            menuCartaoSelecionado(1, 2);
-                        }
-                        // SAIR DO MENU DO CARTÃO DE CREDITO CC
-                        else if(n.equals("5")){
-                            menuCartoes(tipoConta);
+                        switch (n) {
+                            // DESATIVAR CARTÃO DE CRÉDITO CC
+                            case "1" -> {
+                                System.out.println(CreditoBo.ativaOuDesativaCartao(tipoConta, false));
+                                menuCartaoSelecionado(tipoConta, tipoCartao);
+                            }
+                            // COMPRAR COM O CARTÃO DE CRÉDITO CC
+                            case "2" -> {
+                                menuCartaoCompra(tipoConta, tipoCartao);
+                                layout.loading(3);
+                                layout.limparTela();
+                                menuCartaoSelecionado(1, 2);
+                            }
+                            // VER FATURA DO CARTÃO DE CRÉDITO CC
+                            case "3" -> {
+                                CreditoBo.retornaFatura(tipoConta);
+                                layout.loading(3);
+                                layout.limparTela();
+                                menuCartaoSelecionado(1, 2);
+                            }
+                            // PAGAR FATURA DO CARTÃO DE CRÉDITO CC
+                            case "4" -> {
+                                System.out.println(CreditoBo.pagarFatura(tipoConta));
+                                layout.loading(3);
+                                layout.limparTela();
+                                menuCartaoSelecionado(1, 2);
+                            }
+                            // SAIR DO MENU DO CARTÃO DE CREDITO CC
+                            case "5" -> menuCartoes(tipoConta);
                         }
                     }while(!passa);
                 }
@@ -1718,10 +1740,11 @@ public class Main {
                         layout.bottomLine(3);
                         layout.br(1);
 
-                        // CARREGA BARRA DE LOADING E LIMPA A TELA
-                        layout.loading(3);
-                        layout.limparTela();
-
+                        if(passa) {
+                            // CARREGA BARRA DE LOADING E LIMPA A TELA
+                            layout.loading(3);
+                            layout.limparTela();
+                        }
                         // ATIVAR CARTÃO DE CRÉDITO CC
                         if(n.equals("1")){
                             System.out.println(CreditoBo.ativaOuDesativaCartao(tipoConta, true));
@@ -1791,39 +1814,41 @@ public class Main {
                         layout.bottomLine(3);
                         layout.br(1);
 
-                        // CARREGA BARRA DE LOADING E LIMPA A TELA
-                        layout.loading(3);
-                        layout.limparTela();
+                        if(passa) {
+                            // CARREGA BARRA DE LOADING E LIMPA A TELA
+                            layout.loading(3);
+                            layout.limparTela();
+                        }
 
-                        // DESATIVAR CARTÃO DE CRÉDITO CP
-                        if(n.equals("1")){
-                            System.out.println(CreditoBo.ativaOuDesativaCartao(tipoConta, false));
-                            menuCartaoSelecionado(tipoConta, tipoCartao);
-                        }
-                        // COMPRAR COM O CARTÃO DE CRÉDITO CP
-                        else if(n.equals("2")){
-                            menuCartaoCompra(tipoConta, tipoCartao);
-                            layout.loading(3);
-                            layout.limparTela();
-                            menuCartaoSelecionado(2, 2);
-                        }
-                        // VER FATURA DO CARTÃO DE CRÉDITO CP
-                        else if(n.equals("3")){
-                            CreditoBo.retornaFatura(tipoConta);
-                            layout.loading(3);
-                            layout.limparTela();
-                            menuCartaoSelecionado(2, 2);
-                        }
-                        // PAGAR FATURA DO CARTÃO DE CRÉDITO CP
-                        else if(n.equals("4")){
-                            System.out.println(CreditoBo.pagarFatura(tipoConta));
-                            layout.loading(3);
-                            layout.limparTela();
-                            menuCartaoSelecionado(2, 2);
-                        }
-                        // SAIR DO MENU DO CARTÃO DE CREDITO CP
-                        else if(n.equals("5")){
-                            menuCartoes(tipoConta);
+                        switch (n) {
+                            // DESATIVAR CARTÃO DE CRÉDITO CP
+                            case "1" -> {
+                                System.out.println(CreditoBo.ativaOuDesativaCartao(tipoConta, false));
+                                menuCartaoSelecionado(tipoConta, tipoCartao);
+                            }
+                            // COMPRAR COM O CARTÃO DE CRÉDITO CP
+                            case "2" -> {
+                                menuCartaoCompra(tipoConta, tipoCartao);
+                                layout.loading(3);
+                                layout.limparTela();
+                                menuCartaoSelecionado(2, 2);
+                            }
+                            // VER FATURA DO CARTÃO DE CRÉDITO CP
+                            case "3" -> {
+                                CreditoBo.retornaFatura(tipoConta);
+                                layout.loading(3);
+                                layout.limparTela();
+                                menuCartaoSelecionado(2, 2);
+                            }
+                            // PAGAR FATURA DO CARTÃO DE CRÉDITO CP
+                            case "4" -> {
+                                System.out.println(CreditoBo.pagarFatura(tipoConta));
+                                layout.loading(3);
+                                layout.limparTela();
+                                menuCartaoSelecionado(2, 2);
+                            }
+                            // SAIR DO MENU DO CARTÃO DE CREDITO CP
+                            case "5" -> menuCartoes(tipoConta);
                         }
                     }while(!passa);
 
@@ -1859,9 +1884,11 @@ public class Main {
                         layout.bottomLine(3);
                         layout.br(1);
 
-                        // CARREGA BARRA DE LOADING E LIMPA A TELA
-                        layout.loading(3);
-                        layout.limparTela();
+                        if(passa) {
+                            // CARREGA BARRA DE LOADING E LIMPA A TELA
+                            layout.loading(3);
+                            layout.limparTela();
+                        }
 
                         // ATIVAR CARTÃO DE CRÉDITO CP
                         if(n.equals("1")){
@@ -1885,7 +1912,7 @@ public class Main {
     // MENU DE COMPRA DOS CARTÕES
     public static void menuCartaoCompra(Integer tipoConta, Integer tipoCartao){
 
-        String valorProduto;
+        String nomeProduto, valorProduto;
         boolean passa;
 
         // TÍTULO DO MENU COMPRA
@@ -1895,19 +1922,25 @@ public class Main {
         layout.bottomLine(3);
         layout.br(1);
 
-        // ENTRADAS DO USUÁRIO
-        layout.topLine(3);
-        layout.br(1);
-        String nomeProduto = Layout.entry("    Digite o nome do produto: ");
-
         do {
-            valorProduto = Layout.entry("    Digite o valor do produto: R$ ");
+            // ENTRADAS DO USUÁRIO
+            layout.topLine(3);
+            layout.br(1);
+
+            nomeProduto = Layout.entry("    Digite o nome do produto: ");
+
+            valorProduto = Layout.entry("    Digite o valor do produto: R$ ")
+                    .replace(",", ".");
+
             passa = entradasBo.validacaoValor(valorProduto, tipoConta);
+
+            // LAYOUT
+            layout.bottomLine(3);
+            layout.br(1);
+
         }while(!passa);
 
-        // LAYOUT
-        layout.bottomLine(3);
-        layout.br(1);
+
 
         // SE O CARTÃO DA COMPRA FOR DE DÉBITO
         if(tipoCartao == 1) {
@@ -2004,9 +2037,11 @@ public class Main {
             layout.bottomLine(3);
             layout.br(1);
 
-            // CARREGA BARRA DE LOADING E LIMPA A TELA
-            layout.loading(3);
-            layout.limparTela();
+            if(passa) {
+                // CARREGA BARRA DE LOADING E LIMPA A TELA
+                layout.loading(3);
+                layout.limparTela();
+            }
 
             switch (n) {
                 //SE O USUÁRIO ESCOLHER CONTRATAR UM SEGURO DE VIDA
@@ -2076,12 +2111,13 @@ public class Main {
                 layout.bottomLine(3);
                 layout.br(1);
 
-                // CARREGA BARRA DE LOADING E LIMPA A TELA
-                layout.loading(3);
-                layout.limparTela();
-
-                // INVOCA MENU DE OPÇÕES DO SEGURO SELECIONADO PELO CLIENTE
-                menuSeguroSelecionado(tipoConta, listar.get(Integer.parseInt(n)));
+                if(passa) {
+                    // CARREGA BARRA DE LOADING E LIMPA A TELA
+                    layout.loading(3);
+                    layout.limparTela();
+                    // INVOCA MENU DE OPÇÕES DO SEGURO SELECIONADO PELO CLIENTE
+                    menuSeguroSelecionado(tipoConta, listar.get(Integer.parseInt(n)));
+                }
 
             }while(!passa);
 
@@ -2127,9 +2163,11 @@ public class Main {
             layout.bottomLine(3);
             layout.br(1);
 
-            // CARREGA BARRA DE LOADING E LIMPA A TELA
-            layout.loading(3);
-            layout.limparTela();
+            if(passa) {
+                // CARREGA BARRA DE LOADING E LIMPA A TELA
+                layout.loading(3);
+                layout.limparTela();
+            }
 
             switch (n) {
                 // CANCELAR O SEGURO

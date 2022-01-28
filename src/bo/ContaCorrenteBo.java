@@ -27,7 +27,7 @@ public class ContaCorrenteBo {
                     // SE O VALOR DO SAQUE FOR MAIOR DO QUE O SALDO DO CLIENTE
                     if(valorConvertido > Bd.clienteBuscaContaCorrente.getSaldo()){
                         System.out.println("* Erro: Saque não autorizado.\n"
-                                + "  Seu saldo é: R$" + Layout.convertToReais(Bd.clienteBuscaContaCorrente.getSaldo()));
+                                + "  Seu saldo é: " + Layout.convertToReais(Bd.clienteBuscaContaCorrente.getSaldo()));
                         return false;
                     }
                     // SE O VALOR DO SAQUE FOR MENOR OU IGUAL AO SALDO DO CLIENTE

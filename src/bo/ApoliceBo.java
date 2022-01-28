@@ -108,38 +108,47 @@ public class ApoliceBo {
         if(tipoConta == 1) {
             // SE O CLIENTE POSSUIR CARTÃO DE CRÉDITO
             if(!Bd.clienteBuscaContaCorrente.getCartoesCreditoCliente().isEmpty()) {
-                // VALIDA SE O CLIENTE TEM LIMITE NA FATURA DO CARTÃO PARA CONTRATAR O SEGURO
-                if(Bd.clienteBuscaContaCorrente.cartoesCreditoCliente
-                        .get(0).getLimite().getLimiteDisponivel() > apolice.getValorApolice()) {
-                    // SE O CLIENTE JÁ POSSUIR ALGUM TIPO DE SEGURO CONTRATADO
-                    if (!Bd.clienteBuscaContaCorrente.getSeguros().isEmpty()) {
-                        // SE O SEGURO QUE O CLIENTE INSERIR TIVER O MESMO NOME QUE UM QUE JÁ EXISTA
-                        if(Bd.clienteBuscaContaCorrente.getSeguros().containsValue(apolice)){
-                            return ("    Você já possui este seguro");
+                // SE O CARTÃO DO CLIENTE ESTÁ ATIVO
+                if(Bd.clienteBuscaContaCorrente.cartoesCreditoCliente.get(0).isAtivo()) {
+                    // VALIDA SE O CLIENTE TEM LIMITE NA FATURA DO CARTÃO PARA CONTRATAR O SEGURO
+                    if (Bd.clienteBuscaContaCorrente.cartoesCreditoCliente
+                            .get(0).getLimite().getLimiteDisponivel() > apolice.getValorApolice()) {
+                        // SE O CLIENTE JÁ POSSUIR ALGUM TIPO DE SEGURO CONTRATADO
+                        if (!Bd.clienteBuscaContaCorrente.getSeguros().isEmpty()) {
+                            // SE O SEGURO QUE O CLIENTE INSERIR TIVER O MESMO NOME QUE UM QUE JÁ EXISTA
+                            if (Bd.clienteBuscaContaCorrente.getSeguros().containsValue(apolice)) {
+                                return ("    Você já possui este seguro");
+                            }
+                            // SE O SEGURO QUE O CLIENTE INSERIR NÃO TIVER O MESMO NOME DE ALGUM QUE JÁ EXISTA
+                            else {
+                                // INSERE O SEGURO NO BD DA CONTA E NA FATURA DO CARTÃO
+                                Bd.clienteBuscaContaCorrente.addSeguros(Bd.clienteBuscaContaCorrente
+                                        .getSeguros().size() + 1, apolice);
+                                CreditoBo.processaCompra
+                                        (tipoConta, apolice.getNome(), apolice.getValorApolice() / 12);
+                                return ("Você contratou o " + apolice.getNome() + " com sucesso!");
+                            }
                         }
-                        // SE O SEGURO QUE O CLIENTE INSERIR NÃO TIVER O MESMO NOME DE ALGUM QUE JÁ EXISTA
+
+                        // SE O CLIENTE NÃO POSSUIR NENHUM TIPO DE SEGURO CONTRATADO
                         else {
                             // INSERE O SEGURO NO BD DA CONTA E NA FATURA DO CARTÃO
-                            Bd.clienteBuscaContaCorrente.addSeguros(Bd.clienteBuscaContaCorrente
-                                    .getSeguros().size() + 1, apolice);
+                            Bd.clienteBuscaContaCorrente.addSeguros(1, apolice);
                             CreditoBo.processaCompra
-                                    (tipoConta, apolice.getNome(), apolice.getValorApolice()/12);
-                            return("Você contratou o " + apolice.getNome() + " com sucesso!");
+                                    (tipoConta, apolice.getNome(), apolice.getValorApolice() / 12);
+                            return ("Você contratou o " + apolice.getNome() + " com sucesso!");
                         }
                     }
-
-                    // SE O CLIENTE NÃO POSSUIR NENHUM TIPO DE SEGURO CONTRATADO
+                    // SE O CLIENTE NÃO POSSUIR LIMITE NO CARTÃO DE CRÉDITO PARA CONTRATAR O SEGURO
                     else {
-                        // INSERE O SEGURO NO BD DA CONTA E NA FATURA DO CARTÃO
-                        Bd.clienteBuscaContaCorrente.addSeguros(1, apolice);
-                        CreditoBo.processaCompra
-                                (tipoConta, apolice.getNome(), apolice.getValorApolice()/12);
-                        return("Você contratou o " + apolice.getNome() + " com sucesso!");
+                        return ("Você não possui limite no cartão para contratar o seguro");
                     }
                 }
+                // SE O CARTÃO DO USUÁRIO ESTIVER DESATIVADO
+                else {
 
-                // SE O CLIENTE NÃO POSSUIR LIMITE NO CARTÃO DE CRÉDITO PARA CONTRATAR O SEGURO
-                return("Você não possui limite no cartão para contratar o seguro");
+                    return ("Não é possível contratar um seguro com o cartão desativado");
+                }
             }
             // SE O CLIENTE NÃO POSSUIR CARTÃO DE CRÉDITO
             else {
@@ -150,44 +159,47 @@ public class ApoliceBo {
         else{
             // SE O CLIENTE POSSUIR CARTÃO DE CRÉDITO
             if(!Bd.clienteBuscaContaPoupanca.getCartoesCreditoCliente().isEmpty()) {
-                // VALIDA SE O CLIENTE TEM LIMITE NA FATURA DO CARTÃO PARA CONTRATAR O SEGURO
-                if(Bd.clienteBuscaContaPoupanca.cartoesCreditoCliente
-                        .get(0).getLimite().getLimiteDisponivel() > apolice.getValorApolice()) {
-                    // SE O CLIENTE JÁ POSSUIR ALGUM TIPO DE SEGURO CONTRATADO
-                    if (!Bd.clienteBuscaContaPoupanca.getSeguros().isEmpty()) {
-                        // PERCORRE LISTA DE SEGUROS JÁ CONTRATADOS PELO CLIENTE
-                        for (Map.Entry<Integer, Apolice> entry : Bd.clienteBuscaContaPoupanca.getSeguros().entrySet()) {
-                            // SE O SEGURO QUE VOCÊ FOR INSERIR TIVER O MESMO NOME QUE UM QUE JÁ EXISTA
-                            if (apolice.getNome().equals(entry.getValue().getNome())) {
-                                return ("Você já possui este seguro");
+                // SE O CARTÃO DO CLIENTE ESTÁ ATIVO
+                if(Bd.clienteBuscaContaPoupanca.cartoesCreditoCliente.get(0).isAtivo()) {
+                    // VALIDA SE O CLIENTE TEM LIMITE NA FATURA DO CARTÃO PARA CONTRATAR O SEGURO
+                    if (Bd.clienteBuscaContaPoupanca.cartoesCreditoCliente
+                            .get(0).getLimite().getLimiteDisponivel() > apolice.getValorApolice()) {
+                        // SE O CLIENTE JÁ POSSUIR ALGUM TIPO DE SEGURO CONTRATADO
+                        if (!Bd.clienteBuscaContaPoupanca.getSeguros().isEmpty()) {
+                            // SE O SEGURO QUE O CLIENTE INSERIR TIVER O MESMO NOME QUE UM QUE JÁ EXISTA
+                            if (Bd.clienteBuscaContaPoupanca.getSeguros().containsValue(apolice)) {
+                                return ("    Você já possui este seguro");
                             }
-
-                            // SE O SEGURO QUE VOCê FOR INSERIR NÃO TIVER O MESMO NOME DE UM QUE JÁ EXISTA
+                            // SE O SEGURO QUE O CLIENTE INSERIR NÃO TIVER O MESMO NOME DE ALGUM QUE JÁ EXISTA
                             else {
                                 // INSERE O SEGURO NO BD DA CONTA E NA FATURA DO CARTÃO
                                 Bd.clienteBuscaContaPoupanca.addSeguros(Bd.clienteBuscaContaPoupanca
                                         .getSeguros().size() + 1, apolice);
                                 CreditoBo.processaCompra
-                                        (tipoConta, apolice.getNome(), apolice.getValorApolice()/12);
-                                return("Você contratou o " + apolice.getNome() + " com sucesso!");
+                                        (tipoConta, apolice.getNome(), apolice.getValorApolice() / 12);
+                                return ("Você contratou o " + apolice.getNome() + " com sucesso!");
                             }
                         }
 
+                        // SE O CLIENTE NÃO POSSUIR NENHUM TIPO DE SEGURO CONTRATADO
+                        else {
+                            // INSERE O SEGURO NO BD DA CONTA E NA FATURA DO CARTÃO
+                            Bd.clienteBuscaContaPoupanca.addSeguros(1, apolice);
+                            CreditoBo.processaCompra
+                                    (tipoConta, apolice.getNome(), apolice.getValorApolice() / 12);
+                            return ("Você contratou o " + apolice.getNome() + " com sucesso!");
+                        }
                     }
-
-                    // SE O CLIENTE NÃO POSSUIR NENHUM TIPO DE SEGURO CONTRATADO
+                    // SE O CLIENTE NÃO POSSUIR LIMITE NO CARTÃO DE CRÉDITO PARA CONTRATAR O SEGURO
                     else {
-                        // INSERE O SEGURO NO BD DA CONTA E NA FATURA DO CARTÃO
-                        Bd.clienteBuscaContaPoupanca.addSeguros(1, apolice);
-                        CreditoBo.processaCompra
-                                (tipoConta, apolice.getNome(), apolice.getValorApolice()/12);
-                        return("Você contratou o " + apolice.getNome() + " com sucesso!");
+                        return ("Você não possui limite no cartão para contratar o seguro");
                     }
-
                 }
+                // SE O CARTÃO DO USUÁRIO ESTIVER DESATIVADO
+                else {
 
-                // SE O CLIENTE NÃO POSSUIR LIMITE NO CARTÃO DE CRÉDITO PARA CONTRATAR O SEGURO
-                return("Você não possui limite no cartão para contratar o seguro");
+                    return ("Não é possível contratar um seguro com o cartão desativado");
+                }
             }
             // SE O CLIENTE NÃO POSSUIR CARTÃO DE CRÉDITO
             else {

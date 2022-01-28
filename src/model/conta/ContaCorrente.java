@@ -3,6 +3,7 @@ package model.conta;
 // IMPORTAÇÕES
 import model.cartao.Cartao;
 import model.cliente.Cliente;
+import util.Layout;
 
 public class ContaCorrente extends Conta{
 
@@ -59,7 +60,7 @@ public class ContaCorrente extends Conta{
             // SUBTRAI A TAXA DO SALDO
             setSaldo(getSaldo() - descontoTaxa);
             // RETORNA VALOR DO DESCONTO
-            return ("Foi descontada a taxa de 0.45% (R$ " + descontoTaxa + ")");
+            return ("Foi descontada a taxa de 0.45% (" + Layout.convertToReais(descontoTaxa) + ")");
         }
         // SE NÃO HOUVER DINHEIRO NA CONTA
         else{

@@ -15,14 +15,12 @@ public class CadastroBo {
                                         String estado, String bairro, String numeroRua, String rua, String cep,
                                         String email, String telefone, String tipoDeConta){
 
-
         // CRIA UM VALOR ALEATÓRIO PARA SER UTILIZADO NA CONTA DO CLIENTE ( DE 111111 ATÉ 999999)
         Integer random = new Random().nextInt(111111,999999);
         // INSTANCIA A CLASSE ENDEREÇO RECEBENDO AS INFORMAÇÕES DE CADASTRO DO USUÁRIO COMO PARÂMETROS
         Endereco endereco = new Endereco(cidade, estado, bairro, Integer.parseInt(numeroRua), rua, cep);
         // INSTANCIA A CLASSE CLIENTE RECEBENDO AS INFORMAÇÕES DE CADASTRO DO USUÁRIO COMO PARÂMETROS
         Cliente cliente = new Cliente(nome, cpf, rg, endereco, senha, email, telefone);
-
         // SWITCH QUE VARIA DE ACORDO COM O TIPO DE CONTA QUE O USUÁRIO DESEJA CRIAR
         // (1 - CONTA CORRENTE || 2 - CONTA POUPANÇA || 3 - CONTA CORRENTE E CONTA POUPANÇA)
         switch (tipoDeConta) {
@@ -48,13 +46,14 @@ public class CadastroBo {
 
                 // INSTANCIA UMA NOVA CONTA POUPANÇA PARA O USUÁRIO
                 ContaPoupanca cp = new ContaPoupanca(cliente, 1, random, 0.0f);
+
                 idContaCorrenteIncrement(cc);
                 idContaPoupancaIncrement(cp);
             }
         }
 
+        // INCREMENTA ID DO CLIENTE
         idClienteIncrement(cliente);
-
     }
 
     // MÉTODO QUE INCREMENTA ID DO CLIENTE
@@ -89,7 +88,7 @@ public class CadastroBo {
         // SE O BANCO DE DADOS DA CONTA CORRENTE ESTIVER VAZIO
         if(Bd.contaCorrentesMap.isEmpty()){
             // INSERE A NOVA CONTA CORRENTE NO BANCO DE DADOS COM O ID 1
-            Bd.contaCorrentesMap.put(1, contaCorrente);
+            Bd.contaCorrentesMap.put(0, contaCorrente);
         }
         // SE O BANCO DE DADOS JÁ POSSUIR ALGUMA CONTA CORRENTE CADASTRADO
         else {
@@ -113,7 +112,7 @@ public class CadastroBo {
         // SE O BANCO DE DADOS DA CONTA POUPANÇA ESTIVER VAZIO
         if(Bd.contaPoupancasMap.isEmpty()){
             // INSERE A NOVA CONTA POUPANÇA NO BANCO DE DADOS COM O ID 1
-            Bd.contaPoupancasMap.put(1, contaPoupanca);
+            Bd.contaPoupancasMap.put(0, contaPoupanca);
         }
         // SE O BANCO DE DADOS JÁ POSSUIR ALGUMA CONTA POUPANÇA CADASTRADA
         else {

@@ -3,6 +3,8 @@ package bo;
 // IMPORTAÇÕES
 import dao.Bd;
 import model.pix.Pix;
+import util.Layout;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -32,7 +34,8 @@ public class PixBo {
                     // ADICIONANDO SALDO NA CONTA A RECEBER
                     Bd.contaCorrenteTransf.setSaldo(Bd.contaCorrenteTransf.getSaldo() + transfValor);
                     // RETORNANDO SALDO ATUAL PÓS-TRANSFERÊNCIA
-                    return("    Transferência realizada. Seu saldo é: R$ " + Bd.clienteBuscaContaCorrente.getSaldo());
+                    return("    Transferência realizada. Seu saldo é: "
+                            + Layout.convertToReais(Bd.clienteBuscaContaCorrente.getSaldo()));
                 }
 
                 // SE A CONTA DE TRANSFERÊNCIA FOR POUPANÇA
@@ -46,19 +49,22 @@ public class PixBo {
                         // ADICIONANDO SALDO NA CONTA A RECEBER
                         Bd.contaPoupancaTransf.setSaldo(Bd.contaPoupancaTransf.getSaldo() + transfValor);
                         // RETORNANDO SALDO ATUAL PÓS-TRANSFERÊNCIA
-                        return ("    Transferência realizada. Seu saldo é: R$ " + Bd.clienteBuscaContaCorrente.getSaldo());
+                        return ("    Transferência realizada. Seu saldo é: "
+                                + Layout.convertToReais(Bd.clienteBuscaContaCorrente.getSaldo()));
 
                     }
                     // SE O CLIENTE NÃO POSSUIR SALDO COM O INCREMENTO DA TAXA DE TRANSFERÊNCIA
                     else{
-                        return("    Não há saldo suficiente. Seu saldo é: R$ " + Bd.clienteBuscaContaCorrente.getSaldo());
+                        return("    Não há saldo suficiente. Seu saldo é: "
+                                + Layout.convertToReais(Bd.clienteBuscaContaCorrente.getSaldo()));
                     }
 
                 }
             }
             // SEM SALDO SUFICIENTE PARA TRANSFERÊNCIA
             else{
-                return("    Não há saldo suficiente. Seu saldo é: R$ " + Bd.clienteBuscaContaCorrente.getSaldo());
+                return("    Não há saldo suficiente. Seu saldo é: "
+                        + Layout.convertToReais(Bd.clienteBuscaContaCorrente.getSaldo()));
             }
         }
 
@@ -79,28 +85,32 @@ public class PixBo {
                         Bd.clienteBuscaContaPoupanca.setSaldo(Bd.clienteBuscaContaPoupanca.getSaldo() - (transfValor + 5.60f));
                         // INCREMENTANDO O SALDO DO QUE RECEBEU
                         Bd.contaCorrenteTransf.setSaldo(Bd.contaCorrenteTransf.getSaldo() + transfValor);
-                        return ("    Transferência realizada. Seu saldo é: R$ " + Bd.clienteBuscaContaPoupanca.getSaldo());
+                        return ("    Transferência realizada. Seu saldo é: "
+                                + Layout.convertToReais(Bd.clienteBuscaContaPoupanca.getSaldo()));
                     }
                     // SE NÃO POSSUIR SALDO COM O INCREMENTO DA TAXA
                     else{
-                        return("    Não há saldo suficiente. Seu saldo é: R$ " + Bd.clienteBuscaContaPoupanca.getSaldo());
+                        return("    Não há saldo suficiente. Seu saldo é: "
+                                + Layout.convertToReais(Bd.clienteBuscaContaPoupanca.getSaldo()));
                     }
                 }
 
                 // SE A CONTA DE TRANSFERÊNCIA FOR POUPANÇA
                 if (Bd.contaPoupancaTransf != null) {
                     Bd.contaPoupancaTransf.setSaldo(Bd.contaPoupancaTransf.getSaldo() + transfValor);
-                    return("    Transferência realizada. Seu saldo é: R$ " + Bd.clienteBuscaContaPoupanca.getSaldo());
+                    return("    Transferência realizada. Seu saldo é: "
+                            + Layout.convertToReais(Bd.clienteBuscaContaPoupanca.getSaldo()));
                 }
 
             }
             // SEM SALDO SUFICIENTE PARA TRANSFERÊNCIA
             else{
-                return("    Não há saldo suficiente. Seu saldo é: R$ " + Bd.clienteBuscaContaPoupanca.getSaldo());
+                return("    Não há saldo suficiente. Seu saldo é: "
+                        + Layout.convertToReais(Bd.clienteBuscaContaPoupanca.getSaldo()));
             }
         }
 
-        return("Retornando ao menu PIX");
+        return("    Retornando ao menu PIX");
     }
 
     // RETORNA TODAS AS CHAVES PIX QUE O CLIENTE LOGADO POSSUI

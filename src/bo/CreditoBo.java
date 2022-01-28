@@ -11,11 +11,7 @@ import view.Main;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Map;
-
 public class CreditoBo {
-
-    // DECLARAÇÃO DE VARIÁVEIS
-    public static Credito credito;
 
     // FAZ A VALIDAÇÃO DE INSERÇÃO DE CARTÃO DE CRÉDITO
     public static String validaInsercaoCredito(Integer tipoConta){
@@ -94,8 +90,15 @@ public class CreditoBo {
             }
             // SE FOR PRA DESATIVAR
             else{
-                Bd.clienteBuscaContaCorrente.getCartoesCreditoCliente().get(0).setAtivo(false);
-                return("Cartão de crédito desativado com sucesso");
+                // SE TIVER FATURA EM ABERTO
+                if(Bd.clienteBuscaContaCorrente.cartoesCreditoCliente.get(0).getLimite().getLimiteUtilizado() > 0) {
+                    return ("Não é possível desativar o cartão de crédito\ncom faturas em aberto");
+                }
+                // SE NÃO TIVER FATURAS EM ABERTO
+                else{
+                    Bd.clienteBuscaContaCorrente.getCartoesCreditoCliente().get(0).setAtivo(false);
+                    return ("Cartão de crédito desativado com sucesso");
+                }
             }
         }
         // SE A CONTA FOR POUPANÇA
@@ -107,8 +110,15 @@ public class CreditoBo {
             }
             // SE FOR PRA DESATIVAR
             else{
-                Bd.clienteBuscaContaPoupanca.getCartoesCreditoCliente().get(0).setAtivo(false);
-                return("Cartão de crédito desativado com sucesso");
+                // SE TIVER FATURA EM ABERTO
+                if(Bd.clienteBuscaContaPoupanca.cartoesCreditoCliente.get(0).getLimite().getLimiteUtilizado() > 0) {
+                    return ("Não é possível desativar o cartão de crédito\ncom faturas em aberto");
+                }
+                // SE NÃO TIVER FATURAS EM ABERTO
+                else{
+                    Bd.clienteBuscaContaPoupanca.getCartoesCreditoCliente().get(0).setAtivo(false);
+                    return ("Cartão de crédito desativado com sucesso");
+                }
             }
         }
     }
